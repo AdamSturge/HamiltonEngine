@@ -3,7 +3,7 @@
 
 #include "entt/entt.hpp"
 #include <Eigen/Dense>
-#include <glfw3.h>
+#include <glad/glad.h>
 
 namespace HamiltonEngine
 {
