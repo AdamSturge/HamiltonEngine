@@ -4,7 +4,7 @@
 
 namespace HamiltonEngine::Physics 
 {
-	struct PhysicsState 
+	struct PhysicsComponent 
 	{
 		Eigen::Vector3d Position;
 		Eigen::Vector3d LinearMomentum;

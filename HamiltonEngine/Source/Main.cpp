@@ -10,7 +10,7 @@ namespace HamiltonEngine
 	void CreateEntities(entt::registry& registry)
 	{
 		entt::entity entity = registry.create();
-		registry.emplace<Physics::PhysicsState>(entity);
+		registry.emplace<Physics::PhysicsComponent>(entity);
 	}
 }
 
