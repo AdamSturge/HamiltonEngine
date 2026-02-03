@@ -3,6 +3,7 @@
 
 #include "entt/entt.hpp"
 #include <Eigen/Dense>
+#include <glfw3.h>
 
 namespace HamiltonEngine
 {
