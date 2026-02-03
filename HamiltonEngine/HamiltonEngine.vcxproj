@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Source;$(SolutionDir)Include;$(SolutionDir)Libraries\entt-main\src;$(SolutionDir)Libraries\eigen-5.0.0;$(SolutionDir)Libraries;$(SolutionDir)Libraries\glfw\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)Libraries\glfw\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)Source;$(ProjectDir)Libraries\entt-main\src;$(ProjectDir)Libraries\eigen-5.0.0;$(ProjectDir)Libraries;$(ProjectDir)Libraries\glfw\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)Libraries\glfw\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -132,11 +132,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Source\Physics\PhysicsComponent.cpp" />
+    <ClInclude Include="Source\Physics\PhysicsComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Physics\PhysicsComponent.h" />
+    <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\Physics\PhysicsComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
