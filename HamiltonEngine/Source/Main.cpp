@@ -1,9 +1,11 @@
 
+#include "Configuration/ConfigurationSystem.h"
 #include "Physics/PhysicsComponent.h"
+#include "Configuration/ConfigurationVariable.h"
 
 #include "entt/entt.hpp"
-#include <Eigen/Dense>
 #include <glfw3.h>
+#include <iostream>
 
 namespace HamiltonEngine
 {
@@ -16,6 +18,8 @@ namespace HamiltonEngine
 
 int main(int argc, char** argv)
 {
+	HamiltonEngine::ConfigurationSystem::Initialize("config.json");
+
 	entt::registry registry;
 	HamiltonEngine::CreateEntities(registry);
 
