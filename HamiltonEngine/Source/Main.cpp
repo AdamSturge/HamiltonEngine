@@ -18,7 +18,7 @@ namespace HamiltonEngine
 		registry.emplace<Physics::PhysicsComponent>(entity);
 	}
 
-	ConfigurationVariable<int> TestVar("TestKey", 1);
+	ConfigurationVariable<std::string> TestVar("TestKey", "Adam");
 }
 
 int main(int argc, char** argv)
