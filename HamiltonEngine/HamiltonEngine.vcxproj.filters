@@ -7,6 +7,9 @@
     <ClCompile Include="Source\Physics\PhysicsComponent.cpp">
       <Filter>Source\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Configuration\ConfigurationSystem.cpp">
+      <Filter>Source\Configuration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -15,10 +18,31 @@
     <Filter Include="Source\Physics">
       <UniqueIdentifier>{bf1e498c-41bf-45c0-95da-11ce8956e239}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Configuration">
+      <UniqueIdentifier>{426d3b5a-0afe-400a-b319-b331bc52e79f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Singleton">
+      <UniqueIdentifier>{3d0ebba1-9dab-47d0-9f06-930575cbc632}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Physics\PhysicsComponent.h">
       <Filter>Source\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
+      <Filter>Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Singleton\Singleton.h">
+      <Filter>Source\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Configuration\Config.h">
+      <Filter>Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Configuration\ConfigurationVariable.h">
+      <Filter>Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h">
+      <Filter>Source\Configuration</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
