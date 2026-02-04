@@ -4,8 +4,10 @@
 #include "Configuration/ConfigurationVariable.h"
 
 #include "entt/entt.hpp"
-#include <glfw3.h>
+#include <glad/glad.h>
+#include <glfw/include/glfw3.h>
 #include <iostream>
+#include <OpenGL/Window.h>
 
 namespace HamiltonEngine
 {
@@ -23,5 +25,35 @@ int main(int argc, char** argv)
 	entt::registry registry;
 	HamiltonEngine::CreateEntities(registry);
 
+	glfwInit(); // Initialize OpenGL
+	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(800, 600, "MyWindow");
+
+	if (window == NULL)
+	{
+		return -1;
+	}
+
+	float red = 0.2f;
+	float green = 0.3f;
+	float blue = 0.3f;
+
+	while (!glfwWindowShouldClose(window)) {
+
+		// input
+		HamiltonEngine::OpenGL::processInput(window);
+
+		// rendering
+		//std::this_thread::sleep_for(20ms);
+
+		glClearColor(red, green, blue, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+
+		// swap buffers and call events
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+
+	glfwTerminate();
 	return 0;
 }

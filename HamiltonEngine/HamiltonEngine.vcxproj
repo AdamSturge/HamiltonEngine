@@ -138,6 +138,8 @@
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariable.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
+    <ClInclude Include="Source\OpenGL\Shader.h" />
+    <ClInclude Include="Source\OpenGL\Window.h" />
     <ClInclude Include="Source\Physics\PhysicsComponent.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
@@ -146,6 +148,8 @@
     <ClCompile Include="Source\Configuration\ConfigurationSystem.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\OpenGL\Shader.cpp" />
+    <ClCompile Include="Source\OpenGL\Window.cpp" />
     <ClCompile Include="Source\Physics\PhysicsComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
