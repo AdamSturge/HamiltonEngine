@@ -133,10 +133,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="Source\Physics\PhysicsComponent.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Downloads\glad\src\glad.c" />
+    <ClCompile Include="Libraries\glad\glad.c" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Physics\PhysicsComponent.cpp" />
   </ItemGroup>

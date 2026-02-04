@@ -1,0 +1,13 @@
+#pragma once
+#include <glad/glad.h>
+#include <glfw/include/glfw3.h>
+
+
+namespace HamiltonEngine::OpenGL 
+{
+	// TODO: Probably make some sort of window manager class, or will we ever only have 1 window?
+	GLFWwindow* createWindow(int width, int height, const char* title);
+	void framebuffer_size_callback(GLFWwindow* window, int width, int heigh);
+	void processInput(GLFWwindow* window);
+
+}
