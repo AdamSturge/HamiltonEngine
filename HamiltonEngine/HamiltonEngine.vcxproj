@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Configuration\ConfigurationSystem.cpp" />
+    <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Physics\PhysicsComponent.cpp" />
   </ItemGroup>

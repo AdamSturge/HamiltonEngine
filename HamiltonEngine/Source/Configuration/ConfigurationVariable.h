@@ -24,7 +24,7 @@ namespace HamiltonEngine
 
 		virtual void SetValue(const AnyJsonVal& Val) override
 		{
-			Storage = Val;
+			Storage = Val.template get<T>();
 		}
 
 		const T& Get() const 
@@ -39,11 +39,4 @@ namespace HamiltonEngine
 	private:
 		T Storage;
 	};
-
-	template<class T>
-	std::ostream& operator<<(std::ostream& Os, const HamiltonEngine::ConfigurationVariable<T>& Val)
-	{
-		Os << Val.Get();
-		return Os;
-	}
 }
