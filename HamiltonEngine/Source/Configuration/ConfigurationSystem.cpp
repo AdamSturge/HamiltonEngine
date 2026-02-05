@@ -28,7 +28,14 @@ namespace HamiltonEngine
 		std::ifstream f(filename);
 		
 		//TODO this can throw exceptions. But it seems like we can configure the library to not do that
-		ConfigJson = nlohmann::json::parse(f);
+		try 
+		{
+			ConfigJson = nlohmann::json::parse(f);
+		}
+		catch (std::exception)
+		{
+			return;
+		}
 
 		// Initialize the variables that tried to initialize before the config system was initialized
 		for (auto& [Key, Value] : ConfigJson.items())

@@ -16,16 +16,23 @@ namespace HamiltonEngine
 		friend Singleton<ConfigurationSystem>;
 	public:
 		template<class T>
-		bool ConfigVarOrDefault(const char* Key, T& Val, const T& DefaultValue) const
+		bool LoadVarFromConfig(const char* Key, T& Val) const
 		{
 			auto Iter = ConfigJson.find(Key);
 			if (Iter != ConfigJson.end())
 			{
-				Val = *Iter;
+				try 
+				{
+					//const auto* JsonVal = Iter.value;
+					Val = Iter->template get<T>();
+				}
+				catch (std::exception)
+				{
+					return false;
+				}
 				return true;
 			}
 
-			Val = DefaultValue;
 			return false;
 		}
 

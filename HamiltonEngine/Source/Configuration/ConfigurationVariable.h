@@ -11,10 +11,12 @@ namespace HamiltonEngine
 	public:
 		ConfigurationVariable(const char* Key, T DefaultValue = T())
 		{
+			Storage = DefaultValue;
+			
 			const ConfigurationSystem& Config = ConfigurationSystem::Get();
 			if (Config.IsInitialized()) 
 			{
-				Config.ConfigVarOrDefault(Key, Storage, DefaultValue);
+				Config.LoadVarFromConfig(Key, Storage);
 			}
 			else 
 			{
@@ -24,7 +26,13 @@ namespace HamiltonEngine
 
 		virtual void SetValue(const AnyJsonVal& Val) override
 		{
-			Storage = Val.template get<T>();
+			try 
+			{
+				Storage = Val.template get<T>();
+			}
+			catch (std::exception) 
+			{
+			}
 		}
 
 		const T& Get() const 
