@@ -8,13 +8,14 @@
 #include <glfw/include/glfw3.h>
 #include <iostream>
 #include <OpenGL/Window.h>
-
 namespace HamiltonEngine
 {
+	//ConfigurationVariable<float> PhysicsTickLength("PhysicsTickLength", 1.0 / 60.0f);
+	
 	void CreateEntities(entt::registry& registry)
 	{
 		entt::entity entity = registry.create();
-		registry.emplace<Physics::PhysicsComponent>(entity);
+		registry.emplace<Physics::Position>(entity);
 	}
 }
 

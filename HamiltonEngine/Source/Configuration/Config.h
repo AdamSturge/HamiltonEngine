@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream> //TODO replace with final logging library. Used for json exceptions
+#include <Configuration/ConfigurationVariable.h>
 
 //from nlohmann json
 #define JSON_TRY_USER if(true)
@@ -9,3 +10,8 @@
     {std::clog << "Error in " << __FILE__ << ":" << __LINE__ \
                << " (function " << __FUNCTION__ << ") - "    \
                << (exception).what() << std::endl;}
+
+namespace HamiltonEngine::Globals
+{
+   
+}

@@ -141,6 +141,7 @@
     <ClInclude Include="Source\OpenGL\Shader.h" />
     <ClInclude Include="Source\OpenGL\Window.h" />
     <ClInclude Include="Source\Physics\PhysicsComponent.h" />
+    <ClInclude Include="Source\Physics\SymplecticEulerSystem.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
     <ClCompile Include="Source\OpenGL\Window.cpp" />
     <ClCompile Include="Source\Physics\PhysicsComponent.cpp" />
+    <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

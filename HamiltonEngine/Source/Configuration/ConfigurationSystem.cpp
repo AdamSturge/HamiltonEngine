@@ -6,7 +6,6 @@ namespace HamiltonEngine
 {
 	ConfigurationSystem Singleton<ConfigurationSystem>::Storage;
 
-
 	bool ConfigurationSystem::RegisterForUpdateOnInitialization(const char* Key, ConfigurationVariableBase& Var)
 	{
 		if (PreInitializationVars.contains(Key))
