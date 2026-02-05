@@ -10,8 +10,6 @@
 #include <OpenGL/Window.h>
 namespace HamiltonEngine
 {
-	//ConfigurationVariable<float> PhysicsTickLength("PhysicsTickLength", 1.0 / 60.0f);
-	
 	void CreateEntities(entt::registry& registry)
 	{
 		entt::entity entity = registry.create();

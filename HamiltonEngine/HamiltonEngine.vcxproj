@@ -138,6 +138,7 @@
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariable.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
+    <ClInclude Include="Source\Configuration\Globals.h" />
     <ClInclude Include="Source\OpenGL\Shader.h" />
     <ClInclude Include="Source\OpenGL\Window.h" />
     <ClInclude Include="Source\Physics\PhysicsComponent.h" />
