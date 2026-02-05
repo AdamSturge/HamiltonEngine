@@ -13,6 +13,15 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="Source\OpenGL\Window.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\Shader.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Libraries\glad\glad.c">
+      <Filter>Libraries\glad</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -26,6 +35,18 @@
     </Filter>
     <Filter Include="Source\Singleton">
       <UniqueIdentifier>{3d0ebba1-9dab-47d0-9f06-930575cbc632}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenGL">
+      <UniqueIdentifier>{8744dfc3-ee8f-4637-87ed-a3ff8c861022}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries">
+      <UniqueIdentifier>{d5714792-4458-41b6-a1cd-42b240f9c936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\glad">
+      <UniqueIdentifier>{c30294ce-7595-4ecc-99af-a4584b50054d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shaders">
+      <UniqueIdentifier>{43d64d78-08ce-4bf6-81da-f0b82bb15737}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,5 +68,22 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h">
       <Filter>Source\Configuration</Filter>
     </ClInclude>
+    <ClInclude Include="Source\OpenGL\Shader.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\Window.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Libraries\glad\glad.h">
+      <Filter>Libraries\glad</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Shaders\fragmentShader.fs">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="Source\Shaders\vertexShader.vs">
+      <Filter>Source\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
