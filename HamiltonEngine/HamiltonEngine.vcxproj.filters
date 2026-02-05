@@ -45,6 +45,9 @@
     <Filter Include="Libraries\glad">
       <UniqueIdentifier>{c30294ce-7595-4ecc-99af-a4584b50054d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Shaders">
+      <UniqueIdentifier>{43d64d78-08ce-4bf6-81da-f0b82bb15737}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Physics\PhysicsComponent.h">
@@ -74,5 +77,13 @@
     <ClInclude Include="Libraries\glad\glad.h">
       <Filter>Libraries\glad</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Shaders\fragmentShader.fs">
+      <Filter>Source\Shaders</Filter>
+    </None>
+    <None Include="Source\Shaders\vertexShader.vs">
+      <Filter>Source\Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
