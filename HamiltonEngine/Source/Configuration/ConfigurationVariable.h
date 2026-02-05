@@ -26,13 +26,7 @@ namespace HamiltonEngine
 
 		virtual void SetValue(const AnyJsonVal& Val) override
 		{
-			try 
-			{
-				Storage = Val.template get<T>();
-			}
-			catch (std::exception) 
-			{
-			}
+			Storage = Val.template get<T>();
 		}
 
 		const T& Get() const 

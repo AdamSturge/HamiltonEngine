@@ -21,15 +21,8 @@ namespace HamiltonEngine
 			auto Iter = ConfigJson.find(Key);
 			if (Iter != ConfigJson.end())
 			{
-				try 
-				{
-					//const auto* JsonVal = Iter.value;
-					Val = Iter->template get<T>();
-				}
-				catch (std::exception)
-				{
-					return false;
-				}
+				Val = Iter->template get<T>();
+	
 				return true;
 			}
 
