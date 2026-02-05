@@ -37,7 +37,9 @@ namespace HamiltonEngine
 		operator T() const { return Storage; }
 		operator T&() { return Storage; }
 		operator const T&() const { return Storage; }
-		friend std::ostream& operator<<(std::ostream& Os, const ConfigurationVariable<T>& Val);
+
+		//Annoying that non strings have to have this. You can't use enable_if on friend functions either
+		friend std::ostream& operator<<(std::ostream& Os, const ConfigurationVariable<std::string>& Val);
 	private:
 		T Storage;
 	};
