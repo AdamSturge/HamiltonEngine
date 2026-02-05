@@ -16,6 +16,8 @@ namespace HamiltonEngine
 		entt::entity entity = registry.create();
 		registry.emplace<Physics::PhysicsComponent>(entity);
 	}
+
+	ConfigurationVariable<int> TestVar("TestKey", 1);
 }
 
 int main(int argc, char** argv)
@@ -24,6 +26,8 @@ int main(int argc, char** argv)
 
 	entt::registry registry;
 	HamiltonEngine::CreateEntities(registry);
+
+	std::cout << HamiltonEngine::TestVar << std::endl;
 
 	glfwInit(); // Initialize OpenGL
 	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(800, 600, "MyWindow");
