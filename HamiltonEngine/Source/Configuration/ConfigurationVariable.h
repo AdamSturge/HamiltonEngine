@@ -1,6 +1,6 @@
 #pragma once
-#include "Configuration/ConfigurationSystem.h"
-#include "Configuration/ConfigurationVariableBase.h"
+#include "ConfigurationSystem.h"
+#include "ConfigurationVariableBase.h"
 #include <ostream>
 
 namespace HamiltonEngine 
@@ -13,7 +13,7 @@ namespace HamiltonEngine
 		{
 			Storage = DefaultValue;
 			
-			const HamiltonEngine::ConfigurationSystem& Config = HamiltonEngine::ConfigurationSystem::Get();
+			const ConfigurationSystem& Config = ConfigurationSystem::Get();
 			if (Config.IsInitialized()) 
 			{
 				Config.LoadVarFromConfig(Key, Storage);
