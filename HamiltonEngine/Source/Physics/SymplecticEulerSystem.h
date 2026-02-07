@@ -1,5 +1,5 @@
 #pragma once
-#include "PhysicsComponent.h"
+#include "PhysicsState.h"
 
 namespace HamiltonEngine::Physics
 {

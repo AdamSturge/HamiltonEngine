@@ -1,5 +1,5 @@
 #include "Configuration/ConfigurationVariable.h"
-#include "PhysicsComponent.h"
+#include "PhysicsState.h"
 
 namespace HamiltonEngine::Physics
 {

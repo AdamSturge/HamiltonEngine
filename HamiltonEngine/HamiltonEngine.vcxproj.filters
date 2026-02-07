@@ -4,9 +4,6 @@
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Physics\PhysicsComponent.cpp">
-      <Filter>Source\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Configuration\ConfigurationSystem.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
@@ -23,6 +20,9 @@
       <Filter>Libraries\glad</Filter>
     </ClCompile>
     <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp">
+      <Filter>Source\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\PhysicsState.cpp">
       <Filter>Source\Physics</Filter>
     </ClCompile>
   </ItemGroup>
@@ -50,9 +50,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Physics\PhysicsComponent.h">
-      <Filter>Source\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
       <Filter>Source\Configuration</Filter>
     </ClInclude>
@@ -78,6 +75,10 @@
       <Filter>Libraries\glad</Filter>
     </ClInclude>
     <ClInclude Include="Source\Physics\SymplecticEulerSystem.h">
+      <Filter>Source\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Configuration\Globals.h" />
+    <ClInclude Include="Source\Physics\PhysicsState.h">
       <Filter>Source\Physics</Filter>
     </ClInclude>
   </ItemGroup>

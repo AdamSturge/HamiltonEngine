@@ -1,6 +1,6 @@
 
 #include "Configuration/ConfigurationSystem.h"
-#include "Physics/PhysicsComponent.h"
+#include "Physics/PhysicsState.h"
 #include "Configuration/ConfigurationVariable.h"
 #include "Physics/SymplecticEulerSystem.h"
 
