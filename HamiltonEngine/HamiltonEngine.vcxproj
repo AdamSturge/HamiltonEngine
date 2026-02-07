@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Source;$(ProjectDir)Libraries\entt-main\src;$(ProjectDir)Libraries\eigen-5.0.0;$(ProjectDir)Libraries;$(ProjectDir)Libraries\glfw\include;$(ProjectDir)Libraries\glad;$(ProjectDir)Libraries\KHR;$(ProjectDir)Libraries\\json-3.11.3\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Source;$(ProjectDir)Libraries\entt-main\src;$(ProjectDir)Libraries\eigen-5.0.0;$(ProjectDir)Libraries;$(ProjectDir)Libraries\glfw\include;$(ProjectDir)Libraries\glad;$(ProjectDir)Libraries\KHR;$(ProjectDir)Libraries\\json-3.11.3\include;$(ProjectDir)Libraries\stbi;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Libraries\glfw\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -134,12 +134,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Libraries\glad\glad.h" />
+    <ClInclude Include="OpenGL.h" />
     <ClInclude Include="Source\Configuration\Config.h" />
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariable.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
     <ClInclude Include="Source\Configuration\Globals.h" />
     <ClInclude Include="Source\OpenGL\Shader.h" />
+    <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\OpenGL\Window.h" />
     <ClInclude Include="Source\Physics\PhysicsState.h" />
     <ClInclude Include="Source\Physics\SymplecticEulerSystem.h" />
@@ -151,9 +153,14 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
+    <ClCompile Include="Source\OpenGL\Texture.cpp" />
     <ClCompile Include="Source\OpenGL\Window.cpp" />
     <ClCompile Include="Source\Physics\PhysicsState.cpp" />
     <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Shaders\fragmentShader.fs" />
+    <None Include="Source\Shaders\vertexShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

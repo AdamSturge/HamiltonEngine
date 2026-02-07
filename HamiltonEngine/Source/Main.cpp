@@ -7,8 +7,12 @@
 #include "entt/entt.hpp"
 #include <glad/glad.h>
 #include <glfw/include/glfw3.h>
-#include <iostream>
 #include <OpenGL/Window.h>
+#include <OpenGL/Shader.h>
+#include "OpenGL/Texture.h"
+#include <iostream>
+#include <math.h>
+
 namespace HamiltonEngine
 {
 	void CreatePhysicsEntities(entt::registry& Registry)
@@ -38,6 +42,73 @@ int main(int argc, char** argv)
 	float red = 0.2f;
 	float green = 0.3f;
 	float blue = 0.3f;
+	float curTime = 0.0f;
+
+	float vertices[] = {
+		// positions          // colors           // texture coords
+		 0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
+		 0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
+		-0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left 
+	};
+	
+	unsigned int indices[] = {
+		0, 1, 3, // first triangle
+		1, 2, 3,  // second triangle
+
+	};
+
+
+	unsigned int VAO, VBO, EBO;
+
+	glCreateVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glCreateBuffers(1, &VBO);
+	glCreateBuffers(1, &EBO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	// color attribute
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	// texture attribute
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	HamiltonEngine::OpenGL::Texture texture1c = HamiltonEngine::OpenGL::Texture::Texture("container.jpg", GL_RGB, GL_RGB, GL_UNSIGNED_BYTE);
+	texture1c.setActive();
+	texture1c.setTextureOption(GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	texture1c.setTextureOption(GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	texture1c.setTextureOption(GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	texture1c.setTextureOption(GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	HamiltonEngine::OpenGL::Texture texture2c = HamiltonEngine::OpenGL::Texture::Texture("awesomeface.png", GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE);
+	texture2c.setActive();
+	texture2c.setTextureOption(GL_TEXTURE_WRAP_S, GL_REPEAT);
+	texture2c.setTextureOption(GL_TEXTURE_WRAP_T, GL_REPEAT);
+	texture2c.setTextureOption(GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	texture2c.setTextureOption(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+
+	HamiltonEngine::OpenGL::Shader simpleShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\vertexShader.vs", 
+																						 "Source\\Shaders\\fragmentShader.fs");
+	simpleShader.use();
+	simpleShader.setInt("texture1", 0);
+	simpleShader.setInt("texture2", 1);
+
+	//glUniform1i(glGetUniformLocation(simpleShader.ID, "texture1"), 0);
+	// or set it via the texture class
+	//simpleShader.setInt("texture2", 1);
+
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -55,11 +126,23 @@ int main(int argc, char** argv)
 		}
 
 		// rendering
-		//std::this_thread::sleep_for(20ms);
-
 		glClearColor(red, green, blue, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+
+		curTime = static_cast<float>(glfwGetTime());
+		//simpleShader.setFloat("hOffset", (float)sin(curTime));
+		simpleShader.setFloat("TIME", (float)curTime);
+		simpleShader.setFloat("mixRatio", (float) sin(curTime));
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, texture1c.ID);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, texture2c.ID);
+
+		simpleShader.use();
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// swap buffers and call events
 		glfwSwapBuffers(window);

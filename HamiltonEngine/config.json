@@ -1,3 +1,7 @@
 {
-	"TestKey" : 3
+	"TestKey": 3,
+	"WindowHeight": 1240,
+	"WindowWidth": 780,
+	"WindowName": "MyWindow",
+	"WindowBackgroundColor":  [ 0.2f, 0.3f, 0.3f ]
 }
