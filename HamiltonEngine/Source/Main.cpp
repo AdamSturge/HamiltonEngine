@@ -2,6 +2,7 @@
 #include "Configuration/ConfigurationSystem.h"
 #include "Physics/PhysicsComponent.h"
 #include "Configuration/ConfigurationVariable.h"
+#include "Physics/SymplecticEulerSystem.h"
 
 #include "entt/entt.hpp"
 #include <glad/glad.h>
@@ -10,10 +11,12 @@
 #include <OpenGL/Window.h>
 namespace HamiltonEngine
 {
-	void CreateEntities(entt::registry& registry)
+	void CreatePhysicsEntities(entt::registry& Registry)
 	{
-		entt::entity entity = registry.create();
-		registry.emplace<Physics::Position>(entity);
+		entt::entity Entity = Registry.create();
+		Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
+		Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f(1.0f,0.0f,0.0f));
+		Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
 	}
 }
 
@@ -21,8 +24,8 @@ int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json");
 
-	entt::registry registry;
-	HamiltonEngine::CreateEntities(registry);
+	entt::registry Registry;
+	HamiltonEngine::CreatePhysicsEntities(Registry);
 
 	glfwInit(); // Initialize OpenGL
 	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(800, 600, "MyWindow");
@@ -40,6 +43,16 @@ int main(int argc, char** argv)
 
 		// input
 		HamiltonEngine::OpenGL::processInput(window);
+
+		// Run Physics Sim
+		auto PhysicsSimView = Registry.view<
+			HamiltonEngine::Physics::PositionComponent,
+			HamiltonEngine::Physics::LinearMomentumComponent>();
+
+		for (auto [Entity, PosC, LinMomC] : PhysicsSimView.each())
+		{
+			HamiltonEngine::Physics::SymplecticEulerSystem(PosC, LinMomC);
+		}
 
 		// rendering
 		//std::this_thread::sleep_for(20ms);

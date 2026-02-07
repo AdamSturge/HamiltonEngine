@@ -4,13 +4,21 @@
 
 namespace HamiltonEngine::Physics 
 {
-	struct Position 
+	struct PositionComponent 
 	{
-		Eigen::Vector3d Position;
+		PositionComponent(Eigen::Vector3f Pos);
+		Eigen::Vector3f Position;
 	};
 
-	struct LinearMomentum
+	struct LinearMomentumComponent
 	{
-		Eigen::Vector3d Position;
+		LinearMomentumComponent(Eigen::Vector3f Mom);
+		Eigen::Vector3f LinearMomentum;
+	};
+
+	struct MassComponent
+	{
+		MassComponent(float M);
+		float Mass;
 	};
 }

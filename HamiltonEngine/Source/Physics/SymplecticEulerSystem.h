@@ -3,5 +3,5 @@
 
 namespace HamiltonEngine::Physics
 {
-	void SymplecticEulerSystem(Position& Pos, LinearMomentum& LinMom);
+	void SymplecticEulerSystem(PositionComponent& Pos, LinearMomentumComponent& LinMom);
 }
