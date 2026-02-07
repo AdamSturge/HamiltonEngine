@@ -1,13 +1,33 @@
 #version 460 core
 layout (location = 0) in vec3 aPos;
 layout (location = 1) in vec3 aColor;
-
-uniform float hOffset;
+layout (location = 2) in vec2 aTexCoord;
 
 out vec3 ourColor;
+out vec2 TexCoord;
+
+uniform float TIME; 
 
 void main()
 {
-    gl_Position = vec4(aPos.x, aPos.y + hOffset, aPos.z, 1.0);
+//     if (aPos.y > 0)
+//     {
+//         gl_Position = vec4(aPos.x - sin(TIME), aPos.y + cos(TIME), aPos.z, 1.0);
+//     }
+//     else
+//     {
+//         gl_Position = vec4(aPos, 1.0);
+//    }
+
+    //gl_Position = vec4(aPos.x + sin(TIME), aPos.y + cos(TIME), aPos.z, 1.0);
+
+    gl_Position = vec4(aPos.x * sin(TIME/2), aPos.y * cos(TIME), aPos.z, 1.0);
+    
+    gl_Position = vec4(aPos, 1.0);
     ourColor = aColor;
+    TexCoord = aTexCoord;
+
+    gl_Position = vec4(aPos, 1.0);
+	ourColor = aColor;
+	TexCoord = vec2(aTexCoord.x, aTexCoord.y);
 }
