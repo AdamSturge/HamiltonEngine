@@ -5,13 +5,16 @@
 #include "Physics/SymplecticEulerSystem.h"
 
 #include "entt/entt.hpp"
-#include <glad/glad.h>
-#include <glfw/include/glfw3.h>
+#include <OpenGl/OpenGL.h>
 #include <OpenGL/Window.h>
 #include <OpenGL/Shader.h>
 #include "OpenGL/Texture.h"
 #include <iostream>
 #include <math.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace HamiltonEngine
 {
@@ -24,7 +27,7 @@ namespace HamiltonEngine
 	}
 }
 
-int main(int Argc, char** Argv)
+int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
