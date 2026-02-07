@@ -3,5 +3,5 @@
 	"WindowHeight": 1240,
 	"WindowWidth": 780,
 	"WindowName": "MyWindow",
-	"WindowBackgroundColor":  [ 0.2f, 0.3f, 0.3f ]
+	"WindowBackgroundColor":  [ 0.2, 0.3, 0.3 ]
 }
