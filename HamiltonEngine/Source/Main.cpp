@@ -5,8 +5,7 @@
 #include "Physics/SymplecticEulerSystem.h"
 
 #include "entt/entt.hpp"
-#include <glad/glad.h>
-#include <glfw/include/glfw3.h>
+#include <OpenGL/OpenGL.h>
 #include <OpenGL/Window.h>
 #include <OpenGL/Shader.h>
 #include "OpenGL/Texture.h"

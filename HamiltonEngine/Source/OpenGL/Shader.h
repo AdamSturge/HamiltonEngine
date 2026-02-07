@@ -1,5 +1,5 @@
 #pragma once
-#include "../../OpenGL.h"
+#include "OpenGL.h"
 
 #include <string>
 #include <fstream>
