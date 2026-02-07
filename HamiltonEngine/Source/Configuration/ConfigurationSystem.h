@@ -8,7 +8,7 @@
 
 #include <nlohmann/json.hpp>
 
-namespace HamiltonEngine 
+namespace HamiltonEngine
 {
 	// Singleton to wrap the configuration file
 	class ConfigurationSystem : public Singleton<ConfigurationSystem>

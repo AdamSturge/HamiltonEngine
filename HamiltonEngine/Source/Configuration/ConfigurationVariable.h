@@ -1,6 +1,6 @@
 #pragma once
 #include "ConfigurationSystem.h"
-#include "Configuration/ConfigurationVariableBase.h"
+#include "ConfigurationVariableBase.h"
 #include <ostream>
 
 namespace HamiltonEngine 

@@ -139,10 +139,12 @@
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariable.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
+    <ClInclude Include="Source\Configuration\Globals.h" />
     <ClInclude Include="Source\OpenGL\Shader.h" />
     <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\OpenGL\Window.h" />
-    <ClInclude Include="Source\Physics\PhysicsComponent.h" />
+    <ClInclude Include="Source\Physics\PhysicsState.h" />
+    <ClInclude Include="Source\Physics\SymplecticEulerSystem.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
@@ -153,7 +155,8 @@
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
     <ClCompile Include="Source\OpenGL\Window.cpp" />
-    <ClCompile Include="Source\Physics\PhysicsComponent.cpp" />
+    <ClCompile Include="Source\Physics\PhysicsState.cpp" />
+    <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\fragmentShader.fs" />
