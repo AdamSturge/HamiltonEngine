@@ -24,9 +24,9 @@ namespace HamiltonEngine
 	}
 }
 
-int main(int argc, char** argv)
+int main(int Argc, char** Argv)
 {
-	HamiltonEngine::ConfigurationSystem::Initialize("config.json");
+	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
 	entt::registry Registry;
 	HamiltonEngine::CreatePhysicsEntities(Registry);

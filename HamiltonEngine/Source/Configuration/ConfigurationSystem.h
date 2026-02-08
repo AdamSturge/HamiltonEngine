@@ -18,10 +18,18 @@ namespace HamiltonEngine
 		template<class T>
 		bool LoadVarFromConfig(const char* Key, T& Val) const
 		{
-			auto Iter = ConfigJson.find(Key);
-			if (Iter != ConfigJson.end())
+			auto UserIter = UserConfigJson.find(Key);
+			if (UserIter != UserConfigJson.end())
 			{
-				Val = Iter->template get<T>();
+				Val = UserIter->template get<T>();
+
+				return true;
+			}
+			
+			auto GlobalIter = GlobalConfigJson.find(Key);
+			if (GlobalIter != GlobalConfigJson.end())
+			{
+				Val = GlobalIter->template get<T>();
 	
 				return true;
 			}
@@ -39,10 +47,13 @@ namespace HamiltonEngine
 		ConfigurationSystem(ConfigurationSystem&) = delete;
 		void operator=(ConfigurationSystem&) = delete;
 		// Required by Singleton interface
-		void InitializeImpl(const char* filename);
+		void InitializeImpl(const char* GlobalConfig, const char* UserConfig);
+
+		bool ReadFile(const char* Filename, nlohmann::json& Json) const;
 
 		bool Initialized = false;
-		nlohmann::json ConfigJson;
+		nlohmann::json GlobalConfigJson;
+		nlohmann::json UserConfigJson;
 		std::unordered_map<std::string, ConfigurationVariableBase*> PreInitializationVars;
 	};
 }

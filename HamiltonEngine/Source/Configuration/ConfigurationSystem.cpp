@@ -22,14 +22,40 @@ namespace HamiltonEngine
 		return Initialized;
 	}
 
-	void ConfigurationSystem::InitializeImpl(const char* filename)
+	void ConfigurationSystem::InitializeImpl(const char* GlobalConfig, const char* UserConfig)
 	{
-		std::ifstream f(filename);
-		
-		ConfigJson = nlohmann::json::parse(f);
+		const bool GlobalConfigSuccess = ReadFile(GlobalConfig, GlobalConfigJson);
+		const bool UserConfigSuccess = ReadFile(UserConfig, UserConfigJson); //user config is optional
+
+		//We are done updating the config vars that registered for updates
+		PreInitializationVars.clear();
+
+		Initialized = GlobalConfigSuccess;
+	}
+
+	bool ConfigurationSystem::ReadFile(const char* Filename, nlohmann::json& Json) const
+	{
+		std::ifstream Filestream;
+		try 
+		{
+			if (!std::filesystem::exists(Filename))
+			{
+				//TODO Log
+				return false;
+			}
+
+			Filestream.open(Filename);
+		}
+		catch (std::filesystem::filesystem_error e) 
+		{
+			//TODO Log
+			return false;
+		}
+
+		Json = nlohmann::json::parse(Filestream);
 
 		// Initialize the variables that tried to initialize before the config system was initialized
-		for (auto& [Key, Value] : ConfigJson.items())
+		for (auto& [Key, Value] : Json.items())
 		{
 			auto Iter = PreInitializationVars.find(Key.c_str());
 			if (Iter != PreInitializationVars.end())
@@ -38,8 +64,7 @@ namespace HamiltonEngine
 				Var->SetValue(Value);
 			}
 		}
-		PreInitializationVars.clear();
 
-		Initialized = true;
+		return true;
 	}
 }
