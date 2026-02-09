@@ -1,6 +1,4 @@
 #pragma once
-#include <entt/entt.hpp>
-#include <Eigen/Dense>
 
 namespace HamiltonEngine::Physics 
 {

@@ -1,4 +1,5 @@
-#pragma once
+#include "PrecompiledHeader/Pch.h"
+
 #include "ConfigurationVariable.h"
 
 namespace HamiltonEngine 

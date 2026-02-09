@@ -1,5 +1,4 @@
 #pragma once
-#include <any>
 #include <nlohmann/json.hpp>
 
 namespace HamiltonEngine

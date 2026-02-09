@@ -16,6 +16,9 @@
     <ClCompile Include="Source\OpenGL\Shader.cpp">
       <Filter>Source\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="Source\OpenGL\Texture.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="Libraries\glad\glad.c">
       <Filter>Libraries\glad</Filter>
     </ClCompile>
@@ -24,6 +27,10 @@
     </ClCompile>
     <ClCompile Include="Source\Physics\PhysicsState.cpp">
       <Filter>Source\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\Texture.cpp" />
+    <ClCompile Include="Source\PrecompiledHeader\Pch.cpp">
+      <Filter>Source\PrecompiledHeader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +58,9 @@
     <Filter Include="Source\Shaders">
       <UniqueIdentifier>{43d64d78-08ce-4bf6-81da-f0b82bb15737}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\PrecompiledHeader">
+      <UniqueIdentifier>{37480b83-bab2-474c-adb3-509e5156120a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
@@ -71,6 +81,9 @@
     <ClInclude Include="Source\OpenGL\Shader.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="Source\OpenGL\Texture.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="Source\OpenGL\Window.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
@@ -80,9 +93,16 @@
     <ClInclude Include="Source\Physics\SymplecticEulerSystem.h">
       <Filter>Source\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Configuration\Globals.h" />
     <ClInclude Include="Source\Physics\PhysicsState.h">
       <Filter>Source\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL.h" />
+    <ClInclude Include="Source\OpenGL\Texture.h" />
+    <ClInclude Include="Source\PrecompiledHeader\Pch.h">
+      <Filter>Source\PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Configuration\Globals.h">
+      <Filter>Source\Configuration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
