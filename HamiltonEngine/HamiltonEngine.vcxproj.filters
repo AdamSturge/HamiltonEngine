@@ -32,6 +32,9 @@
     <ClCompile Include="Source\PrecompiledHeader\Pch.cpp">
       <Filter>Source\PrecompiledHeader</Filter>
     </ClCompile>
+    <ClCompile Include="ConfigurationVariableBase.cpp">
+      <Filter>Source\Configuration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
