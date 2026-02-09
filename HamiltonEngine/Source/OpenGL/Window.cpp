@@ -1,8 +1,5 @@
-#include <glad/glad.h>
-#include <glfw/include/glfw3.h>
+#include "PrecompiledHeader/Pch.h"
 #include "Window.h"
-#include <iostream>
-
 
 namespace HamiltonEngine::OpenGL 
 {

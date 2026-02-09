@@ -1,17 +1,13 @@
+#include "PrecompiledHeader/Pch.h"
 
 #include "Configuration/ConfigurationSystem.h"
 #include "Physics/PhysicsState.h"
 #include "Configuration/ConfigurationVariable.h"
 #include "Physics/SymplecticEulerSystem.h"
 
-#include "entt/entt.hpp"
-#include <glad/glad.h>
-#include <glfw/include/glfw3.h>
 #include <OpenGL/Window.h>
 #include <OpenGL/Shader.h>
 #include "OpenGL/Texture.h"
-#include <iostream>
-#include <math.h>
 
 namespace HamiltonEngine
 {

@@ -109,6 +109,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader/Pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,10 +147,13 @@
     <ClInclude Include="Source\OpenGL\Window.h" />
     <ClInclude Include="Source\Physics\PhysicsState.h" />
     <ClInclude Include="Source\Physics\SymplecticEulerSystem.h" />
+    <ClInclude Include="Source\PrecompiledHeader\Pch.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Libraries\glad\glad.c" />
+    <ClCompile Include="Libraries\glad\glad.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="Source\Configuration\ConfigurationSystem.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
     <ClCompile Include="Source\Main.cpp" />
@@ -157,6 +162,11 @@
     <ClCompile Include="Source\OpenGL\Window.cpp" />
     <ClCompile Include="Source\Physics\PhysicsState.cpp" />
     <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp" />
+    <ClCompile Include="Source\PrecompiledHeader\Pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeaderFile>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\fragmentShader.fs" />

@@ -1,8 +1,6 @@
 #pragma once
 #include "../../OpenGL.h"
 #include "Texture.h"
-#include <iostream>
-
 
 namespace HamiltonEngine::OpenGL
 {
