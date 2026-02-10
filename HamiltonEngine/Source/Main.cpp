@@ -11,12 +11,20 @@
 
 namespace HamiltonEngine
 {
+	ConfigurationVariable<int> NumEntities("NumEntities", 10);
+	
 	void CreatePhysicsEntities(entt::registry& Registry)
 	{
-		entt::entity Entity = Registry.create();
-		Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
-		Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f(1.0f,0.0f,0.0f));
-		Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
+		for (int EntityIndex = 0; EntityIndex < NumEntities; ++EntityIndex) 
+		{
+			entt::entity Entity = Registry.create();
+			Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
+			Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f::Zero());
+			Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
+			Registry.emplace<Physics::OrientationComponent>(Entity, Eigen::Vector3f::Zero());
+			Registry.emplace<Physics::AngularMomentumComponent>(Entity, Eigen::Vector3f::Zero());
+			Registry.emplace<Physics::InertiaTensorComponent>(Entity, Eigen::Matrix3f::Identity());
+		}
 	}
 }
 

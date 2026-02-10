@@ -5,16 +5,29 @@
 
 namespace HamiltonEngine::Physics
 {
-    HamiltonEngine::Physics::PositionComponent::PositionComponent(Eigen::Vector3f Pos) : Position{Pos}
+    PositionComponent::PositionComponent(const Eigen::Vector3f& Pos) : Position{Pos}
     {
         
     }
 
-    LinearMomentumComponent::LinearMomentumComponent(Eigen::Vector3f Mom) : LinearMomentum{Mom}
+    LinearMomentumComponent::LinearMomentumComponent(const Eigen::Vector3f& Mom) : LinearMomentum{Mom}
     {
     }
 
     MassComponent::MassComponent(float M) : Mass{M}
+    {
+    }
+
+    OrientationComponent::OrientationComponent(const Eigen::Vector3f& Or) : Orientation{ Or }
+    {
+
+    }
+
+    AngularMomentumComponent::AngularMomentumComponent(const Eigen::Vector3f& Ang) : AngularMomentum{ Ang }
+    {
+    }
+
+    InertiaTensorComponent::InertiaTensorComponent(const Eigen::Matrix3f& I) : Inertia{ I }
     {
     }
 }
