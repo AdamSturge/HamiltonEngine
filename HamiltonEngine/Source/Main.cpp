@@ -12,6 +12,8 @@
 #include <iostream>
 #include <math.h>
 
+#include <Eigen/Dense>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -114,12 +116,34 @@ int main(int argc, char** argv)
 	glm::mat4 trans = glm::mat4(1.0f);
 
 
-
-
 	//glUniform1i(glGetUniformLocation(simpleShader.ID, "texture1"), 0);
 	// or set it via the texture class
 	//simpleShader.setInt("texture2", 1);
 
+
+	//Eigen::Matrix4f e_mat = Eigen::Matrix4f(1.0f);
+	//e_mat = (e_mat + Eigen::Matrix4f(0.5, -0.5f, 1.0f, 1.0f));
+	//Eigen::Rotation2Df rotation(90.f);
+	//e_mat = (e_mat * rotation.toRotationMatrix());
+
+	//std::cout << e_mat << std::endl;
+
+	GLfloat a = 1.0f;
+	GLfloat b = 1.0f;
+	GLfloat c = 1.0f;
+	GLfloat d = 1.0f;
+
+	Eigen::Matrix<GLfloat, 4, 4> mat {
+		{1.0f,   0, 0 ,0},
+		{0,   1.0f, 0, 0},
+		{0,      0, 1.0f, 0},
+		{0,      0, 0, 1.0f} 
+	};
+	std::cout << mat << std::endl;
+	//mat = Eigen::Matrix<GLfloat, 4,4>::Matrix(1.0f, 1.0f, 1.0f, 1.0f);
+
+	//Eigen::Vector3f test = Eigen::Vector3f::Zero();
+	
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -151,11 +175,15 @@ int main(int argc, char** argv)
 		simpleShader.setFloat("mixRatio", sin(curTime));
 
 		trans = glm::mat4(1.0f); 
+		std::cout << trans << endl;
 		trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
 		trans = glm::rotate(trans, curTime, glm::vec3(0.0f, 0.0f, 1.0f));
 
 		unsigned int transformLoc = glGetUniformLocation(simpleShader.ID, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
+			glm::value_ptr(trans)
+			//e_mat.data()
+			);
 
 
 		glBindVertexArray(VAO);

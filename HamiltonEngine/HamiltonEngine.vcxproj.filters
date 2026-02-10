@@ -25,6 +25,9 @@
     <ClCompile Include="Source\Physics\PhysicsState.cpp">
       <Filter>Source\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Source\OpenGL\Texture.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -80,9 +83,17 @@
     <ClInclude Include="Source\Physics\SymplecticEulerSystem.h">
       <Filter>Source\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Configuration\Globals.h" />
     <ClInclude Include="Source\Physics\PhysicsState.h">
       <Filter>Source\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGL.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\Texture.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Configuration\Globals.h">
+      <Filter>Source\Configuration</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
