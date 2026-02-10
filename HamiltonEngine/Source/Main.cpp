@@ -122,37 +122,8 @@ int main(int argc, char** argv)
 	simpleShader.setInt("texture1", 0);
 	simpleShader.setInt("texture2", 1);
 
-	glm::mat4 trans = glm::mat4(1.0f);
-
-
-	//glUniform1i(glGetUniformLocation(simpleShader.ID, "texture1"), 0);
-	// or set it via the texture class
-	//simpleShader.setInt("texture2", 1);
-
-
-	//Eigen::Matrix4f e_mat = Eigen::Matrix4f(1.0f);
-	//e_mat = (e_mat + Eigen::Matrix4f(0.5, -0.5f, 1.0f, 1.0f));
-	//Eigen::Rotation2Df rotation(90.f);
-	//e_mat = (e_mat * rotation.toRotationMatrix());
-
-	//std::cout << e_mat << std::endl;
-
-	GLfloat a = 1.0f;
-	GLfloat b = 1.0f;
-	GLfloat c = 1.0f;
-	GLfloat d = 1.0f;
-
-	Eigen::Matrix<GLfloat, 4, 4> mat {
-		{1.0f,   0, 0 ,0},
-		{0,   1.0f, 0, 0},
-		{0,      0, 1.0f, 0},
-		{0,      0, 0, 1.0f} 
-	};
-	std::cout << mat << std::endl;
-	//mat = Eigen::Matrix<GLfloat, 4,4>::Matrix(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//Eigen::Vector3f test = Eigen::Vector3f::Zero();
-	
+	// glm::mat4 trans = glm::mat4(1.0f);
+	Eigen::Affine3f amat;
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -183,25 +154,41 @@ int main(int argc, char** argv)
 		simpleShader.setFloat("TIME", curTime);
 		simpleShader.setFloat("mixRatio", sin(curTime));
 
+		/* This is using glm 
 		trans = glm::mat4(1.0f); 
-		std::cout << trans << endl;
 		trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
 		trans = glm::rotate(trans, curTime, glm::vec3(0.0f, 0.0f, 1.0f));
+		*/
+
+		// This is using Eigen
+		amat = Eigen::Affine3f::Identity();
+		amat.translate(Eigen::Vector3f(0.5f, -0.5f, 0.0f));
+		amat.rotate(Eigen::AngleAxisf(curTime, Eigen::Vector3f::UnitZ()));
 
 		unsigned int transformLoc = glGetUniformLocation(simpleShader.ID, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
-			glm::value_ptr(trans)
-			//e_mat.data()
+			//glm::value_ptr(trans)
+			amat.data()
 			);
-
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+		// This is using Eigen
+		amat = Eigen::Affine3f::Identity();
+		amat.translate(Eigen::Vector3f(-0.5, 0.5f, 0.0f));
+		amat.scale(Eigen::Vector3f(abs(sin(curTime)), abs(sin(curTime)), 0.0f));
+
+		/* This is using glm
 		trans = glm::mat4(1.0f);
 		trans = glm::translate(trans, glm::vec3(-0.5f, 0.5f, 0.0f));
 		trans = glm::scale(trans, glm::vec3(abs(sin(curTime)), abs(sin(curTime)), 0.0f));
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		*/
+
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
+			//glm::value_ptr(trans)
+			amat.data()
+		);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
