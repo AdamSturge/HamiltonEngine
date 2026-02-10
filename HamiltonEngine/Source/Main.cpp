@@ -5,9 +5,19 @@
 #include "Configuration/ConfigurationVariable.h"
 #include "Physics/SymplecticEulerSystem.h"
 
+#include "entt/entt.hpp"
+#include <OpenGl/OpenGL.h>
 #include <OpenGL/Window.h>
 #include <OpenGL/Shader.h>
 #include "OpenGL/Texture.h"
+#include <iostream>
+#include <math.h>
+
+#include <Eigen/Dense>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace HamiltonEngine
 {
@@ -28,7 +38,7 @@ namespace HamiltonEngine
 	}
 }
 
-int main(int Argc, char** Argv)
+int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
@@ -105,14 +115,15 @@ int main(int Argc, char** Argv)
 
 	HamiltonEngine::OpenGL::Shader simpleShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\vertexShader.vs", 
 																						 "Source\\Shaders\\fragmentShader.fs");
+
+	HamiltonEngine::OpenGL::Shader simpleShader2 = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\vertexShader.vs",
+																						  "Source\\Shaders\\fragmentShader.fs");
 	simpleShader.use();
 	simpleShader.setInt("texture1", 0);
 	simpleShader.setInt("texture2", 1);
 
-	//glUniform1i(glGetUniformLocation(simpleShader.ID, "texture1"), 0);
-	// or set it via the texture class
-	//simpleShader.setInt("texture2", 1);
-
+	// glm::mat4 trans = glm::mat4(1.0f);
+	Eigen::Affine3f amat;
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -133,19 +144,52 @@ int main(int Argc, char** Argv)
 		glClearColor(red, green, blue, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture1c.ID);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture2c.ID);
+
 
 		curTime = static_cast<float>(glfwGetTime());
-		//simpleShader.setFloat("hOffset", (float)sin(curTime));
-		simpleShader.setFloat("TIME", (float)curTime);
-		simpleShader.setFloat("mixRatio", (float) sin(curTime));
+		simpleShader.setFloat("TIME", curTime);
+		simpleShader.setFloat("mixRatio", sin(curTime));
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texture1c.ID);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture2c.ID);
+		/* This is using glm 
+		trans = glm::mat4(1.0f); 
+		trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+		trans = glm::rotate(trans, curTime, glm::vec3(0.0f, 0.0f, 1.0f));
+		*/
 
-		simpleShader.use();
+		// This is using Eigen
+		amat = Eigen::Affine3f::Identity();
+		amat.translate(Eigen::Vector3f(0.5f, -0.5f, 0.0f));
+		amat.rotate(Eigen::AngleAxisf(curTime, Eigen::Vector3f::UnitZ()));
+
+		unsigned int transformLoc = glGetUniformLocation(simpleShader.ID, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
+			//glm::value_ptr(trans)
+			amat.data()
+			);
+
 		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		// This is using Eigen
+		amat = Eigen::Affine3f::Identity();
+		amat.translate(Eigen::Vector3f(-0.5, 0.5f, 0.0f));
+		amat.scale(Eigen::Vector3f(abs(sin(curTime)), abs(sin(curTime)), 0.0f));
+
+		/* This is using glm
+		trans = glm::mat4(1.0f);
+		trans = glm::translate(trans, glm::vec3(-0.5f, 0.5f, 0.0f));
+		trans = glm::scale(trans, glm::vec3(abs(sin(curTime)), abs(sin(curTime)), 0.0f));
+		*/
+
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE,
+			//glm::value_ptr(trans)
+			amat.data()
+		);
+
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 		// swap buffers and call events
