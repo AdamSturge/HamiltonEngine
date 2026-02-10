@@ -1,6 +1,4 @@
 #pragma once
-#include <any>
-#include <nlohmann/json.hpp>
 
 namespace HamiltonEngine
 {
@@ -9,6 +7,8 @@ namespace HamiltonEngine
 	class ConfigurationVariableBase
 	{
 	public:
+		virtual ~ConfigurationVariableBase();
+
 		virtual void SetValue(const AnyJsonVal& Val) = 0;
 	};
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include "OpenGL.h"
 
-
 namespace HamiltonEngine::OpenGL 
 {
 	// TODO: Probably make some sort of window manager class, or will we ever only have 1 window?

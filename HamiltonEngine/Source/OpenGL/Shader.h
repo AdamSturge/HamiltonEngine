@@ -1,11 +1,6 @@
 #pragma once
 #include "OpenGL.h"
 
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-
 namespace HamiltonEngine::OpenGL {
 
 	class Shader

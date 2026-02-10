@@ -1,9 +1,6 @@
-#include "Shader.h"
+#include "PrecompiledHeader/Pch.h"
 
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
+#include "Shader.h"
 
 namespace HamiltonEngine::OpenGL
 {
