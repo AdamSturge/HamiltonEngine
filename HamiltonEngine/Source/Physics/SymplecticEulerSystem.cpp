@@ -16,7 +16,6 @@ namespace HamiltonEngine::Physics
 	{
 		const Eigen::Vector3f Force = GradU(PosC);
 
-		//TODO override math operators on config vars for numeric types?
 		LinMomC.LinearMomentum = LinMomC.LinearMomentum - Globals::PhysicsTickLength * Force;
 		PosC.Position = PosC.Position + Globals::PhysicsTickLength * LinMomC.LinearMomentum;
 	}
