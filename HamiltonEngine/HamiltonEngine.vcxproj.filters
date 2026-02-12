@@ -25,15 +25,24 @@
     <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp">
       <Filter>Source\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Physics\PhysicsState.cpp">
-      <Filter>Source\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
     <ClCompile Include="Source\PrecompiledHeader\Pch.cpp">
       <Filter>Source\PrecompiledHeader</Filter>
     </ClCompile>
     <ClCompile Include="ConfigurationVariableBase.cpp">
       <Filter>Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\RigidBodyRattleSystem.cpp">
+      <Filter>Source\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Configuration\Globals.cpp">
+      <Filter>Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\ParticleState.cpp">
+      <Filter>Source\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\RigidBodyState.cpp">
+      <Filter>Source\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +105,6 @@
     <ClInclude Include="Source\Physics\SymplecticEulerSystem.h">
       <Filter>Source\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\PhysicsState.h">
-      <Filter>Source\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="OpenGL.h" />
     <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\PrecompiledHeader\Pch.h">
@@ -106,6 +112,15 @@
     </ClInclude>
     <ClInclude Include="Source\Configuration\Globals.h">
       <Filter>Source\Configuration</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\RigidBodyRattleSystem.h">
+      <Filter>Source\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\ParticleState.h">
+      <Filter>Source\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\RigidBodyState.h">
+      <Filter>Source\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

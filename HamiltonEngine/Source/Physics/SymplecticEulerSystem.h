@@ -1,8 +1,12 @@
 #pragma once
 
-#include "Physics/PhysicsState.h"
-
 namespace HamiltonEngine::Physics
 {
-	void SymplecticEulerSystem(PositionComponent& Pos, LinearMomentumComponent& LinMom);
+	struct PositionComponent;
+	struct LinearMomentumComponent;
+	struct GradParticlePotentialComponent;
+
+	void SymplecticEulerSystem(PositionComponent& PosC,
+		LinearMomentumComponent& LinMomC,
+		const GradParticlePotentialComponent& GradUC);
 }

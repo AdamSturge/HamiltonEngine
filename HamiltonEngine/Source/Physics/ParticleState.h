@@ -1,0 +1,27 @@
+#pragma once
+
+namespace HamiltonEngine::Physics 
+{
+	struct PositionComponent
+	{
+		PositionComponent(const Eigen::Vector3f& Pos);
+		Eigen::Vector3f Position;
+	};
+	
+	struct LinearMomentumComponent
+	{
+		LinearMomentumComponent(const Eigen::Vector3f& Mom);
+		Eigen::Vector3f LinearMomentum;
+	};
+
+	struct MassComponent
+	{
+		MassComponent(float M);
+		float Mass;
+	};
+
+	struct GradParticlePotentialComponent 
+	{
+		Eigen::Vector3f GradPotential;
+	};
+}

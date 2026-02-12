@@ -1,22 +1,21 @@
 #include "PrecompiledHeader/Pch.h"
 
 #include "SymplecticEulerSystem.h"
+#include "Physics/ParticleState.h"
 #include "Configuration/Globals.h"
 
 namespace HamiltonEngine::Physics 
 {
 	// Assumes H = T + U
 	
-	Eigen::Vector3f GradU(const PositionComponent& PosC)
+	void SymplecticEulerSystem(PositionComponent& PosC,
+		LinearMomentumComponent& LinMomC,
+		const GradParticlePotentialComponent& GradUC)
 	{
-		return Eigen::Vector3f::Zero();
-	}
-
-	void SymplecticEulerSystem(PositionComponent& PosC, LinearMomentumComponent& LinMomC)
-	{
-		const Eigen::Vector3f Force = GradU(PosC);
-
-		LinMomC.LinearMomentum = LinMomC.LinearMomentum - Globals::PhysicsTickLength * Force;
-		PosC.Position = PosC.Position + Globals::PhysicsTickLength * LinMomC.LinearMomentum;
+		const Eigen::Vector3f DeltaMomentum = -Globals::PhysicsTickLength * GradUC.GradPotential;
+		LinMomC.LinearMomentum += DeltaMomentum;
+		
+		Eigen::Vector3f DeltaPosition = Globals::PhysicsTickLength * LinMomC.LinearMomentum;
+		PosC.Position += DeltaPosition;
 	}
 }
