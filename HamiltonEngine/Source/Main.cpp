@@ -37,10 +37,12 @@ namespace HamiltonEngine
 			{
 				entt::entity Entity = Registry.create();
 
-				Registry.emplace<Physics::TransformComponent>(Entity, Eigen::Affine3f::Identity());
+				Eigen::Affine3f A = Eigen::Affine3f::Identity();
+				A.rotate(Eigen::AngleAxisf(5.0f, Eigen::Vector3f(0.0f, 1.0f, 0.0f)));
+				Registry.emplace<Physics::TransformComponent>(Entity, A);
 				Registry.emplace<Physics::AngularMomentumComponent>(Entity, Eigen::Matrix3f::Zero());
 				Registry.emplace<Physics::MassTensorComponent>(Entity, Eigen::Matrix3f::Identity());
-				Registry.emplace<Physics::GradRigidBodyPotentialComponent>(Entity, Eigen::Matrix3f::Zero());
+				Registry.emplace<Physics::GradRigidBodyPotentialComponent>(Entity, Eigen::Matrix3f::Random());
 			}
 		}	
 	}

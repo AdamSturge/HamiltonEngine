@@ -73,6 +73,9 @@
     <Filter Include="Source\PrecompiledHeader">
       <UniqueIdentifier>{37480b83-bab2-474c-adb3-509e5156120a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries\Eigen">
+      <UniqueIdentifier>{7d0f626a-2d15-48b1-9fbf-a2fc95319b40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
@@ -130,5 +133,10 @@
     <None Include="Source\Shaders\vertexShader.vs">
       <Filter>Source\Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="Libraries\eigen-5.0.0\debug\msvc\eigen.natvis">
+      <Filter>Libraries\Eigen</Filter>
+    </Natvis>
   </ItemGroup>
 </Project>
