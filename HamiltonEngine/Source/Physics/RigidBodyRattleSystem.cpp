@@ -33,6 +33,7 @@ namespace HamiltonEngine::Physics
 		// the mulitpler matrix scaled by DeltaT^2
 		// The below mathematics accounts for this but we will want to rescale
 		// before returning for use in the momentum update
+		//TODO this matrix is symmetric, so maybe we can do half the work
 		Eigen::Matrix3f LambdaBarR;
 		for (int ColumnIndex = 0; ColumnIndex < 3; ++ColumnIndex)
 		{
