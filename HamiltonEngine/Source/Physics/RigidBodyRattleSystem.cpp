@@ -5,20 +5,27 @@
 #include "Physics/RigidBodyState.h"
 #include "Configuration/Globals.h"
 
-namespace 
+namespace
 {
 	HamiltonEngine::ConfigurationVariable<int> RattleNewtonIterMax("RigidBodyRattleNewtonIterMax", 5);
 	
+	Eigen::Matrix3f Commutator(const Eigen::Matrix3f& A, const Eigen::Matrix3f& B)
+	{
+		return A * B - B * A;
+	}
+
 	//TODO debug this
 	void QuasiNewtonRotation(
-		Eigen::Matrix3f& Q, //InOut Param
-		Eigen::Matrix3f& QBar, 
+		const Eigen::Matrix3f& QCurrent,
 		const Eigen::Matrix3f& RInv,
 		const Eigen::Matrix3f& LambdaBarR,
-		const Eigen::Matrix3f& FirstGuess)
+		const Eigen::Matrix3f& FirstGuess,
+		Eigen::Matrix3f& QBar,  //QBar is not an output param but wanted to avoid pass by copy
+		Eigen::Matrix3f& QNext, //QNext is output maram
+		Eigen::Matrix3f QLagrangeMultiplers) //QLagrangeMultiplers is output maram
 	{
 		//Not good enough so now do quasi-newton type iteration to find Q
-		Eigen::Matrix3f QPrev = Q;
+		Eigen::Matrix3f QPrev = QCurrent;
 		Eigen::Matrix3f Qk = FirstGuess;
 		Eigen::Matrix3f I = Eigen::Matrix3f::Identity();
 		for (int K = 0; K < RattleNewtonIterMax; ++K)
@@ -26,14 +33,14 @@ namespace
 			// Update Lagrange multiplers based on new guess
 			QBar = QBar - QPrev + Qk;
 			Eigen::Matrix3f M = (QBar.transpose() * QBar) - I;
-			Eigen::Matrix3f LambdaBar = LambdaBarR.array() * M.array();
+			QLagrangeMultiplers = LambdaBarR.array() * M.array();
 
 			// It's kind of odd that we use the pre-update Qk in the stopping condition.
-			Eigen::Matrix3f StoppingMatrix = (Qk.transpose() * Qk - I) - (LambdaBar * RInv - RInv * LambdaBar);
+			Eigen::Matrix3f StoppingMatrix = (Qk.transpose() * Qk - I) - Commutator(QLagrangeMultiplers, RInv);
 			const bool AllNearZero = StoppingMatrix.cwiseLessOrEqual(HamiltonEngine::Globals::Epsilon).all();
 
 			QPrev = Qk;
-			Qk = Qk - Q * LambdaBar * RInv;
+			Qk = Qk - QCurrent * QLagrangeMultiplers * RInv;
 			
 			if (AllNearZero)
 			{
@@ -42,44 +49,43 @@ namespace
 		}
 
 		// Update output param
-		Q = Qk;
+		QNext = Qk;
 	}
 }
 
 namespace HamiltonEngine::Physics
 {
-	//TODO this will need an optimization pass
-	void RigidBodyRattleSystem(TransformComponent& TransC,
-		AngularMomentumComponent& AngularMomC,
-		const MassTensorComponent MassTensorC,
-		const GradRigidBodyPotentialComponent& GradPotenntialC)
-	{ 
-		//Using Q for variable name since the rotation is our generalized coordinate
-		Eigen::Matrix3f Q = TransC.Transform.rotation();
-		
+	void RattleAngularPosition(const Eigen::Matrix3f& QCurrent, //Q_{n}
+		const Eigen::Matrix3f& PCurrent, // P_{n}
+		const Eigen::Matrix3f& R, // Mass Matrix
+		const Eigen::Matrix3f& GradPotenntialC, // Grad V(Q_{n})
+		Eigen::Matrix3f QNext, // Output variable Q_{n+1}
+		Eigen::Matrix3f QLagrangeMultiplers) // Output variable Lagrange multipliers
+	{
 		//R is the mass tensor, not the rotation!
-		const Eigen::Matrix3f& R = MassTensorC.MassTensor;
 		Eigen::Matrix3f RInv = R.inverse();
-
 		const Eigen::Matrix3f I = Eigen::Matrix3f::Identity();
-		
-		//Compute some matricies to put problem into a form where we can compute
-		//Lagrange multipliers directly
-		Eigen::Matrix3f QBar = Q 
-			+ Globals::PhysicsTickLength * AngularMomC.AngularMomentum * RInv
-			- 0.5f * Globals::PhysicsTickLength * Globals::PhysicsTickLength * GradPotenntialC.GradPotential * RInv;
+
+		//QBar is Q_{n+1} without the rotation constraint 
+		Eigen::Matrix3f QBar = QCurrent
+			+ Globals::PhysicsTickLength * PCurrent * RInv
+			- 0.5f * Globals::PhysicsTickLength * Globals::PhysicsTickLength * GradPotenntialC * RInv;
 		Eigen::Matrix3f M = (QBar.transpose() * QBar) - I;
 
-		// Compute Legrange multipliers directly
+		// Compute mass matrix portion of Lagrange multipliers directly
+		// Note the use of the Bar suffix here means we are actually computing
+		// the mulitpler matrix scaled by DeltaT^2
+		// The below mathematics accounts for this but we will want to rescale
+		// before returning for use in the momentum update
 		Eigen::Matrix3f LambdaBarR;
-		for (int ColumnIndex = 0; ColumnIndex < 3; ++ColumnIndex) 
+		for (int ColumnIndex = 0; ColumnIndex < 3; ++ColumnIndex)
 		{
 			for (int RowIndex = 0; RowIndex < 3; ++RowIndex)
 			{
 				const float RII = R(RowIndex, RowIndex);
 				const float RJJ = R(ColumnIndex, ColumnIndex);
 				const float Denom = RII + RJJ;
-				
+
 				if (abs(Denom) > Globals::Epsilon) [[likely]]
 				{
 					LambdaBarR(RowIndex, ColumnIndex) = RII * RJJ / Denom;
@@ -88,23 +94,72 @@ namespace HamiltonEngine::Physics
 		}
 
 		//Elementwise product
-		Eigen::Matrix3f LambdaBar = LambdaBarR.array() * M.array();
+		QLagrangeMultiplers = LambdaBarR.array() * M.array();
 
 		// First approximation
-		Eigen::Matrix3f Q0 = QBar - Q * LambdaBar * RInv;
-		Eigen::Matrix3f StoppingCondition =	(Q0.transpose() * Q0 - I) - (LambdaBar * RInv - RInv * LambdaBar);
-		
+		Eigen::Matrix3f Q0 = QBar - QCurrent * QLagrangeMultiplers * RInv;
+		Eigen::Matrix3f StoppingCondition = (Q0.transpose() * Q0 - I) 
+			- Commutator(QLagrangeMultiplers, RInv);
+
 		//Check if first approximation is good enough
 		bool AllNearZero = StoppingCondition.cwiseLessOrEqual(Globals::Epsilon).all();
-		if (!AllNearZero)
+		if (AllNearZero)
 		{
-			QuasiNewtonRotation(Q, QBar, RInv, LambdaBarR, Q0);
+			QNext = Q0;
 		}
-		else 
+		else
 		{
-			Q = Q0;
+			// Updates QNext and QLagrangeMultipliers
+			QuasiNewtonRotation(QCurrent, QBar, RInv, LambdaBarR, Q0, QNext, QLagrangeMultiplers);
 		}
 
-		std::cout << Q.transpose() * Q << std::endl << std::endl;
+		// Rescale to remove implicit DeltaT^2
+		QLagrangeMultiplers = QLagrangeMultiplers.array() / (Globals::PhysicsTickLength * Globals::PhysicsTickLength);
+	
+
+		//std::cout << QNext.transpose() * QNext << std::endl << std::endl;
+	}
+	
+
+	// Compute P_{n+1}
+	void RattleAngularMomentum(
+		const Eigen::Matrix3f& QCurrent, //Q_{n}
+		const Eigen::Matrix3f& QNext, // Q_{n+1}
+		const Eigen::Matrix3f& PCurrent, //P_{n}
+		const Eigen::Matrix3f& MassTensor, //R
+		const Eigen::Matrix3f& GradPotentialCurrent, //Grad V(Q_{n}
+		const Eigen::Matrix3f& QLagrangeMultiplers,
+		Eigen::Matrix3f& PNext) 
+	{
+		//P_{n+1/2} is the momentum only considering the angular position constraint
+		Eigen::Matrix3f PHHalf = PCurrent
+			- 0.5f*Globals::PhysicsTickLength * GradPotentialCurrent
+			- QCurrent * QLagrangeMultiplers;
+	}
+	
+	//TODO this will need an optimization pass
+	void RigidBodyRattleSystem(TransformComponent& TransC,
+		AngularMomentumComponent& AngularMomC,
+		const MassTensorComponent MassTensorC,
+		const GradRigidBodyPotentialComponent& GradPotenntialC)
+	{ 
+		const Eigen::Matrix3f& QCurrent = TransC.Transform.rotation();
+		const Eigen::Matrix3f& PCurrent = AngularMomC.AngularMomentum;
+		const Eigen::Matrix3f& R = MassTensorC.MassTensor;
+		const Eigen::Matrix3f GradPotential = GradPotenntialC.GradPotential;
+
+		Eigen::Matrix3f QNext = Eigen::Matrix3f::Zero();
+		Eigen::Matrix3f QLagrangeMultiplers = Eigen::Matrix3f::Zero();
+		Eigen::Matrix3f PNext = Eigen::Matrix3f::Zero();
+
+		//Some of these parameters are InOut so order of function calls matter
+		RattleAngularPosition(QCurrent, PCurrent, R, GradPotential, QNext, QLagrangeMultiplers);
+		RattleAngularMomentum(QCurrent, QNext, PCurrent, R, GradPotential, QLagrangeMultiplers, PNext);
+	
+		//Update physics state to next timestep
+		//Annoying Eigen API. Why can't I just set the rotation?
+		const Eigen::Vector3f& CoMTranslation = TransC.Transform.translation();
+		TransC.Transform = Eigen::Affine3f().rotate(QNext).translate(CoMTranslation);
+		AngularMomC.AngularMomentum = PNext;
 	}
 }
