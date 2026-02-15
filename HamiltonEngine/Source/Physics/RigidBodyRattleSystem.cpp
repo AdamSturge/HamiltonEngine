@@ -13,44 +13,6 @@ namespace
 	{
 		return A * B - B * A;
 	}
-
-	//TODO debug this
-	void QuasiNewtonRotation(
-		const Eigen::Matrix3f& QCurrent,
-		const Eigen::Matrix3f& RInv,
-		const Eigen::Matrix3f& LambdaBarR,
-		const Eigen::Matrix3f& FirstGuess,
-		Eigen::Matrix3f& QBar,  //QBar is not an output param but wanted to avoid pass by copy
-		Eigen::Matrix3f& QNext, //QNext is output maram
-		Eigen::Matrix3f QLagrangeMultiplers) //QLagrangeMultiplers is output maram
-	{
-		//Not good enough so now do quasi-newton type iteration to find Q
-		Eigen::Matrix3f QPrev = QCurrent;
-		Eigen::Matrix3f Qk = FirstGuess;
-		Eigen::Matrix3f I = Eigen::Matrix3f::Identity();
-		for (int K = 0; K < RattleNewtonIterMax; ++K)
-		{
-			// Update Lagrange multiplers based on new guess
-			QBar = QBar - QPrev + Qk;
-			Eigen::Matrix3f M = (QBar.transpose() * QBar) - I;
-			QLagrangeMultiplers = LambdaBarR.array() * M.array();
-
-			// It's kind of odd that we use the pre-update Qk in the stopping condition.
-			Eigen::Matrix3f StoppingMatrix = (Qk.transpose() * Qk - I) - Commutator(QLagrangeMultiplers, RInv);
-			const bool AllNearZero = StoppingMatrix.cwiseLessOrEqual(HamiltonEngine::Globals::Epsilon).all();
-
-			QPrev = Qk;
-			Qk = Qk - QCurrent * QLagrangeMultiplers * RInv;
-			
-			if (AllNearZero)
-			{
-				break;
-			}
-		}
-
-		// Update output param
-		QNext = Qk;
-	}
 }
 
 namespace HamiltonEngine::Physics
@@ -65,8 +27,6 @@ namespace HamiltonEngine::Physics
 		//R is the mass tensor, not the rotation!
 		Eigen::Matrix3f RInv = R.inverse();
 		const Eigen::Matrix3f I = Eigen::Matrix3f::Identity();
-
-		//QBar is Q_{n+1} without the rotation constraint 
 
 		// Compute mass matrix portion of Lagrange multipliers directly
 		// Note the use of the Bar suffix here means we are actually computing
@@ -115,14 +75,14 @@ namespace HamiltonEngine::Physics
 			++IterCount;
 		} while (!Converged && IterCount < RattleNewtonIterMax);
 
-		std::cout << "Converged in " << IterCount << " Iterations" << std::endl;
+		//std::cout << "Converged in " << IterCount << " Iterations" << std::endl;
 		
 		//Update output parameters
 		QNext = Qk;
 		// Rescale to remove implicit DeltaT^2
 		QLagrangeMultiplers = QLagrangeMultiplers.array() / (Globals::PhysicsTickLength * Globals::PhysicsTickLength);
 
-		std::cout << QNext.transpose() * QNext << std::endl << std::endl;
+		//std::cout << QNext.transpose() * QNext << std::endl << std::endl;
 	}
 	
 
