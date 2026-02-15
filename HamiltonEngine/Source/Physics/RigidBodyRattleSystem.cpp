@@ -67,10 +67,6 @@ namespace HamiltonEngine::Physics
 		const Eigen::Matrix3f I = Eigen::Matrix3f::Identity();
 
 		//QBar is Q_{n+1} without the rotation constraint 
-		Eigen::Matrix3f QBar = QCurrent
-			+ Globals::PhysicsTickLength * PCurrent * RInv
-			- 0.5f * Globals::PhysicsTickLength * Globals::PhysicsTickLength * GradPotenntialC * RInv;
-		Eigen::Matrix3f M = (QBar.transpose() * QBar) - I;
 
 		// Compute mass matrix portion of Lagrange multipliers directly
 		// Note the use of the Bar suffix here means we are actually computing
@@ -93,31 +89,40 @@ namespace HamiltonEngine::Physics
 			}
 		}
 
-		//Elementwise product
-		QLagrangeMultiplers = LambdaBarR.array() * M.array();
-
-		// First approximation
-		Eigen::Matrix3f Q0 = QBar - QCurrent * QLagrangeMultiplers * RInv;
-		Eigen::Matrix3f StoppingCondition = (Q0.transpose() * Q0 - I) 
-			- Commutator(QLagrangeMultiplers, RInv);
-
-		//Check if first approximation is good enough
-		bool AllNearZero = StoppingCondition.cwiseLessOrEqual(Globals::Epsilon).all();
-		if (AllNearZero)
+		//Quasi-Newton scheme to meet Q^T*Q = I constraint
+		bool Converged = false;
+		Eigen::Matrix3f Qk = QCurrent;
+		const Eigen::Matrix3f QBarConstant = Globals::PhysicsTickLength * PCurrent * RInv
+			- 0.5f * Globals::PhysicsTickLength * Globals::PhysicsTickLength * GradPotenntialC * RInv;
+		Eigen::Matrix3f QBar = Qk + QBarConstant;
+		Eigen::Matrix3f QkPrev = QBar;
+		int IterCount = 0;
+		do
 		{
-			QNext = Q0;
-		}
-		else
-		{
-			// Updates QNext and QLagrangeMultipliers
-			QuasiNewtonRotation(QCurrent, QBar, RInv, LambdaBarR, Q0, QNext, QLagrangeMultiplers);
-		}
+			//Compute update to Qk
+			Eigen::Matrix3f M = (QBar.transpose() * QBar) - I;
+			QLagrangeMultiplers = LambdaBarR.array() * M.array();
+			Qk = QkPrev - QCurrent * QLagrangeMultiplers * RInv;
+			
+			//Check for convergence
+			Eigen::Matrix3f StoppingCondition = (Qk.transpose() * Qk - I)
+				- Commutator(QLagrangeMultiplers, RInv);
+			Converged = StoppingCondition.cwiseLessOrEqual(Globals::Epsilon).all();
+			
+			//Update for next iteration
+			QBar = Qk + QBarConstant;
+			QkPrev = Qk;			
+			++IterCount;
+		} while (!Converged && IterCount < RattleNewtonIterMax);
 
+		std::cout << "Converged in " << IterCount << " Iterations" << std::endl;
+		
+		//Update output parameters
+		QNext = Qk;
 		// Rescale to remove implicit DeltaT^2
 		QLagrangeMultiplers = QLagrangeMultiplers.array() / (Globals::PhysicsTickLength * Globals::PhysicsTickLength);
-	
 
-		//std::cout << QNext.transpose() * QNext << std::endl << std::endl;
+		std::cout << QNext.transpose() * QNext << std::endl << std::endl;
 	}
 	
 
