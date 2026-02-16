@@ -97,6 +97,8 @@ namespace HamiltonEngine::Physics
 		const Eigen::Matrix3f& QLagrangeMultiplers,
 		Eigen::Matrix3f& PNext) 
 	{
+		//TODO this remains to be implemetned
+		
 		//P_{n+1/2} is the momentum only considering the angular position constraint
 		Eigen::Matrix3f PHHalf = PCurrent
 			- 0.5f*Globals::PhysicsTickLength * GradPotentialCurrent
