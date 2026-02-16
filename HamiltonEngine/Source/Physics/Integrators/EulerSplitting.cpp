@@ -2,7 +2,7 @@
 
 #include "EulerSplitting.h"
 #include "Configuration/Globals.h"
-#include "Physics/Potentials/PotentialEnergySystem.h"
+#include "Physics/Potentials/PotentialEnergy.h"
 #include "Physics/State/RigidBodyState.h"
 
 namespace HamiltonEngine::Physics

@@ -32,20 +32,26 @@
     <ClCompile Include="Source\Configuration\Globals.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Physics\ConstantGravityPotentialSystem.cpp">
-      <Filter>Source\Physics\Potentials</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\ParticleState.cpp">
-      <Filter>Source\Physics\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\RigidBodyRattleSystem.cpp">
+    <ClCompile Include="Source\Physics\Integrators\EulerSplitting.cpp">
       <Filter>Source\Physics\Integrators</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Physics\RigidBodyState.cpp">
+    <ClCompile Include="Source\Physics\Integrators\RigidBodyRattleSystem.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\State\ParticleState.cpp">
       <Filter>Source\Physics\State</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Physics\PotentialEnergySystem.cpp">
+    <ClCompile Include="Source\Physics\State\RigidBodyState.cpp">
+      <Filter>Source\Physics\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Potentials\ConstantGravityPotential.cpp">
       <Filter>Source\Physics\Potentials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Potentials\PotentialEnergy.cpp">
+      <Filter>Source\Physics\Potentials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Systems\ParticleSystem.cpp">
+      <Filter>Source\Physics\Systems</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +94,9 @@
     <Filter Include="Source\Physics\State">
       <UniqueIdentifier>{3099ebab-4ddb-4f5b-aaa6-ebe8c3380a8c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Physics\Systems">
+      <UniqueIdentifier>{333c5e3a-87f9-4b26-bf0b-4e99323e5368}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
@@ -125,23 +134,29 @@
     <ClInclude Include="Source\Configuration\Globals.h">
       <Filter>Source\Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\ConstantGravityPotentialSystem.h">
-      <Filter>Source\Physics\Potentials</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Physics\ParticleState.h">
-      <Filter>Source\Physics\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Physics\RigidBodyRattleSystem.h">
+    <ClInclude Include="Source\Physics\Integrators\EulerSplitting.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\RigidBodyState.h">
-      <Filter>Source\Physics\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Physics\HamiltonianSplittingSystem.h">
+    <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\PotentialEnergySystem.h">
+    <ClInclude Include="Source\Physics\State\ParticleState.h">
+      <Filter>Source\Physics\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\State\RigidBodyState.h">
+      <Filter>Source\Physics\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\HamiltonianSplitting.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Potentials\ConstantGravityPotential.h">
       <Filter>Source\Physics\Potentials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Potentials\PotentialEnergy.h">
+      <Filter>Source\Physics\Potentials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Systems\ParticleSystem.h">
+      <Filter>Source\Physics\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
