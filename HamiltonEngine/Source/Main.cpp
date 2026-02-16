@@ -3,10 +3,7 @@
 #include "Configuration/ConfigurationSystem.h"
 #include "Configuration/ConfigurationVariable.h"
 #include "Configuration/Globals.h"
-#include "Physics/ParticleState.h"
-#include "Physics/RigidBodyState.h"
-#include "Physics/SymplecticEulerSystem.h"
-#include "Physics/RigidBodyRattleSystem.h"
+#include "Physics/Systems/ParticleSystem.h"
 
 #include <OpenGl/OpenGL.h>
 #include <OpenGL/Window.h>
@@ -14,78 +11,12 @@
 #include "OpenGL/Texture.h"
 
 
-namespace HamiltonEngine
-{
-	ConfigurationVariable<int> NumParticles("NumParticles", 10);
-	ConfigurationVariable<int> NumRigidBodies("NumRigidBodies", 10);
-	
-	void CreatePhysicsEntities(entt::registry& Registry)
-	{
-		if (Globals::PhysicsSimEnabled) 
-		{
-			for (int EntityIndex = 0; EntityIndex < NumParticles; ++EntityIndex)
-			{
-				entt::entity Entity = Registry.create();
-	
-				Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
-				Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f(1.0f,0.0f,0.0f));
-				Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
-				Registry.emplace<Physics::GradParticlePotentialComponent>(Entity, Eigen::Vector3f::Zero());
-			}
-
-			for (int EntityIndex = 0; EntityIndex < NumRigidBodies; ++EntityIndex)
-			{
-				entt::entity Entity = Registry.create();
-
-				Eigen::Affine3f A = Eigen::Affine3f::Identity();
-				A.rotate(Eigen::AngleAxisf(5.0f, Eigen::Vector3f(0.0f, 1.0f, 0.0f)));
-				Registry.emplace<Physics::TransformComponent>(Entity, A);
-				Registry.emplace<Physics::AngularMomentumComponent>(Entity, Eigen::Matrix3f::Zero());
-				Registry.emplace<Physics::MassTensorComponent>(Entity, Eigen::Matrix3f::Identity());
-				Registry.emplace<Physics::GradRigidBodyPotentialComponent>(Entity, Eigen::Matrix3f::Random());
-			}
-		}	
-	}
-
-	//TODO move this to physics folder?
-	void StepPhysics(entt::registry& Registry)
-	{
-		if (!Globals::PhysicsSimEnabled)
-		{
-			return;
-		}
-		
-		//Particle Sim
-		auto SymplecticEulerPhysicsSimView = Registry.view<
-			HamiltonEngine::Physics::PositionComponent,
-			HamiltonEngine::Physics::LinearMomentumComponent,
-			HamiltonEngine::Physics::GradParticlePotentialComponent>();
-
-		for (auto [Entity, PositionC, LinMomC, GradPotentialC] : SymplecticEulerPhysicsSimView.each())
-		{
-			HamiltonEngine::Physics::SymplecticEulerSystem(PositionC, LinMomC, GradPotentialC);
-		}
-		
-		// Rigid Body Sim
-		auto RigidBodyPhysicsSimView = Registry.view<
-			HamiltonEngine::Physics::TransformComponent,
-			HamiltonEngine::Physics::AngularMomentumComponent,
-			HamiltonEngine::Physics::MassTensorComponent,
-			HamiltonEngine::Physics::GradRigidBodyPotentialComponent>();
-
-		for (auto [Entity, TransformC, AngularMomC, MassTensorC, GradPotentialC] : RigidBodyPhysicsSimView.each())
-		{
-			HamiltonEngine::Physics::RigidBodyRattleSystem(TransformC, AngularMomC, MassTensorC, GradPotentialC);
-		}
-	}
-}
-
 int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
 	entt::registry Registry;
-	HamiltonEngine::CreatePhysicsEntities(Registry);
+	HamiltonEngine::Physics::CreateParticlesEntities(Registry);
 
 	glfwInit(); // Initialize OpenGL
 	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(800, 600, "MyWindow");
@@ -172,7 +103,7 @@ int main(int argc, char** argv)
 		// input
 		HamiltonEngine::OpenGL::processInput(window);
 
-		HamiltonEngine::StepPhysics(Registry);
+		HamiltonEngine::Physics::ParticleSystem(Registry);
 
 		// rendering
 		glClearColor(red, green, blue, 1.0f);

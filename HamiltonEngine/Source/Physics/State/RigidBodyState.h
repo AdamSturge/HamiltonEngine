@@ -1,9 +1,12 @@
 #pragma once
 
+#include "ParticleState.h"
+
 namespace HamiltonEngine::Physics
 {
 	struct TransformComponent
 	{
+		TransformComponent() = default;
 		TransformComponent(const Eigen::Affine3f& Trans);
 		Eigen::Affine3f Transform;
 	};
@@ -33,6 +36,11 @@ namespace HamiltonEngine::Physics
 		Eigen::Matrix3f GradPotential;
 	};
 
+
+	//TODO This stuff is bad. Components are on entities!
 	MassTensorComponent InertiaTensorToMassTensor(const InertiaTensorComponent&);
 	InertiaTensorComponent MassTensorToInertiaTensor(const MassTensorComponent&);
+
+	PositionComponent TransformComponentToPositionComponent(const TransformComponent& TransformC);
+	TransformComponent PositionComponentToTransformComponent(const PositionComponent& PositionC);
 }

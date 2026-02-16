@@ -32,4 +32,14 @@ namespace HamiltonEngine::Physics
         //TODO implement this
         return InertiaTensorComponent();
     }
+
+    PositionComponent TransformComponentToPositionComponent(const TransformComponent& TransformC)
+    {
+        return PositionComponent(TransformC.Transform.translation());
+    }
+
+    TransformComponent PositionComponentToTransformComponent(const PositionComponent& PositionC)
+    {
+        return TransformComponent().Transform.translate(PositionC.Position);
+    }
 }

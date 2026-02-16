@@ -1,8 +1,8 @@
 #include "PrecompiledHeader/Pch.h"
 
 #include "RigidBodyRattleSystem.h"
-#include "ParticleState.h"
-#include "Physics/RigidBodyState.h"
+#include "Physics/State/ParticleState.h"
+#include "Physics/State/RigidBodyState.h"
 #include "Configuration/Globals.h"
 
 namespace
