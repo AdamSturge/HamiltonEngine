@@ -41,12 +41,12 @@ namespace HamiltonEngine::Physics
 		//TODO look into EnTT groups instead of multi views
 
 		//Particle Sim
-		auto SymplecticEulerPhysicsSimView = Registry.view<
+		auto ParticleView = Registry.view<
 			Physics::MassComponent,
 			Physics::PositionComponent,
 			Physics::LinearMomentumComponent>();
 
-		for (auto [Entity, MassC, PositionC, LinMomC] : SymplecticEulerPhysicsSimView.each())
+		for (auto [Entity, MassC, PositionC, LinMomC] : ParticleView.each())
 		{
 			//EulerB(MassC.Mass, PositionC.Position, LinMomC.LinearMomentum);
 			StormerVerlet(MassC.Mass, PositionC.Position, LinMomC.LinearMomentum);
