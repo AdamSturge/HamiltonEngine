@@ -5,7 +5,7 @@
 #include "Configuration/Globals.h"
 #include "Physics/ParticleState.h"
 #include "Physics/RigidBodyState.h"
-#include "Physics/SymplecticEulerSystem.h"
+#include "Physics/EulerBSystem.h"
 #include "Physics/RigidBodyRattleSystem.h"
 
 #include <OpenGl/OpenGL.h>
@@ -57,13 +57,14 @@ namespace HamiltonEngine
 		
 		//Particle Sim
 		auto SymplecticEulerPhysicsSimView = Registry.view<
+			HamiltonEngine::Physics::MassComponent,
 			HamiltonEngine::Physics::PositionComponent,
-			HamiltonEngine::Physics::LinearMomentumComponent,
-			HamiltonEngine::Physics::GradParticlePotentialComponent>();
+			HamiltonEngine::Physics::LinearMomentumComponent>();
 
-		for (auto [Entity, PositionC, LinMomC, GradPotentialC] : SymplecticEulerPhysicsSimView.each())
+		for (auto [Entity, MassC, PositionC, LinMomC] : SymplecticEulerPhysicsSimView.each())
 		{
-			HamiltonEngine::Physics::SymplecticEulerSystem(PositionC, LinMomC, GradPotentialC);
+			HamiltonEngine::Physics::EulerBSystem<HamiltonEngine::Physics::EulerBMode::Both>(MassC, PositionC, LinMomC);
+			//std::cout << PositionC.Position << std::endl << std::endl;
 		}
 		
 		// Rigid Body Sim

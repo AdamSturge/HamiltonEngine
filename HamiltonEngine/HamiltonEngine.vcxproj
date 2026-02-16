@@ -145,7 +145,10 @@
     <ClInclude Include="Source\OpenGL\Shader.h" />
     <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\OpenGL\Window.h" />
+    <ClInclude Include="Source\Physics\ConstantGravityPotentialSystem.h" />
+    <ClInclude Include="Source\Physics\EulerBSystem.h" />
     <ClInclude Include="Source\Physics\ParticleState.h" />
+    <ClInclude Include="Source\Physics\PotentialEnergySystem.h" />
     <ClInclude Include="Source\Physics\RigidBodyRattleSystem.h" />
     <ClInclude Include="Source\Physics\RigidBodyState.h" />
     <ClInclude Include="Source\Physics\SymplecticEulerSystem.h" />
@@ -164,7 +167,10 @@
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
     <ClCompile Include="Source\OpenGL\Window.cpp" />
+    <ClCompile Include="Source\Physics\ConstantGravityPotentialSystem.cpp" />
+    <ClCompile Include="Source\Physics\EulerBSystem.cpp" />
     <ClCompile Include="Source\Physics\ParticleState.cpp" />
+    <ClCompile Include="Source\Physics\PotentialEnergySystem.cpp" />
     <ClCompile Include="Source\Physics\RigidBodyRattleSystem.cpp" />
     <ClCompile Include="Source\Physics\RigidBodyState.cpp" />
     <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp" />
