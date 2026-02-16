@@ -32,15 +32,15 @@ namespace HamiltonEngine::Physics
 	struct PositionComponent;
 	struct LinearMomentumComponent;
 
-	void EulerPotentialOnlySystem(const MassComponent& MassC,
-		PositionComponent& PosC,
-		LinearMomentumComponent& LinMomC,
+	void EulerPotentialOnly(float Mass,
+		Eigen::Vector3f& Pos,
+		Eigen::Vector3f& LinMom,
 		float PotentialWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
-	void EulerKineticOnlySystem(const MassComponent& MassC,
-		PositionComponent& PosC,
-		LinearMomentumComponent& LinMomC,
+	void EulerKineticOnly(float Mass,
+		Eigen::Vector3f& Pos,
+		Eigen::Vector3f& LinMom,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 }

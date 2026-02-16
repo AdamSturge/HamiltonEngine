@@ -7,23 +7,21 @@
 
 namespace HamiltonEngine::Physics 
 {
-	float PotentialEnergySystem(const TransformComponent& TransformC, 
-		const MassComponent& MassC)
+	float ComputePotentialEnergy(const Eigen::Affine3f& Transform, 
+		float Mass)
 	{
 		float PotentialEnergy = 0.0f;
 
-		const PositionComponent PositionC = TransformComponentToPositionComponent(TransformC);
-		PotentialEnergy = ConstantGravityPotentialSystem(PositionC, MassC);
+		const Eigen::Vector3f Position = Transform.translation();
+		PotentialEnergy = ComputeConstantGravityPotential(Position, Mass);
 		
 		return PotentialEnergy;
 	}
 
-	void GradPotentialEnergySystem(const TransformComponent& TransformC,
-		const MassComponent& MassC,
-		PotentialEnergyGradient& OutGradPotentialEnergy)
+	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform,
+		float Mass,
+		Eigen::Vector3f& OutGradPotentialEnergy)
 	{
-		const PositionComponent PositionC = TransformComponentToPositionComponent(TransformC);
-
-		GradConstantGravityPotentialSystem(PositionC, MassC, OutGradPotentialEnergy);
+		ComputeGradConstantGravityPotential(Mass, OutGradPotentialEnergy);
 	}
 }

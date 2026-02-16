@@ -7,25 +7,27 @@
 
 namespace HamiltonEngine::Physics
 {
-	void EulerPotentialOnlySystem(const MassComponent& MassC, 
-		PositionComponent& PosC,
-		LinearMomentumComponent& LinMomC, 
+	void EulerPotentialOnly(float Mass, 
+		Eigen::Vector3f& Pos,
+		Eigen::Vector3f& LinMom,
 		float PotentialWeight,
 		float Dt)
 	{
-		const TransformComponent TransformC = PositionComponentToTransformComponent(PosC);	
-		PotentialEnergyGradient PotentialEnergyGradient;
-		GradPotentialEnergySystem(TransformC, MassC, PotentialEnergyGradient);
+		Eigen::Affine3f Transform;
+		Transform.translate(Pos);
 		
-		LinMomC.LinearMomentum -= Dt * PotentialWeight * PotentialEnergyGradient;
+		Eigen::Vector3f PotentialEnergyGradient;
+		ComputeGradPotentialEnergy(Transform, Mass, PotentialEnergyGradient);
+		
+		LinMom -= Dt * PotentialWeight * PotentialEnergyGradient;
 	}
 
-	void EulerKineticOnlySystem(const MassComponent& MassC,
-		PositionComponent& PosC,
-		LinearMomentumComponent& LinMomC,
+	void EulerKineticOnly(const float Mass,
+		Eigen::Vector3f& Pos,
+		Eigen::Vector3f& LinMom,
 		float KineticWeight,
 		float Dt)
 	{
-		PosC.Position += Dt * KineticWeight * LinMomC.LinearMomentum;
+		Pos += Dt * KineticWeight * LinMom;
 	}
 }

@@ -8,17 +8,16 @@ namespace HamiltonEngine::Physics
 {
 	ConfigurationVariable<float> GravitationalAcceleration("GravitationalAcceleration", 9.8f);
 	
-	float ConstantGravityPotentialSystem(const PositionComponent& PosC,
-		const MassComponent& MassC)
+	float ComputeConstantGravityPotential(const Eigen::Vector3f& Pos,
+		float Mass)
 	{
-		const float Height = PosC.Position.z();
-		return MassC.Mass * GravitationalAcceleration * Height;
+		const float Height = Pos.z();
+		return Mass * GravitationalAcceleration * Height;
 	}
 
-	void GradConstantGravityPotentialSystem(const PositionComponent& PosC,
-		const MassComponent& MassC,
-		PotentialEnergyGradient& OutGradPotentialEnergy)
+	void ComputeGradConstantGravityPotential(float Mass,
+		Eigen::Vector3f& OutGradPotentialEnergy)
 	{
-		OutGradPotentialEnergy = MassC.Mass * GravitationalAcceleration * PotentialEnergyGradient(0.0f, 0.0f, 1.0f);
+		OutGradPotentialEnergy = Mass * GravitationalAcceleration * Eigen::Vector3f(0.0f, 0.0f, 1.0f);
 	}
 }

@@ -20,14 +20,14 @@ namespace HamiltonEngine::Physics
 	//D are the weights for the kinetic energy dT substepping Phi_{V,dt} = Phi_{T,d1*dt} o Phi_{T,d0*dt} (d0 + d1 = 1)
 	//Each splitting step runs 2 steps of either potential or kinematic integration
 	template<int N, int M>
-	void HamiltonianSplittingSystem(const float A[N], 
+	void HamiltonianSplitting(const float A[N], 
 		const float B[M],
 		const float C[N], 
 		const float D[M],
 		const EulerMode Modes[N + M],
-		const MassComponent& MassC,
-		PositionComponent& PosC,
-		LinearMomentumComponent& LinMomC,
+		const float Mass,
+		Eigen::Vector3f& Pos,
+		Eigen::Vector3f& LinMom,
 		float Dt = Globals::PhysicsTickLength)
 	{
 		const int NumSteps = N + M;
@@ -41,9 +41,9 @@ namespace HamiltonEngine::Physics
 					//case of bad inputs
 					const int ModIndex = Index % N;
 					const float PotentialDt = C[ModIndex] * Dt;
-					EulerPotentialOnlySystem(MassC,
-						PosC, 
-						LinMomC, 
+					EulerPotentialOnlySystem(Mass,
+						Pos, 
+						LinMom, 
 						A[ModIndex],
 						PotentialDt);
 					break;
@@ -52,9 +52,9 @@ namespace HamiltonEngine::Physics
 				{
 					const int ModIndex = Index % N;
 					const float KineticDt = D[ModIndex] * Dt;
-					EulerKineticOnlySystem(MassC,
-						PosC, 
-						LinMomC,
+					EulerKineticOnlySystem(Mass,
+						Pos, 
+						LinMom,
 						B[ModIndex],
 						KineticDt);
 					break;

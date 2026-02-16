@@ -2,14 +2,9 @@
 
 namespace HamiltonEngine::Physics
 {
-	struct PositionComponent;
-	struct MassComponent;
-	using PotentialEnergyGradient = Eigen::Vector3f;
+	float ComputeConstantGravityPotential(const Eigen::Vector3f& Pos,
+		float Mass);
 
-	float ConstantGravityPotentialSystem(const PositionComponent& PosC,
-		const MassComponent& MassC);
-
-	void GradConstantGravityPotentialSystem(const PositionComponent& PosC,
-		const MassComponent& MassC,
-		PotentialEnergyGradient& OutGradPotentialEnergy);
+	void ComputeGradConstantGravityPotential(float Mass,
+		Eigen::Vector3f& OutGradPotentialEnergy);
 }
