@@ -50,7 +50,7 @@ namespace HamiltonEngine::Physics
 		{
 			//EulerB(MassC.Mass, PositionC.Position, LinMomC.LinearMomentum);
 			StormerVerlet(MassC.Mass, PositionC.Position, LinMomC.LinearMomentum);
-			std::cout << PositionC.Position << std::endl << std::endl;
+			//std::cout << PositionC.Position << std::endl << std::endl;
 		}
 	}
 }
