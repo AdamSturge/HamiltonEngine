@@ -1,6 +1,6 @@
 #include "PrecompiledHeader/Pch.h"
 
-#include "ConstantGravityPotentialSystem.h"
+#include "ConstantGravityPotential.h"
 #include "Physics/State/ParticleState.h"
 #include "Configuration/ConfigurationVariable.h"
 

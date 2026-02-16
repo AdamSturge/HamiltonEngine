@@ -1,9 +1,9 @@
 #include "PrecompiledHeader/Pch.h"
 
-#include "PotentialEnergySystem.h"
+#include "PotentialEnergy.h"
+#include "ConstantGravityPotential.h"
 #include "Physics/State/ParticleState.h"
 #include "Physics/State/RigidBodyState.h"
-#include "ConstantGravityPotentialSystem.h"
 
 namespace HamiltonEngine::Physics 
 {
