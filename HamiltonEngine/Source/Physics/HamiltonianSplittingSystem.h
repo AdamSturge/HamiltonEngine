@@ -11,7 +11,7 @@ namespace HamiltonEngine::Physics
 	struct PositionComponent;
 	struct LinearMomentumComponent;
 
-	using EulerModePair = std::pair<EulerMode, EulerMode>;
+	//using EulerModePair = std::pair<EulerMode, EulerMode>;
 
 	//Split the Hamiltonian H = T + V to produce higher order methods
 	//A are the weights for the potnential energy split. H = a0V + a1*V (w0 + w1 = 1)
@@ -19,76 +19,50 @@ namespace HamiltonEngine::Physics
 	//C are the weights for the potnential energy dT substepping Phi_{V,dt} = Phi_{V,c1*dt} o Phi_{V,c0*dt} (c0 + c1 = 1)
 	//D are the weights for the kinetic energy dT substepping Phi_{V,dt} = Phi_{T,d1*dt} o Phi_{T,d0*dt} (d0 + d1 = 1)
 	//Each splitting step runs 2 steps of either potential or kinematic integration
-	template<int N>
+	template<int N, int M>
 	void HamiltonianSplittingSystem(const float A[N], 
-		const float B[N],
+		const float B[M],
 		const float C[N], 
-		const float D[N],
-		const EulerModePair Modes[N], // 2 modes per step
+		const float D[M],
+		const EulerMode Modes[N + M],
 		const MassComponent& MassC,
 		PositionComponent& PosC,
 		LinearMomentumComponent& LinMomC,
 		float Dt = Globals::PhysicsTickLength)
 	{
-		for (int Index = 0; Index < N; ++Index) 
+		const int NumSteps = N + M;
+		for (int Index = 0; Index < NumSteps; ++Index)
 		{
-			const float PotentialDt = C[Index] * Dt;
-			const float KineticDt = D[Index] * Dt;
-			
-			switch (Modes[Index].first) 
+			switch (Modes[Index]) 
 			{
 				case EulerMode::PotentialOnly: 
 				{
-					EulerSystem<EulerMode::PotentialOnly>(MassC, 
+					//Should never wrap but do mod just to avoid crashing in
+					//case of bad inputs
+					const int ModIndex = Index % N;
+					const float PotentialDt = C[ModIndex] * Dt;
+					EulerPotentialOnlySystem(MassC,
 						PosC, 
 						LinMomC, 
-						A[Index], 
-						B[Index], 
+						A[ModIndex],
 						PotentialDt);
 					break;
 				}
 				case EulerMode::KineticOnly:
 				{
-					EulerSystem<EulerMode::KineticOnly>(MassC,
+					const int ModIndex = Index % N;
+					const float KineticDt = D[ModIndex] * Dt;
+					EulerKineticOnlySystem(MassC,
 						PosC, 
 						LinMomC,
-						A[Index],
-						B[Index],
+						B[ModIndex],
 						KineticDt);
 					break;
 				}
 				default: 
 				{
 					//LOG this
-				}
-			}
-
-			switch (Modes[Index].second)
-			{
-				case EulerMode::PotentialOnly:
-				{
-					EulerSystem<EulerMode::PotentialOnly>(MassC,
-						PosC, 
-						LinMomC,
-						A[Index],
-						B[Index],
-						PotentialDt);
-					break;
-				}
-				case EulerMode::KineticOnly:
-				{
-					EulerSystem<EulerMode::KineticOnly>(MassC,
-						PosC,
-						LinMomC,
-						A[Index],
-						B[Index],
-						KineticDt);
-					break;
-				}
-				default:
-				{
-					//LOG this
-				}
+				}//LOG this
 			}
 
 		}

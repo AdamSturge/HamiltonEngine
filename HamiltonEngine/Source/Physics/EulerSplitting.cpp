@@ -7,7 +7,7 @@
 
 namespace HamiltonEngine::Physics
 {
-	void EulerModeBPotentialOnlySystem(const MassComponent& MassC, 
+	void EulerPotentialOnlySystem(const MassComponent& MassC, 
 		PositionComponent& PosC,
 		LinearMomentumComponent& LinMomC, 
 		float PotentialWeight,
@@ -20,7 +20,7 @@ namespace HamiltonEngine::Physics
 		LinMomC.LinearMomentum -= Dt * PotentialWeight * PotentialEnergyGradient;
 	}
 
-	void EulerModeBKineticOnlySystem(const MassComponent& MassC,
+	void EulerKineticOnlySystem(const MassComponent& MassC,
 		PositionComponent& PosC,
 		LinearMomentumComponent& LinMomC,
 		float KineticWeight,
