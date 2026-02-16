@@ -5,8 +5,9 @@
 #include "Configuration/Globals.h"
 #include "Physics/ParticleState.h"
 #include "Physics/RigidBodyState.h"
-#include "Physics/EulerBSystem.h"
+#include "Physics/EulerSystem.h"
 #include "Physics/RigidBodyRattleSystem.h"
+#include "Physics/HamiltonianSplittingSystem.h"
 
 #include <OpenGl/OpenGL.h>
 #include <OpenGL/Window.h>
@@ -57,26 +58,36 @@ namespace HamiltonEngine
 		
 		//Particle Sim
 		auto SymplecticEulerPhysicsSimView = Registry.view<
-			HamiltonEngine::Physics::MassComponent,
-			HamiltonEngine::Physics::PositionComponent,
-			HamiltonEngine::Physics::LinearMomentumComponent>();
+			Physics::MassComponent,
+			Physics::PositionComponent,
+			Physics::LinearMomentumComponent>();
 
 		for (auto [Entity, MassC, PositionC, LinMomC] : SymplecticEulerPhysicsSimView.each())
 		{
-			HamiltonEngine::Physics::EulerBSystem<HamiltonEngine::Physics::EulerBMode::Both>(MassC, PositionC, LinMomC);
-			//std::cout << PositionC.Position << std::endl << std::endl;
+			//This should be Stormer-Verlet
+			constexpr int N = 2;
+			const Physics::EulerModePair Modes[2]{
+				{ Physics::EulerMode::PotentialOnly, Physics::EulerMode::KineticOnly },
+				{ Physics::EulerMode::None, Physics::EulerMode::PotentialOnly } };
+			const float A[N]{ 1.0f, 1.0f }; //Potential weights
+			const float B[N]{ 1.0f, 0.0f }; //Kinetic weights
+			const float C[N]{ 0.5f, 0.5f }; //Potential time substep
+			const float D[N]{ 1.0f, 1.0f }; //Kinetic time substep
+			Physics::HamiltonianSplittingSystem<N>(A, B, C, D, Modes, MassC, PositionC, LinMomC);
+	
+			std::cout << PositionC.Position << std::endl << std::endl;
 		}
 		
 		// Rigid Body Sim
 		auto RigidBodyPhysicsSimView = Registry.view<
-			HamiltonEngine::Physics::TransformComponent,
-			HamiltonEngine::Physics::AngularMomentumComponent,
-			HamiltonEngine::Physics::MassTensorComponent,
-			HamiltonEngine::Physics::GradRigidBodyPotentialComponent>();
+			Physics::TransformComponent,
+			Physics::AngularMomentumComponent,
+			Physics::MassTensorComponent,
+			Physics::GradRigidBodyPotentialComponent>();
 
 		for (auto [Entity, TransformC, AngularMomC, MassTensorC, GradPotentialC] : RigidBodyPhysicsSimView.each())
 		{
-			HamiltonEngine::Physics::RigidBodyRattleSystem(TransformC, AngularMomC, MassTensorC, GradPotentialC);
+			Physics::RigidBodyRattleSystem(TransformC, AngularMomC, MassTensorC, GradPotentialC);
 		}
 	}
 }
