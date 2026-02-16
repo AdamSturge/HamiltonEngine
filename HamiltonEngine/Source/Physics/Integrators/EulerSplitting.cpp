@@ -1,9 +1,9 @@
 #include "PrecompiledHeader/Pch.h"
 
-#include "EulerSystem.h"
+#include "EulerSplitting.h"
 #include "Configuration/Globals.h"
-#include "PotentialEnergySystem.h"
-#include "RigidBodyState.h"
+#include "Physics/Potentials/PotentialEnergySystem.h"
+#include "Physics/State/RigidBodyState.h"
 
 namespace HamiltonEngine::Physics
 {

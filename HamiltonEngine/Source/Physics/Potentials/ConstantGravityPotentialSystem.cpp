@@ -1,7 +1,7 @@
 #include "PrecompiledHeader/Pch.h"
 
 #include "ConstantGravityPotentialSystem.h"
-#include "ParticleState.h"
+#include "Physics/State/ParticleState.h"
 #include "Configuration/ConfigurationVariable.h"
 
 namespace HamiltonEngine::Physics

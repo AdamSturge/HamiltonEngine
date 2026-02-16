@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EulerSystem.h"
+#include "EulerSplitting.h"
 #include "Configuration/Globals.h"
 
 #include <utility>
