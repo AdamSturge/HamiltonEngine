@@ -53,6 +53,15 @@
     <ClCompile Include="Source\Physics\Systems\ParticleSystem.cpp">
       <Filter>Source\Physics\Systems</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Physics\Integrators\EulerB.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Integrators\EulerA.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Integrators\StormerVerlet.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -157,6 +166,15 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\Systems\ParticleSystem.h">
       <Filter>Source\Physics\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\EulerB.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\EulerA.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\StormerVerlet.h">
+      <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

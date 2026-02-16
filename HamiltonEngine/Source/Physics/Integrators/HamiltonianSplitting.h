@@ -41,7 +41,7 @@ namespace HamiltonEngine::Physics
 					//case of bad inputs
 					const int ModIndex = Index % N;
 					const float PotentialDt = C[ModIndex] * Dt;
-					EulerPotentialOnlySystem(Mass,
+					EulerPotentialOnly(Mass,
 						Pos, 
 						LinMom, 
 						A[ModIndex],
@@ -50,9 +50,9 @@ namespace HamiltonEngine::Physics
 				}
 				case EulerMode::KineticOnly:
 				{
-					const int ModIndex = Index % N;
+					const int ModIndex = Index % M;
 					const float KineticDt = D[ModIndex] * Dt;
-					EulerKineticOnlySystem(Mass,
+					EulerKineticOnly(Mass,
 						Pos, 
 						LinMom,
 						B[ModIndex],
