@@ -19,7 +19,7 @@ namespace HamiltonEngine::Physics
 	//C are the weights for the potnential energy dT substepping Phi_{V,dt} = Phi_{V,c1*dt} o Phi_{V,c0*dt} (c0 + c1 = 1)
 	//D are the weights for the kinetic energy dT substepping Phi_{V,dt} = Phi_{T,d1*dt} o Phi_{T,d0*dt} (d0 + d1 = 1)
 	template<int N, int M>
-	void HamiltonianSplitting(const float A[N], 
+	void EulerFlowComposition(const float A[N], 
 		const float B[M],
 		const float C[N], 
 		const float D[M],

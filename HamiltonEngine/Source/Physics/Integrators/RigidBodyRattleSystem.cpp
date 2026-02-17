@@ -5,6 +5,7 @@
 #include "Physics/State/RigidBodyState.h"
 #include "Configuration/Globals.h"
 
+#if 0
 namespace
 {
 	HamiltonEngine::ConfigurationVariable<int> RattleNewtonIterMax("RigidBodyRattleNewtonIterMax", 5);
@@ -131,3 +132,4 @@ namespace HamiltonEngine::Physics
 		AngularMomC.AngularMomentum = PNext;
 	}
 }
+#endif

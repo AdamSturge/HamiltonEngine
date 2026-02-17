@@ -1,7 +1,7 @@
 #include "PrecompiledHeader/Pch.h"
 
 #include "EulerB.h"
-#include "HamiltonianSplitting.h"
+#include "EulerFlowComposition.h"
 
 namespace HamiltonEngine::Physics
 {
@@ -18,6 +18,6 @@ namespace HamiltonEngine::Physics
 		constexpr float D[M]{ 1.0f };
 		constexpr EulerMode Modes[N+M]{EulerMode::PotentialOnly, EulerMode::KineticOnly };
 		
-		HamiltonianSplitting<N,M>(A, B, C, D, Modes, Mass, Pos, LinMom, Dt);
+		EulerFlowComposition<N,M>(A, B, C, D, Modes, Mass, Pos, LinMom, Dt);
 	}
 }

@@ -1,18 +1,7 @@
 #include "PrecompiledHeader/Pch.h"
 
 #include "StormerVerlet.h"
-#include "HamiltonianSplitting.h"
-
-////This should be Stormer-Verlet
-			//constexpr int N = 2;
-			//const Physics::EulerModePair Modes[2]{
-			//	{ Physics::EulerMode::PotentialOnly, Physics::EulerMode::KineticOnly },
-			//	{ Physics::EulerMode::None, Physics::EulerMode::PotentialOnly } };
-			//const float A[N]{ 1.0f, 1.0f }; //Potential weights
-			//const float B[N]{ 1.0f, 0.0f }; //Kinetic weights
-			//const float C[N]{ 0.5f, 0.5f }; //Potential time substep
-			//const float D[N]{ 1.0f, 1.0f }; //Kinetic time substep
-			//Physics::HamiltonianSplittingSystem<N>(A, B, C, D, Modes, MassC, PositionC, LinMomC);
+#include "EulerFlowComposition.h"
 
 namespace HamiltonEngine::Physics
 {
@@ -37,6 +26,6 @@ namespace HamiltonEngine::Physics
 			EulerMode::KineticOnly, // full time step T
 			EulerMode::PotentialOnly }; //half time step V
 
-		HamiltonianSplitting<N, M>(A, B, C, D, Modes, Mass, Pos, LinMom, Dt);
+		EulerFlowComposition<N, M>(A, B, C, D, Modes, Mass, Pos, LinMom, Dt);
 	}
 }
