@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Configuration/Globals.h"
-#include "CompositionMode.h"
 
 /*
 	Writing H = H1 + H2 (H1 = T, H2 = V) we can split this update in two via a splitting/composition of flow method
@@ -11,6 +10,12 @@
 
 namespace HamiltonEngine::Physics 
 {
+	enum class EulerIntegrationCompositionMode
+	{
+		Kinetic,
+		Potential
+	};
+	
 	void EulerPotentialOnly(float Mass,
 		Eigen::Vector3f& Pos,
 		Eigen::Vector3f& LinMom,

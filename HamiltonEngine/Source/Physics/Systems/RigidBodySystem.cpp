@@ -50,7 +50,7 @@ namespace HamiltonEngine::Physics
 
 		for (auto [Entity, InertiaC, OrientationC, AngMomC] : RigidBodyView.each())
 		{
-			RigidBodyKineticOnly(InertiaC.InertiaTensor, OrientationC.Orientation, AngMomC.AngularMomentum);
+			RigidBodyKineticXOnly(InertiaC.InertiaTensor, OrientationC.Orientation, AngMomC.AngularMomentum);
 			//std::cout << OrientationC.Orientation.transpose() * OrientationC.Orientation << std::endl << std::endl;
 			//std::cout << AngMomC.AngularMomentum.norm() << std::endl << std::endl;
 		}

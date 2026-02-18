@@ -13,6 +13,14 @@ namespace Eigen
 
 namespace HamiltonEngine::Physics
 {
+	enum class RigidBodyIntegrationCompositionMode 
+	{
+		KineticX,
+		KineticY,
+		KineticZ,
+		Potential
+	};
+	
 	void RigidBodyPotentialOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Matrix3f& Orientation,
@@ -20,7 +28,21 @@ namespace HamiltonEngine::Physics
 		float PotentialWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
-	void RigidBodyKineticOnly(
+	void RigidBodyKineticXOnly(
+		Eigen::Diagonal3f& InertiaTensor,
+		Eigen::Matrix3f& Orientation,
+		Eigen::Vector3f& AngMom,
+		float KineticWeight = 1.0f,
+		float Dt = Globals::PhysicsTickLength);
+
+	void RigidBodyKineticYOnly(
+		Eigen::Diagonal3f& InertiaTensor,
+		Eigen::Matrix3f& Orientation,
+		Eigen::Vector3f& AngMom,
+		float KineticWeight = 1.0f,
+		float Dt = Globals::PhysicsTickLength);
+
+	void RigidBodyKineticZOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Matrix3f& Orientation,
 		Eigen::Vector3f& AngMom,

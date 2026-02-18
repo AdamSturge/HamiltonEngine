@@ -18,7 +18,7 @@ namespace HamiltonEngine::Physics
 		const float B[M],
 		const float C[N], 
 		const float D[M],
-		const CompositionMode Modes[N + M],
+		const EulerIntegrationCompositionMode Modes[N + M],
 		const float Mass,
 		Eigen::Vector3f& Pos,
 		Eigen::Vector3f& LinMom,
@@ -29,7 +29,7 @@ namespace HamiltonEngine::Physics
 		{
 			switch (Modes[Index]) 
 			{
-				case CompositionMode::PotentialOnly:
+				case EulerIntegrationCompositionMode::Kinetic:
 				{
 					//Should never wrap but do mod just to avoid crashing in
 					//case of bad inputs
@@ -42,7 +42,7 @@ namespace HamiltonEngine::Physics
 						PotentialDt);
 					break;
 				}
-				case CompositionMode::KineticOnly:
+				case EulerIntegrationCompositionMode::Potential:
 				{
 					//Should never wrap but do mod just to avoid crashing in
 					//case of bad inputs

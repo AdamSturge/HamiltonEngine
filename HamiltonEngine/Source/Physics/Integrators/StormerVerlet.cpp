@@ -21,10 +21,10 @@ namespace HamiltonEngine::Physics
 		constexpr float B[M]{ 1.0f };
 		constexpr float C[N]{ 0.5f, 0.5f };
 		constexpr float D[M]{ 1.0f };
-		constexpr CompositionMode Modes[N + M]{
-			CompositionMode::PotentialOnly, // half time step V
-			CompositionMode::KineticOnly, // full time step T
-			CompositionMode::PotentialOnly }; //half time step V
+		constexpr EulerIntegrationCompositionMode Modes[N + M]{
+			EulerIntegrationCompositionMode::Potential, // half time step V
+			EulerIntegrationCompositionMode::Kinetic, // full time step T
+			EulerIntegrationCompositionMode::Potential }; //half time step V
 
 		EulerFlowComposition<N, M>(A, B, C, D, Modes, Mass, Pos, LinMom, Dt);
 	}

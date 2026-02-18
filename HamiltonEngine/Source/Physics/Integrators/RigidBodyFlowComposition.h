@@ -1,6 +1,5 @@
 #pragma once
 
-#include "CompositionMode.h"
 #include "RigidBodySplitting.h"
 #include "Configuration/Globals.h"
 
@@ -16,7 +15,7 @@ namespace HamiltonEngine::Physics
 		const float B[M],
 		const float C[N],
 		const float D[M],
-		const CompositionMode Modes[N + M],
+		const RigidBodyIntegrationCompositionMode Modes[N + M],
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Matrix3f& Orientation,
 		Eigen::Vector3f& AngMom,
@@ -27,7 +26,7 @@ namespace HamiltonEngine::Physics
 		{
 			switch (Modes[Index])
 			{
-				case CompositionMode::PotentialOnly:
+				case RigidBodyIntegrationCompositionMode::Potential:
 				{
 					//Should never wrap but do mod just to avoid crashing in
 					//case of bad inputs
@@ -41,13 +40,41 @@ namespace HamiltonEngine::Physics
 						PotentialDt);
 					break;
 				}
-				case CompositionMode::KineticOnly:
+				case RigidBodyIntegrationCompositionMode::KineticX:
 				{
 					//Should never wrap but do mod just to avoid crashing in
 					//case of bad inputs
 					const int ModIndex = Index % M;
 					const float KineticDt = D[ModIndex] * Dt;
-					RigidBodyKineticOnly(
+					RigidBodyKineticXOnly(
+						InertiaTensor,
+						Orientation,
+						AngMom,
+						B[ModIndex],
+						KineticDt);
+					break;
+				}
+				case RigidBodyIntegrationCompositionMode::KineticY:
+				{
+					//Should never wrap but do mod just to avoid crashing in
+					//case of bad inputs
+					const int ModIndex = Index % M;
+					const float KineticDt = D[ModIndex] * Dt;
+					RigidBodyKineticYOnly(
+						InertiaTensor,
+						Orientation,
+						AngMom,
+						B[ModIndex],
+						KineticDt);
+					break;
+				}
+				case RigidBodyIntegrationCompositionMode::KineticZ:
+				{
+					//Should never wrap but do mod just to avoid crashing in
+					//case of bad inputs
+					const int ModIndex = Index % M;
+					const float KineticDt = D[ModIndex] * Dt;
+					RigidBodyKineticZOnly(
 						InertiaTensor,
 						Orientation,
 						AngMom,
