@@ -13,18 +13,14 @@ namespace Eigen
 
 namespace HamiltonEngine::Physics
 {
-	void RigidBodyPotentialOnly(float Mass,
-		Eigen::Vector3f& Pos,
-		Eigen::Vector3f& LinMom,
+	void RigidBodyPotentialOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Matrix3f& Orientation,
 		Eigen::Vector3f& AngMom,
 		float PotentialWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
-	void RigidBodyKineticOnly(float Mass,
-		Eigen::Vector3f& Pos,
-		Eigen::Vector3f& LinMom,
+	void RigidBodyKineticOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Matrix3f& Orientation,
 		Eigen::Vector3f& AngMom,

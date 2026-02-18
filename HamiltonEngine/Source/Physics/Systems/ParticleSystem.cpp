@@ -10,9 +10,8 @@
 namespace HamiltonEngine::Physics
 {
 	ConfigurationVariable<int> NumParticles("NumParticles", 10);
-	ConfigurationVariable<int> NumRigidBodies("NumRigidBodies", 10);
 
-	void CreateParticlesEntities(entt::registry& Registry)
+	void CreateParticleEntities(entt::registry& Registry)
 	{
 		if (!Globals::PhysicsSimEnabled)
 		{
@@ -26,9 +25,7 @@ namespace HamiltonEngine::Physics
 			Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
 			Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f(1.0f, 0.0f, 0.0f));
 			Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
-			Registry.emplace<Physics::GradParticlePotentialComponent>(Entity, Eigen::Vector3f::Zero());
 		}
-
 	}
 
 	void ParticleSystem(entt::registry& Registry)

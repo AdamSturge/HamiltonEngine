@@ -62,6 +62,12 @@
     <ClCompile Include="Source\Physics\Integrators\StormerVerlet.cpp">
       <Filter>Source\Physics\Integrators</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Physics\Integrators\RigidBodySplitting.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Systems\RigidBodySystem.cpp">
+      <Filter>Source\Physics\Systems</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -155,9 +161,6 @@
     <ClInclude Include="Source\Physics\State\RigidBodyState.h">
       <Filter>Source\Physics\State</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\Integrators\HamiltonianSplitting.h">
-      <Filter>Source\Physics\Integrators</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Physics\Potentials\ConstantGravityPotential.h">
       <Filter>Source\Physics\Potentials</Filter>
     </ClInclude>
@@ -175,6 +178,21 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\StormerVerlet.h">
       <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\CompositionMode.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\RigidBodyFlowComposition.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\EulerFlowComposition.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\RigidBodySplitting.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Systems\RigidBodySystem.h">
+      <Filter>Source\Physics\Systems</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

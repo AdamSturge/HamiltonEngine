@@ -17,9 +17,6 @@ namespace HamiltonEngine::Physics
 		const float C[N],
 		const float D[M],
 		const CompositionMode Modes[N + M],
-		const float Mass,
-		Eigen::Vector3f& Pos,
-		Eigen::Vector3f& LinMom,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Matrix3f& Orientation,
 		Eigen::Vector3f& AngMom,
@@ -36,9 +33,7 @@ namespace HamiltonEngine::Physics
 					//case of bad inputs
 					const int ModIndex = Index % N;
 					const float PotentialDt = C[ModIndex] * Dt;
-					RigidBodyPotentialOnly(Mass,
-						Pos,
-						LinMom,
+					RigidBodyPotentialOnly(
 						InertiaTensor,
 						Orientation,
 						AngMom,
@@ -52,9 +47,7 @@ namespace HamiltonEngine::Physics
 					//case of bad inputs
 					const int ModIndex = Index % M;
 					const float KineticDt = D[ModIndex] * Dt;
-					RigidBodyKineticOnly(Mass,
-						Pos,
-						LinMom,
+					RigidBodyKineticOnly(
 						InertiaTensor,
 						Orientation,
 						AngMom,

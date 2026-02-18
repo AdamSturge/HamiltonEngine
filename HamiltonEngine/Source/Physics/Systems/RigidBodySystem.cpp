@@ -1,0 +1,58 @@
+#include "PrecompiledHeader/Pch.h"
+
+#include "Physics/Systems/RigidBodySystem.h"
+#include "Configuration/ConfigurationVariable.h"
+#include "Configuration/Globals.h"
+#include "Physics/State/ParticleState.h"
+#include "Physics/State/RigidBodyState.h"
+#include "Physics/Integrators/RigidBodyFlowComposition.h"
+
+namespace HamiltonEngine::Physics
+{
+	ConfigurationVariable<int> NumRigidBodies("NumRigidBodies", 10);
+
+	void CreateRigidBodyEntities(entt::registry& Registry)
+	{
+		if (!Globals::PhysicsSimEnabled)
+		{
+			return;
+		}
+
+		//A rigid body is a particle with orientation, inertia tensor, and angular momentum
+		for (int EntityIndex = 0; EntityIndex < NumRigidBodies; ++EntityIndex)
+		{
+			entt::entity Entity = Registry.create();
+
+			Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
+			Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f(1.0f, 0.0f, 0.0f));
+			Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
+			Registry.emplace<Physics::OrientationComponent>(Entity, Eigen::Matrix3f::Identity());
+			Registry.emplace<Physics::AngularMomentumComponent>(Entity, Eigen::Vector3f::Zero());
+			Registry.emplace<Physics::InertiaTensorComponent>(Entity, Eigen::Diagonal3f(1.0f, 1.0f, 1.0f));
+		}
+
+	}
+
+	void RigidBodySystem(entt::registry& Registry)
+	{
+		if (!Globals::PhysicsSimEnabled)
+		{
+			return;
+		}
+
+		//TODO look into EnTT groups instead of multi views
+
+		//Rigid Body Sim
+		auto RigidBodyView = Registry.view<
+			InertiaTensorComponent,
+			OrientationComponent,
+			AngularMomentumComponent>();
+
+		for (auto [Entity, InertiaC, OrientationC, AngMomC] : RigidBodyView.each())
+		{
+			RigidBodyKineticOnly(InertiaC.InertiaTensor, OrientationC.Orientation, AngMomC.AngularMomentum);
+			//std::cout << OrientationC.Orientation.transpose() * OrientationC.Orientation << std::endl << std::endl;
+			//std::cout << AngMomC.AngularMomentum.norm() << std::endl << std::endl;
+		}
+	}
+}

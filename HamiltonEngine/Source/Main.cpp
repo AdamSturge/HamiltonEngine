@@ -4,6 +4,7 @@
 #include "Configuration/ConfigurationVariable.h"
 #include "Configuration/Globals.h"
 #include "Physics/Systems/ParticleSystem.h"
+#include "Physics/Systems/RigidBodySystem.h"
 
 #include <OpenGl/OpenGL.h>
 #include <OpenGL/Window.h>
@@ -16,7 +17,8 @@ int main(int argc, char** argv)
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
 	entt::registry Registry;
-	HamiltonEngine::Physics::CreateParticlesEntities(Registry);
+	HamiltonEngine::Physics::CreateParticleEntities(Registry);
+	HamiltonEngine::Physics::CreateRigidBodyEntities(Registry);
 
 	glfwInit(); // Initialize OpenGL
 	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(800, 600, "MyWindow");
@@ -104,6 +106,7 @@ int main(int argc, char** argv)
 		HamiltonEngine::OpenGL::processInput(window);
 
 		HamiltonEngine::Physics::ParticleSystem(Registry);
+		HamiltonEngine::Physics::RigidBodySystem(Registry);
 
 		// rendering
 		glClearColor(red, green, blue, 1.0f);

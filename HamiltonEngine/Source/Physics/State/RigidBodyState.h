@@ -2,45 +2,30 @@
 
 #include "ParticleState.h"
 
+namespace Eigen 
+{
+	using Diagonal3f = Eigen::DiagonalMatrix<float, 3, 3>;
+}
+
 namespace HamiltonEngine::Physics
 {
-	struct TransformComponent
+	struct OrientationComponent
 	{
-		TransformComponent() = default;
-		TransformComponent(const Eigen::Affine3f& Trans);
-		Eigen::Affine3f Transform;
+		OrientationComponent(const Eigen::Matrix3f& O);
+		Eigen::Matrix3f Orientation;
 	};
 	
 	struct AngularMomentumComponent
 	{
-		AngularMomentumComponent(const Eigen::Matrix3f& Ang);
-		Eigen::Matrix3f AngularMomentum;
+		AngularMomentumComponent(const Eigen::Vector3f& AngMom);
+		Eigen::Vector3f AngularMomentum;
 	};
 
-	struct MassTensorComponent
-	{
-		MassTensorComponent() = default;
-		MassTensorComponent(const Eigen::Matrix3f& M);
-		Eigen::Matrix3f MassTensor;
-	};
-
+	
 	struct InertiaTensorComponent
 	{
 		InertiaTensorComponent() = default;
-		InertiaTensorComponent(const Eigen::Matrix3f& I);
-		Eigen::Matrix3f InertiaTensor;
+		InertiaTensorComponent(const Eigen::Diagonal3f& I);
+		Eigen::Diagonal3f InertiaTensor;
 	};
-
-	struct GradRigidBodyPotentialComponent
-	{
-		Eigen::Matrix3f GradPotential;
-	};
-
-
-	//TODO This stuff is bad. Components are on entities!
-	MassTensorComponent InertiaTensorToMassTensor(const InertiaTensorComponent&);
-	InertiaTensorComponent MassTensorToInertiaTensor(const MassTensorComponent&);
-
-	PositionComponent TransformComponentToPositionComponent(const TransformComponent& TransformC);
-	TransformComponent PositionComponentToTransformComponent(const PositionComponent& PositionC);
 }

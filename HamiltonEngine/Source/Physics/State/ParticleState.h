@@ -19,9 +19,4 @@ namespace HamiltonEngine::Physics
 		MassComponent(float M);
 		float Mass;
 	};
-
-	struct GradParticlePotentialComponent 
-	{
-		Eigen::Vector3f GradPotential;
-	};
 }
