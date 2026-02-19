@@ -145,7 +145,6 @@
     <ClInclude Include="Source\OpenGL\Shader.h" />
     <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\OpenGL\Window.h" />
-    <ClInclude Include="Source\Physics\Integrators\CompositionMode.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerA.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerB.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerFlowComposition.h" />

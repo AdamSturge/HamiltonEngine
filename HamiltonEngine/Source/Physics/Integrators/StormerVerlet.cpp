@@ -15,17 +15,26 @@ namespace HamiltonEngine::Physics
 		//This is mathematically equivalent. 
 		//TODO experiment to see if using 0.5 weights for V makes a difference
 		
-		constexpr int N = 2;
-		constexpr int M = 1;
-		constexpr float A[N]{ 1.0f, 1.0f };
-		constexpr float B[M]{ 1.0f };
-		constexpr float C[N]{ 0.5f, 0.5f };
-		constexpr float D[M]{ 1.0f };
-		constexpr EulerIntegrationCompositionMode Modes[N + M]{
-			EulerIntegrationCompositionMode::Potential, // half time step V
-			EulerIntegrationCompositionMode::Kinetic, // full time step T
-			EulerIntegrationCompositionMode::Potential }; //half time step V
+		constexpr int NumPotential = 2;
+		constexpr int NumKinetic = 1;
+		constexpr float PotentialWeights[NumPotential]{ 1.0f };
+		constexpr float KineticWeights[NumKinetic]{ 1.0f };
+		constexpr float PotentialTickRateWeights[NumPotential]{ 0.5f,0.5f };
+		constexpr float KineticTickRateWeights[NumKinetic]{ 1.0f };
+		constexpr int PotentialIndex = 0;
+		constexpr int KineticIndex = 0;
 
-		EulerFlowComposition<N, M>(A, B, C, D, Modes, Mass, Pos, LinMom, Dt);
+		EulerFlowComposition<NumPotential, NumKinetic, 
+			PotentialIndex, KineticIndex,
+			EulerIntegrationCompositionMode::Potential,
+			EulerIntegrationCompositionMode::Kinetic, 
+			EulerIntegrationCompositionMode::Potential>(PotentialWeights,
+				KineticWeights,
+				PotentialTickRateWeights,
+				KineticTickRateWeights, 
+				Mass,
+				Pos,
+				LinMom, 
+				Dt);
 	}
 }

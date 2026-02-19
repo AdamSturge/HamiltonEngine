@@ -10,16 +10,25 @@ namespace HamiltonEngine::Physics
 		Eigen::Vector3f& LinMom,
 		float Dt)
 	{
-		constexpr int N = 1;
-		constexpr int M = 1;
-		constexpr float A[N]{ 1.0f };
-		constexpr float B[M]{ 1.0f };
-		constexpr float C[N]{ 1.0f };
-		constexpr float D[M]{ 1.0f };
-		constexpr EulerIntegrationCompositionMode Modes[N+M]
-		{ EulerIntegrationCompositionMode::Potential,
-			EulerIntegrationCompositionMode::Kinetic };
-		
-		EulerFlowComposition<N,M>(A, B, C, D, Modes, Mass, Pos, LinMom, Dt);
+		constexpr int NumPotential = 1;
+		constexpr int NumKinetic = 1;
+		constexpr float PotentialWeights[NumPotential]{ 1.0f };
+		constexpr float KineticWeights[NumKinetic]{ 1.0f };
+		constexpr float PotentialTickRateWeights[NumPotential]{ 1.0f };
+		constexpr float KineticTickRateWeights[NumKinetic]{ 1.0f };
+		constexpr int PotentialIndex = 0;
+		constexpr int KineticIndex = 0;
+
+		EulerFlowComposition<NumPotential, NumKinetic,
+			PotentialIndex, KineticIndex,
+			EulerIntegrationCompositionMode::Potential,
+			EulerIntegrationCompositionMode::Kinetic>(PotentialWeights,
+				KineticWeights,
+				PotentialTickRateWeights,
+				KineticTickRateWeights,
+				Mass,
+				Pos,
+				LinMom,
+				Dt);
 	}
 }

@@ -179,9 +179,6 @@
     <ClInclude Include="Source\Physics\Integrators\StormerVerlet.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\Integrators\CompositionMode.h">
-      <Filter>Source\Physics\Integrators</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\RigidBodyFlowComposition.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
