@@ -24,7 +24,8 @@ namespace HamiltonEngine::Physics
 		Eigen::Vector3f& LinMom,
 		float Dt = Globals::PhysicsTickLength)
 	{
-		if constexpr (First == EulerIntegrationCompositionMode::Potential && PotentialIndex >= 0)
+		if constexpr (First == EulerIntegrationCompositionMode::Potential &&
+			PotentialIndex >= 0 && PotentialIndex < NumPotential)
 		{
 			const float PotentialDt = PotentialTickRateWeights[PotentialIndex] * Dt;
 			EulerPotentialOnly(Mass,
@@ -47,7 +48,8 @@ namespace HamiltonEngine::Physics
 			}
 		}
 
-		if constexpr (First == EulerIntegrationCompositionMode::Kinetic && KineticIndex >= 0)
+		if constexpr (First == EulerIntegrationCompositionMode::Kinetic 
+			&& KineticIndex >= 0 && KineticIndex < NumKinetic)
 		{
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
 			EulerKineticOnly(Mass,
