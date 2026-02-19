@@ -1,7 +1,7 @@
 {
 	"TestKey": 3,
-	"WindowHeight": 1240,
-	"WindowWidth": 780,
-	"WindowName": "MyWindow",
-	"WindowBackgroundColor":  [ 0.2, 0.3, 0.3 ]
+	"WindowHeight": 800,
+	"WindowWidth": 600,
+	"WindowName": "HamiltonEngine",
+	"BackgroundColorRGB": [0.2, 0.3, 0.3]
 }

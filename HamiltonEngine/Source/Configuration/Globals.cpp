@@ -1,6 +1,4 @@
-#pragma once
 #include <Configuration/ConfigurationVariable.h>
-
 
 namespace HamiltonEngine::Globals
 {
