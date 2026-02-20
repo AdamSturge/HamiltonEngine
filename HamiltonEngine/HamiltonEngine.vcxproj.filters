@@ -29,11 +29,6 @@
     <ClCompile Include="ConfigurationVariableBase.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Camera.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OpenGL\Utils.cpp">
-      <Filter>Source\OpenGL</Filter>
     <ClCompile Include="Source\Configuration\Globals.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
@@ -140,12 +135,6 @@
     <ClInclude Include="Libraries\glad\glad.h">
       <Filter>Libraries\glad</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\SymplecticEulerSystem.h">
-      <Filter>Source\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Physics\PhysicsState.h">
-      <Filter>Source\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="OpenGL.h" />
     <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\PrecompiledHeader\Pch.h">
@@ -154,14 +143,6 @@
     <ClInclude Include="Source\Configuration\Globals.h">
       <Filter>Source\Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGL.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\Camera.h">
-      <Filter>Source\OpenGL</Filter>
     <ClInclude Include="Source\Physics\Integrators\EulerSplitting.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>

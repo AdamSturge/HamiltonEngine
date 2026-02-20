@@ -7,6 +7,5 @@ namespace HamiltonEngine::OpenGL
 	GLFWwindow* createWindow(int width, int height, const char* title);
 	void framebuffer_size_callback(GLFWwindow* window, int width, int heigh);
 	void processInput(GLFWwindow* window);
-	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-	void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
+
 }
