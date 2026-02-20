@@ -38,6 +38,10 @@
     <ClCompile Include="Source\OpenGL\Camera.cpp">
       <Filter>Source\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Configuration\Globals.cpp" />
+    <ClCompile Include="Source\OpenGL\Utils.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">

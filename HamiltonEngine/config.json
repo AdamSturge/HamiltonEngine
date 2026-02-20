@@ -3,5 +3,6 @@
 	"WindowHeight": 800,
 	"WindowWidth": 600,
 	"WindowName": "HamiltonEngine",
-	"BackgroundColorRGB": [0.2, 0.3, 0.3]
+	"BackgroundColorRGB": [ 0.2, 0.3, 0.3 ],
+	"FieldOfView":  45.0
 }

@@ -159,10 +159,12 @@
     </ClCompile>
     <ClCompile Include="Source\Configuration\ConfigurationSystem.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
+    <ClCompile Include="Source\Configuration\Globals.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
+    <ClCompile Include="Source\OpenGL\Utils.cpp" />
     <ClCompile Include="Source\OpenGL\Window.cpp" />
     <ClCompile Include="Source\Physics\PhysicsState.cpp" />
     <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp" />
