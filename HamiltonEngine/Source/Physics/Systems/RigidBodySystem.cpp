@@ -50,7 +50,30 @@ namespace HamiltonEngine::Physics
 
 		for (auto [Entity, InertiaC, OrientationC, AngMomC] : RigidBodyView.each())
 		{
-			RigidBodyKineticXOnly(InertiaC.InertiaTensor, OrientationC.Orientation, AngMomC.AngularMomentum);
+			constexpr int NumPotential = 1;
+			constexpr int NumKinetic = 3;
+			constexpr float PotentialWeights[NumPotential]{ 1.0f };
+			constexpr float KineticWeights[NumKinetic]{ 1.0f,1.0f,1.0f };
+			constexpr float PotentialTickRateWeights[NumPotential]{ 1.0f };
+			constexpr float KineticTickRateWeights[NumKinetic]{ 1.0f,1.0f,1.0f };
+			constexpr int PotentialIndex = 0;
+			constexpr int KineticIndex = 0;
+			
+
+			RigidBodyFlowComposition<NumPotential, NumKinetic,
+				PotentialIndex, KineticIndex,
+				RigidBodyIntegrationCompositionMode::KineticX,
+				RigidBodyIntegrationCompositionMode::KineticY,
+				RigidBodyIntegrationCompositionMode::KineticZ,
+				RigidBodyIntegrationCompositionMode::Potential>(PotentialWeights,
+					KineticWeights, 
+					PotentialTickRateWeights, 
+					KineticTickRateWeights, 
+					InertiaC.InertiaTensor, 
+					OrientationC.Orientation,
+					AngMomC.AngularMomentum);
+			
+			//RigidBodyKineticXOnly(InertiaC.InertiaTensor, OrientationC.Orientation, AngMomC.AngularMomentum);
 			//std::cout << OrientationC.Orientation.transpose() * OrientationC.Orientation << std::endl << std::endl;
 			//std::cout << AngMomC.AngularMomentum.norm() << std::endl << std::endl;
 		}

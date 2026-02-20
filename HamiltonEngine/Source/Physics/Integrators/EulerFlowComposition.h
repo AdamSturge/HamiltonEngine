@@ -24,6 +24,9 @@ namespace HamiltonEngine::Physics
 		Eigen::Vector3f& LinMom,
 		float Dt = Globals::PhysicsTickLength)
 	{
+		static_assert((1 + sizeof...(Rest)) == (NumPotential + NumKinetic - PotentialIndex - KineticIndex),
+			"Length of composition mode list is incorrect. Please ensure your template arguments are correct");
+		
 		if constexpr (First == EulerIntegrationCompositionMode::Potential &&
 			PotentialIndex >= 0 && PotentialIndex < NumPotential)
 		{
