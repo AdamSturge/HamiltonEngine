@@ -27,4 +27,7 @@ namespace HamiltonEngine::Globals
 	extern HamiltonEngine::OpenGL::Camera camera;
 
 	
+	
+	// small number. Useful for comparison to near 0
+	extern ConfigurationVariable<float> Epsilon;
 }

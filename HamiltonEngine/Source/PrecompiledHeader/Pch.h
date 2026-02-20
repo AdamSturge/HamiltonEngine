@@ -17,8 +17,12 @@
 #include <nlohmann/json.hpp>
 #include <entt/entt.hpp>
 #include <Eigen/Dense>
+#include <Eigen/Geometry>
 #include <glad/glad.h>
 #include <glfw/include/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 //Our code. Add stuff that doesn't change often
 //#include "Configuration/Globals.h"

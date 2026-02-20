@@ -1,11 +1,10 @@
 #include "PrecompiledHeader/Pch.h"
 
 #include "Configuration/ConfigurationSystem.h"
-#include "Physics/PhysicsState.h"
 #include "Configuration/ConfigurationVariable.h"
-#include "Physics/SymplecticEulerSystem.h"
+#include "Configuration/Globals.h"
+#include "Physics/Systems/ParticleSystem.h"
 
-#include "entt/entt.hpp"
 #include <OpenGl/OpenGL.h>
 #include <OpenGL/Window.h>
 #include <OpenGL/Shader.h>
@@ -45,17 +44,11 @@ namespace HamiltonEngine
 	}
 }
 
-// TODO: Finish up using Configuration System for user input stuff (I hate recomplining each time)
 // TODO: Create an easy way to instantiate boxes 
 // TODO: Make a sphere
 // TODO: LIGHTING!
 
-
-
-
 void ProcessMovement(GLFWwindow* window, HamiltonEngine::OpenGL::Camera* camera, float DeltaTime);
-//void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
-//void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 
 int main(int argc, char** argv)
@@ -67,7 +60,7 @@ int main(int argc, char** argv)
 	std::string WindowName = HamiltonEngine::Globals::WindowName;
 
 	entt::registry Registry;
-	HamiltonEngine::CreatePhysicsEntities(Registry);
+	HamiltonEngine::Physics::CreateParticlesEntities(Registry);
 
 	glfwInit(); // Initialize OpenGL
 	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(WindowHeight, WindowWidth, WindowName.c_str());
@@ -150,15 +143,7 @@ int main(int argc, char** argv)
 		glfwSetCursorPosCallback(window, HamiltonEngine::OpenGL::mouse_callback);
 		glfwSetScrollCallback(window, HamiltonEngine::OpenGL::scroll_callback);
 
-		// Run Physics Sim
-		auto PhysicsSimView = Registry.view<
-			HamiltonEngine::Physics::PositionComponent,
-			HamiltonEngine::Physics::LinearMomentumComponent>();
-
-		for (auto [Entity, PosC, LinMomC] : PhysicsSimView.each())
-		{
-			HamiltonEngine::Physics::SymplecticEulerSystem(PosC, LinMomC);
-		}
+		HamiltonEngine::Physics::ParticleSystem(Registry);
 
 		// rendering
 		glClearColor(WindowBackgroundRed, WindowBackgroundGreen, WindowBackgroundBlue, 1.0f);
