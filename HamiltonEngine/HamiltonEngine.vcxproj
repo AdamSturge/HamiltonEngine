@@ -142,9 +142,7 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariable.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
     <ClInclude Include="Source\Configuration\Globals.h" />
-    <ClInclude Include="Source\OpenGL\Camera.h" />
     <ClInclude Include="Source\OpenGL\Shader.h" />
-    <ClInclude Include="Source\OpenGL\SimpleShapes.h" />
     <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\OpenGL\Window.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerA.h" />
@@ -170,10 +168,8 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
     <ClCompile Include="Source\Configuration\Globals.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\OpenGL\Camera.cpp" />
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
-    <ClCompile Include="Source\OpenGL\Utils.cpp" />
     <ClCompile Include="Source\OpenGL\Window.cpp" />
     <ClCompile Include="Source\Physics\Integrators\EulerA.cpp" />
     <ClCompile Include="Source\Physics\Integrators\EulerB.cpp" />
