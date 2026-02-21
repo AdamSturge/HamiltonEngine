@@ -142,7 +142,6 @@
     <ClInclude Include="Libraries\glad\glad.h">
       <Filter>Libraries\glad</Filter>
     </ClInclude>
-
     <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\PrecompiledHeader\Pch.h">
       <Filter>Source\PrecompiledHeader</Filter>
@@ -159,6 +158,17 @@
     <ClInclude Include="Source\OpenGL\Camera.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\EulerA.h" />
+    <ClInclude Include="Source\Physics\Integrators\EulerB.h" />
+    <ClInclude Include="Source\Physics\Integrators\EulerSplitting.h" />
+    <ClInclude Include="Source\Physics\Integrators\HamiltonianSplitting.h" />
+    <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h" />
+    <ClInclude Include="Source\Physics\Integrators\StormerVerlet.h" />
+    <ClInclude Include="Source\Physics\Potentials\ConstantGravityPotential.h" />
+    <ClInclude Include="Source\Physics\Potentials\PotentialEnergy.h" />
+    <ClInclude Include="Source\Physics\State\ParticleState.h" />
+    <ClInclude Include="Source\Physics\State\RigidBodyState.h" />
+    <ClInclude Include="Source\Physics\Systems\ParticleSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\fragmentShader.fs">
@@ -167,10 +177,5 @@
     <None Include="Source\Shaders\vertexShader.vs">
       <Filter>Source\Shaders</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Natvis Include="Libraries\eigen-5.0.0\debug\msvc\eigen.natvis">
-      <Filter>Libraries\Eigen</Filter>
-    </Natvis>
   </ItemGroup>
 </Project>

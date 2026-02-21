@@ -14,43 +14,14 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include <Eigen/Dense>
-
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include <OpenGL/SimpleShapes.h>
 #include <OpenGL/Utils.h>
 #include "OpenGL/Camera.h"
 #include "Configuration/Globals.h"
 
-namespace HamiltonEngine
-{
-	ConfigurationVariable<int> NumEntities("NumEntities", 10);
-	
-	void CreatePhysicsEntities(entt::registry& Registry)
-	{
-		for (int EntityIndex = 0; EntityIndex < NumEntities; ++EntityIndex) 
-		{
-			entt::entity Entity = Registry.create();
-			Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
-			Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f::Zero());
-			Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
-			Registry.emplace<Physics::OrientationComponent>(Entity, Eigen::Vector3f::Zero());
-			Registry.emplace<Physics::AngularMomentumComponent>(Entity, Eigen::Vector3f::Zero());
-			Registry.emplace<Physics::InertiaTensorComponent>(Entity, Eigen::Matrix3f::Identity());
-		}
-	}
-}
-
-// TODO: Finish up using Configuration System for user input stuff (I hate recomplining each time)
 // TODO: Create an easy way to instantiate boxes 
 // TODO: Make a sphere
 // TODO: LIGHTING!
-
-
-
 
 void ProcessMovement(GLFWwindow* window, HamiltonEngine::OpenGL::Camera* camera, float DeltaTime);
 //void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
