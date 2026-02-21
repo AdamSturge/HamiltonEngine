@@ -27,4 +27,7 @@ namespace HamiltonEngine::Globals
 	HamiltonEngine::OpenGL::Camera camera{
 		DefaultCameraPosition, DefaultCameraFront, DefaultCameraUp,
 			-90, 0.0f, FieldOfView};
+
+	//EnTT
+	entt::registry Registry = entt::registry();
 }

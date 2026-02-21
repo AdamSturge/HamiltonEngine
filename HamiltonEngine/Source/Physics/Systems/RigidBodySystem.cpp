@@ -29,6 +29,7 @@ namespace HamiltonEngine::Physics
 			Registry.emplace<Physics::OrientationComponent>(Entity, Eigen::Matrix3f::Identity());
 			Registry.emplace<Physics::AngularMomentumComponent>(Entity, Eigen::Vector3f::Zero());
 			Registry.emplace<Physics::InertiaTensorComponent>(Entity, Eigen::Diagonal3f(1.0f, 1.0f, 1.0f));
+			Registry.emplace<Physics::RigidBodyPotentialEnergyListHeadComponent>(Entity);
 		}
 
 	}

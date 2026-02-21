@@ -28,4 +28,26 @@ namespace HamiltonEngine::Physics
 		InertiaTensorComponent(const Eigen::Diagonal3f& I);
 		Eigen::Diagonal3f InertiaTensor;
 	};
+
+	struct RigidBodyPotentialEnergyListHeadComponent 
+	{
+		//TODO change this to EnTT handle
+		entt::entity Head{ entt::null };
+	};
+
+	using PotentialEnergyFn = float (*)(Eigen::Vector3f WorldPosition);
+	using PotentialEnergyGradFn = void (*)(Eigen::Vector3f WorldPosition, Eigen::Vector3f OutGradPotentialEnergy);
+	struct RigidBodyPotentialEnergyComponent
+	{
+		//This is a linked list that connects to entities that are designed to compute 
+		//potential energies acting on a given rigid body
+		//TODO change these to EnTT handle
+		entt::entity NextEntity{ entt::null };
+		entt::entity RigidBodyEntity{ entt::null }; //back pointer to rigid body
+
+		Eigen::Vector3f PointOfApplication;
+		PotentialEnergyFn ComputePotentialEnergyFn;
+		PotentialEnergyGradFn ComputePotentialEnergyGradFn;
+	};
+
 }

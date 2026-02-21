@@ -2,6 +2,8 @@
 
 namespace HamiltonEngine::Physics 
 {	
+	struct RigidBodyPotentialEnergyComponent;
+	
 	float ComputePotentialEnergy(const Eigen::Affine3f& Transform, float Mass);
 
 	//The assumption here is that the {V_i, V_j} = 0. ie.) The Poisson Bracket of the
@@ -13,4 +15,9 @@ namespace HamiltonEngine::Physics
 	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform, 
 		float Mass,
 		Eigen::Vector3f& OutGradPotentialEnergy);
+
+	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform,
+		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent,
+		Eigen::Vector3f& OutGradPotentialEnergy,
+		Eigen::Vector3f& OutTorque);
 }

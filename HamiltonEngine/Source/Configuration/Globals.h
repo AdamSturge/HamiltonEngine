@@ -11,7 +11,6 @@ namespace HamiltonEngine::Globals
 	// small number. Useful for comparison to near 0
 	extern ConfigurationVariable<float> Epsilon;
 
-
 	// Rendering + OpenGL stuff
 	extern ConfigurationVariable<std::vector<float>> BackgroundColorRGB;
 	extern ConfigurationVariable<int> WindowHeight;
@@ -26,5 +25,6 @@ namespace HamiltonEngine::Globals
 	extern Eigen::Vector3f DefaultCameraUp;
 	extern HamiltonEngine::OpenGL::Camera camera;
 
-	
+	//EnTT
+	extern entt::registry Registry;
 }

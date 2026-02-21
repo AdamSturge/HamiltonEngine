@@ -37,9 +37,8 @@ int main(int argc, char** argv)
 	GLuint WindowHeight = HamiltonEngine::Globals::WindowHeight;
 	std::string WindowName = HamiltonEngine::Globals::WindowName;
 
-	entt::registry Registry;
-	HamiltonEngine::Physics::CreateParticleEntities(Registry);
-	HamiltonEngine::Physics::CreateRigidBodyEntities(Registry);
+	HamiltonEngine::Physics::CreateParticleEntities(HamiltonEngine::Globals::Registry);
+	HamiltonEngine::Physics::CreateRigidBodyEntities(HamiltonEngine::Globals::Registry);
 
 	glfwInit(); // Initialize OpenGL
 	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(WindowHeight, WindowWidth, WindowName.c_str());
@@ -122,8 +121,8 @@ int main(int argc, char** argv)
 		glfwSetCursorPosCallback(window, HamiltonEngine::OpenGL::mouse_callback);
 		glfwSetScrollCallback(window, HamiltonEngine::OpenGL::scroll_callback);
 
-		HamiltonEngine::Physics::ParticleSystem(Registry);
-		HamiltonEngine::Physics::RigidBodySystem(Registry);
+		HamiltonEngine::Physics::ParticleSystem(HamiltonEngine::Globals::Registry);
+		HamiltonEngine::Physics::RigidBodySystem(HamiltonEngine::Globals::Registry);
 
 		// rendering
 		glClearColor(WindowBackgroundRed, WindowBackgroundGreen, WindowBackgroundBlue, 1.0f);
