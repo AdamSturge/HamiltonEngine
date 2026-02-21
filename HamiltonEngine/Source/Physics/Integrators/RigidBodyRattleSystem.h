@@ -1,5 +1,6 @@
 #pragma once
 
+#if 0
 namespace HamiltonEngine::Physics
 {
 	struct TransformComponent;
@@ -12,3 +13,4 @@ namespace HamiltonEngine::Physics
 		const MassTensorComponent MassTensorC,
 		const GradRigidBodyPotentialComponent& GradPotential);
 }
+#endif

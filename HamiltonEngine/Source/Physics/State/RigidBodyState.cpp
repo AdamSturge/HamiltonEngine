@@ -1,45 +1,31 @@
 #include "PrecompiledHeader/Pch.h"
+#define ORIENTATION_CHECK
 
 #include "RigidBodyState.h"
 
+#ifdef ORIENTATION_CHECK
+#include "Configuration/Globals.h"
+#endif
+
 namespace HamiltonEngine::Physics 
 {
-    TransformComponent::TransformComponent(const Eigen::Affine3f& Trans) : Transform{ Trans }
-    {
 
+    OrientationComponent::OrientationComponent(const Eigen::Matrix3f& O) : Orientation {O}
+    {
+#ifdef ORIENTATION_CHECK
+        const Eigen::Matrix3f StoppingCondition = (Orientation.transpose() * Orientation - Eigen::Matrix3f::Identity());
+        const bool IsProperOrientation = StoppingCondition.cwiseLessOrEqual(Globals::Epsilon).all();
+        //TODO Log this
+        //TODO Assert this
+#endif
     }
 
-    AngularMomentumComponent::AngularMomentumComponent(const Eigen::Matrix3f& Ang) : AngularMomentum{ Ang }
+    AngularMomentumComponent::AngularMomentumComponent(const Eigen::Vector3f& AngMom) : AngularMomentum{ AngMom }
     {
     }
 
-    MassTensorComponent::MassTensorComponent(const Eigen::Matrix3f& M) : MassTensor{ M }
-    {
-    }
 
-    InertiaTensorComponent::InertiaTensorComponent(const Eigen::Matrix3f& I) : InertiaTensor{I}
+    InertiaTensorComponent::InertiaTensorComponent(const Eigen::Diagonal3f& I) : InertiaTensor{I}
     {
-    }
-
-    MassTensorComponent InertiaTensorToMassTensor(const InertiaTensorComponent&) 
-    {
-        //TODO implement this
-        return MassTensorComponent();
-    }
-    
-    InertiaTensorComponent MassTensorToInertiaTensor(const MassTensorComponent&) 
-    {
-        //TODO implement this
-        return InertiaTensorComponent();
-    }
-
-    PositionComponent TransformComponentToPositionComponent(const TransformComponent& TransformC)
-    {
-        return PositionComponent(TransformC.Transform.translation());
-    }
-
-    TransformComponent PositionComponentToTransformComponent(const PositionComponent& PositionC)
-    {
-        return TransformComponent().Transform.translate(PositionC.Position);
     }
 }

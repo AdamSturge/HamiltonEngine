@@ -4,6 +4,7 @@
 #include "Configuration/ConfigurationVariable.h"
 #include "Configuration/Globals.h"
 #include "Physics/Systems/ParticleSystem.h"
+#include "Physics/Systems/RigidBodySystem.h"
 
 #include <OpenGl/OpenGL.h>
 #include <OpenGL/Window.h>
@@ -37,7 +38,8 @@ int main(int argc, char** argv)
 	std::string WindowName = HamiltonEngine::Globals::WindowName;
 
 	entt::registry Registry;
-	HamiltonEngine::Physics::CreateParticlesEntities(Registry);
+	HamiltonEngine::Physics::CreateParticleEntities(Registry);
+	HamiltonEngine::Physics::CreateRigidBodyEntities(Registry);
 
 	glfwInit(); // Initialize OpenGL
 	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(WindowHeight, WindowWidth, WindowName.c_str());
@@ -121,6 +123,7 @@ int main(int argc, char** argv)
 		glfwSetScrollCallback(window, HamiltonEngine::OpenGL::scroll_callback);
 
 		HamiltonEngine::Physics::ParticleSystem(Registry);
+		HamiltonEngine::Physics::RigidBodySystem(Registry);
 
 		// rendering
 		glClearColor(WindowBackgroundRed, WindowBackgroundGreen, WindowBackgroundBlue, 1.0f);

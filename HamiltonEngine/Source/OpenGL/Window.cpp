@@ -67,8 +67,8 @@ namespace HamiltonEngine::OpenGL
 	}
 
 	bool firstMouse = true;
-	float lastX = HamiltonEngine::Globals::WindowWidth / 2.0;
-	float lastY = HamiltonEngine::Globals::WindowHeight / 2.0;
+	float lastX = HamiltonEngine::Globals::WindowWidth / 2.0f;
+	float lastY = HamiltonEngine::Globals::WindowHeight / 2.0f;
 
 	void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 	{
