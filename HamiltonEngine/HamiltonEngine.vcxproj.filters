@@ -158,7 +158,6 @@
     <ClInclude Include="Source\OpenGL\Camera.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\Integrators\EulerA.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerB.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerSplitting.h" />
     <ClInclude Include="Source\Physics\Integrators\HamiltonianSplitting.h" />
@@ -169,6 +168,9 @@
     <ClInclude Include="Source\Physics\State\ParticleState.h" />
     <ClInclude Include="Source\Physics\State\RigidBodyState.h" />
     <ClInclude Include="Source\Physics\Systems\ParticleSystem.h" />
+    <ClInclude Include="Source\Physics\Integrators\EulerA.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\fragmentShader.fs">
