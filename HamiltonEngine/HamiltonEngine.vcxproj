@@ -147,8 +147,17 @@
     <ClInclude Include="Source\OpenGL\SimpleShapes.h" />
     <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\OpenGL\Window.h" />
-    <ClInclude Include="Source\Physics\PhysicsState.h" />
-    <ClInclude Include="Source\Physics\SymplecticEulerSystem.h" />
+    <ClInclude Include="Source\Physics\Integrators\EulerA.h" />
+    <ClInclude Include="Source\Physics\Integrators\EulerB.h" />
+    <ClInclude Include="Source\Physics\Integrators\EulerSplitting.h" />
+    <ClInclude Include="Source\Physics\Integrators\HamiltonianSplitting.h" />
+    <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h" />
+    <ClInclude Include="Source\Physics\Integrators\StormerVerlet.h" />
+    <ClInclude Include="Source\Physics\Potentials\ConstantGravityPotential.h" />
+    <ClInclude Include="Source\Physics\Potentials\PotentialEnergy.h" />
+    <ClInclude Include="Source\Physics\State\ParticleState.h" />
+    <ClInclude Include="Source\Physics\State\RigidBodyState.h" />
+    <ClInclude Include="Source\Physics\Systems\ParticleSystem.h" />
     <ClInclude Include="Source\PrecompiledHeader\Pch.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
@@ -166,8 +175,16 @@
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
     <ClCompile Include="Source\OpenGL\Utils.cpp" />
     <ClCompile Include="Source\OpenGL\Window.cpp" />
-    <ClCompile Include="Source\Physics\PhysicsState.cpp" />
-    <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp" />
+    <ClCompile Include="Source\Physics\Integrators\EulerA.cpp" />
+    <ClCompile Include="Source\Physics\Integrators\EulerB.cpp" />
+    <ClCompile Include="Source\Physics\Integrators\EulerSplitting.cpp" />
+    <ClCompile Include="Source\Physics\Integrators\RigidBodyRattleSystem.cpp" />
+    <ClCompile Include="Source\Physics\Integrators\StormerVerlet.cpp" />
+    <ClCompile Include="Source\Physics\Potentials\ConstantGravityPotential.cpp" />
+    <ClCompile Include="Source\Physics\Potentials\PotentialEnergy.cpp" />
+    <ClCompile Include="Source\Physics\State\ParticleState.cpp" />
+    <ClCompile Include="Source\Physics\State\RigidBodyState.cpp" />
+    <ClCompile Include="Source\Physics\Systems\ParticleSystem.cpp" />
     <ClCompile Include="Source\PrecompiledHeader\Pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -177,6 +194,9 @@
   <ItemGroup>
     <None Include="Source\Shaders\fragmentShader.fs" />
     <None Include="Source\Shaders\vertexShader.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="Libraries\eigen-5.0.0\debug\msvc\eigen.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

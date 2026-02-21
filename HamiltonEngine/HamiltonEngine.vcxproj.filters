@@ -22,18 +22,45 @@
     <ClCompile Include="Libraries\glad\glad.c">
       <Filter>Libraries\glad</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Physics\SymplecticEulerSystem.cpp">
-      <Filter>Source\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Physics\PhysicsState.cpp">
-      <Filter>Source\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
     <ClCompile Include="Source\PrecompiledHeader\Pch.cpp">
       <Filter>Source\PrecompiledHeader</Filter>
     </ClCompile>
     <ClCompile Include="ConfigurationVariableBase.cpp">
       <Filter>Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Configuration\Globals.cpp">
+      <Filter>Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Integrators\EulerSplitting.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Integrators\RigidBodyRattleSystem.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\State\ParticleState.cpp">
+      <Filter>Source\Physics\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\State\RigidBodyState.cpp">
+      <Filter>Source\Physics\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Potentials\ConstantGravityPotential.cpp">
+      <Filter>Source\Physics\Potentials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Potentials\PotentialEnergy.cpp">
+      <Filter>Source\Physics\Potentials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Systems\ParticleSystem.cpp">
+      <Filter>Source\Physics\Systems</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Integrators\EulerB.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Integrators\EulerA.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Physics\Integrators\StormerVerlet.cpp">
+      <Filter>Source\Physics\Integrators</Filter>
     </ClCompile>
     <ClCompile Include="Source\OpenGL\Camera.cpp">
       <Filter>Source\OpenGL</Filter>
@@ -71,6 +98,21 @@
     <Filter Include="Source\PrecompiledHeader">
       <UniqueIdentifier>{37480b83-bab2-474c-adb3-509e5156120a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Libraries\Eigen">
+      <UniqueIdentifier>{7d0f626a-2d15-48b1-9fbf-a2fc95319b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Physics\Integrators">
+      <UniqueIdentifier>{90f66cbe-9644-4769-a726-aa173f8ecaa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Physics\Potentials">
+      <UniqueIdentifier>{c88f80e0-739b-4de8-be7d-21875f2e6c2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Physics\State">
+      <UniqueIdentifier>{3099ebab-4ddb-4f5b-aaa6-ebe8c3380a8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Physics\Systems">
+      <UniqueIdentifier>{333c5e3a-87f9-4b26-bf0b-4e99323e5368}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
@@ -100,12 +142,7 @@
     <ClInclude Include="Libraries\glad\glad.h">
       <Filter>Libraries\glad</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\SymplecticEulerSystem.h">
-      <Filter>Source\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Physics\PhysicsState.h">
-      <Filter>Source\Physics</Filter>
-    </ClInclude>
+
     <ClInclude Include="Source\OpenGL\Texture.h" />
     <ClInclude Include="Source\PrecompiledHeader\Pch.h">
       <Filter>Source\PrecompiledHeader</Filter>
@@ -130,5 +167,10 @@
     <None Include="Source\Shaders\vertexShader.vs">
       <Filter>Source\Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="Libraries\eigen-5.0.0\debug\msvc\eigen.natvis">
+      <Filter>Libraries\Eigen</Filter>
+    </Natvis>
   </ItemGroup>
 </Project>
