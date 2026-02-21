@@ -1,5 +1,7 @@
 #include "PrecompiledHeader/Pch.h"
 #include "Window.h"
+#include <Configuration/Globals.h>
+#include "Utils.h"
 
 namespace HamiltonEngine::OpenGL 
 {
@@ -52,6 +54,62 @@ namespace HamiltonEngine::OpenGL
 		{
 			glfwSetWindowShouldClose(window, true);
 		}
+
+	}
+
+	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+	{
+		HamiltonEngine::Globals::camera.fov -= (float)yoffset;
+		if (HamiltonEngine::Globals::camera.fov < 1.0f)
+			HamiltonEngine::Globals::camera.fov = 1.0f;
+		if (HamiltonEngine::Globals::camera.fov > 45.0f)
+			HamiltonEngine::Globals::camera.fov = 45.0f;
+	}
+
+	bool firstMouse = true;
+	float lastX = HamiltonEngine::Globals::WindowWidth / 2.0;
+	float lastY = HamiltonEngine::Globals::WindowHeight / 2.0;
+
+	void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
+	{
+
+		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
+			return;
+
+		float xpos = static_cast<float>(xposIn);
+		float ypos = static_cast<float>(yposIn);
+
+		if (firstMouse)
+		{
+			lastX = xpos;
+			lastY = ypos;
+			firstMouse = false;
+		}
+
+		float xoffset = xpos - lastX;
+		float yoffset = lastY - ypos; // x-coords are reversed because reasons
+		lastX = xpos;
+		lastY = ypos;
+
+		float sensitivity = 0.1f;
+		xoffset *= sensitivity;
+		yoffset *= sensitivity;
+
+		HamiltonEngine::Globals::camera.yaw += xoffset;
+		HamiltonEngine::Globals::camera.pitch += yoffset;
+
+		// make sure that when pitch is out of bounds, screen doesn't get flipped
+		if (HamiltonEngine::Globals::camera.pitch > 89.0f)
+			HamiltonEngine::Globals::camera.pitch = 89.0f;
+		if (HamiltonEngine::Globals::camera.pitch < -89.0f)
+			HamiltonEngine::Globals::camera.pitch = -89.0f;
+
+		Eigen::Vector3f NewFront;
+		NewFront << cos(DegToRad(HamiltonEngine::Globals::camera.yaw)) * cos(DegToRad(HamiltonEngine::Globals::camera.pitch)),
+			sin(DegToRad(HamiltonEngine::Globals::camera.pitch)),
+			sin(DegToRad(HamiltonEngine::Globals::camera.yaw))* cos(DegToRad(HamiltonEngine::Globals::camera.pitch));
+		NewFront.normalize();
+		HamiltonEngine::Globals::camera.CameraFront = NewFront;
 
 	}
 
