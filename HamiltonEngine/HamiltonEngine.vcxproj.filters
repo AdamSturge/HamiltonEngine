@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Source\Main.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Configuration\ConfigurationSystem.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
@@ -68,6 +65,9 @@
     <ClCompile Include="Source\Configuration\Globals.cpp" />
     <ClCompile Include="Source\OpenGL\Utils.cpp">
       <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,17 +158,37 @@
     <ClInclude Include="Source\OpenGL\Camera.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Physics\Integrators\EulerA.h" />
-    <ClInclude Include="Source\Physics\Integrators\EulerB.h" />
-    <ClInclude Include="Source\Physics\Integrators\EulerSplitting.h" />
     <ClInclude Include="Source\Physics\Integrators\HamiltonianSplitting.h" />
-    <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h" />
-    <ClInclude Include="Source\Physics\Integrators\StormerVerlet.h" />
-    <ClInclude Include="Source\Physics\Potentials\ConstantGravityPotential.h" />
-    <ClInclude Include="Source\Physics\Potentials\PotentialEnergy.h" />
-    <ClInclude Include="Source\Physics\State\ParticleState.h" />
-    <ClInclude Include="Source\Physics\State\RigidBodyState.h" />
-    <ClInclude Include="Source\Physics\Systems\ParticleSystem.h" />
+    <ClInclude Include="Source\Physics\Potentials\ConstantGravityPotential.h">
+      <Filter>Source\Physics\Potentials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\EulerA.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\EulerB.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\EulerSplitting.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\State\ParticleState.h">
+      <Filter>Source\Physics\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Systems\ParticleSystem.h">
+      <Filter>Source\Physics\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Potentials\PotentialEnergy.h">
+      <Filter>Source\Physics\Potentials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\State\RigidBodyState.h">
+      <Filter>Source\Physics\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\StormerVerlet.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h">
+      <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\fragmentShader.fs">
