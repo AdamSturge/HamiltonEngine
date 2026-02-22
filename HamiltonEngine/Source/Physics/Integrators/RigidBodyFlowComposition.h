@@ -20,8 +20,8 @@ namespace HamiltonEngine::Physics
 		const float* PotentialTickRateWeights,
 		const float* KineticTickRateWeights,
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
-		Eigen::Vector3f& AngMom,
+		Eigen::Affine3f& Transform,
+		Eigen::Vector3f& AngularMomentum,
 		float Dt = Globals::PhysicsTickLength)
 	{
 		static_assert((1 + sizeof...(Rest)) == (NumPotential + NumKinetic - PotentialIndex - KineticIndex),
@@ -33,8 +33,8 @@ namespace HamiltonEngine::Physics
 			const float PotentialDt = PotentialTickRateWeights[PotentialIndex] * Dt;
 			RigidBodyPotentialOnly(
 				InertiaTensor,
-				Orientation,
-				AngMom,
+				Transform,
+				AngularMomentum,
 				PotentialWeights[PotentialIndex],
 				PotentialDt);
 
@@ -48,8 +48,8 @@ namespace HamiltonEngine::Physics
 					PotentialTickRateWeights,
 					KineticTickRateWeights,
 					InertiaTensor,
-					Orientation,
-					AngMom,
+					Transform,
+					AngularMomentum,
 					Dt);
 			}
 		}
@@ -60,8 +60,8 @@ namespace HamiltonEngine::Physics
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
 			RigidBodyKineticXOnly(
 				InertiaTensor,
-				Orientation,
-				AngMom,
+				Transform,
+				AngularMomentum,
 				KineticWeights[KineticIndex],
 				KineticDt);
 
@@ -75,8 +75,8 @@ namespace HamiltonEngine::Physics
 					PotentialTickRateWeights,
 					KineticTickRateWeights,
 					InertiaTensor,
-					Orientation,
-					AngMom,
+					Transform,
+					AngularMomentum,
 					Dt);
 			}
 		}
@@ -87,8 +87,8 @@ namespace HamiltonEngine::Physics
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
 			RigidBodyKineticYOnly(
 				InertiaTensor,
-				Orientation,
-				AngMom,
+				Transform,
+				AngularMomentum,
 				KineticWeights[KineticIndex],
 				KineticDt);
 
@@ -102,8 +102,8 @@ namespace HamiltonEngine::Physics
 						PotentialTickRateWeights,
 						KineticTickRateWeights,
 						InertiaTensor,
-						Orientation,
-						AngMom,
+						Transform,
+						AngularMomentum,
 						Dt);
 			}
 		}
@@ -114,8 +114,8 @@ namespace HamiltonEngine::Physics
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
 			RigidBodyKineticZOnly(
 				InertiaTensor,
-				Orientation,
-				AngMom,
+				Transform,
+				AngularMomentum,
 				KineticWeights[KineticIndex],
 				KineticDt);
 
@@ -129,8 +129,8 @@ namespace HamiltonEngine::Physics
 						PotentialTickRateWeights,
 						KineticTickRateWeights,
 						InertiaTensor,
-						Orientation,
-						AngMom,
+						Transform,
+						AngularMomentum,
 						Dt);
 			}
 		}
@@ -149,8 +149,8 @@ namespace HamiltonEngine::Physics
 	//	const float D[M],
 	//	const RigidBodyIntegrationCompositionMode Modes[N + M],
 	//	Eigen::Diagonal3f& InertiaTensor,
-	//	Eigen::Matrix3f& Orientation,
-	//	Eigen::Vector3f& AngMom,
+	//	Eigen::Matrix3f& Transform,
+	//	Eigen::Vector3f& AngularMomentum,
 	//	float Dt = Globals::PhysicsTickLength)
 	//{
 	//	const int NumSteps = N + M;
@@ -166,8 +166,8 @@ namespace HamiltonEngine::Physics
 	//				const float PotentialDt = C[ModIndex] * Dt;
 	//				RigidBodyPotentialOnly(
 	//					InertiaTensor,
-	//					Orientation,
-	//					AngMom,
+	//					Transform,
+	//					AngularMomentum,
 	//					A[ModIndex],
 	//					PotentialDt);
 	//				break;
@@ -180,8 +180,8 @@ namespace HamiltonEngine::Physics
 	//				const float KineticDt = D[ModIndex] * Dt;
 	//				RigidBodyKineticXOnly(
 	//					InertiaTensor,
-	//					Orientation,
-	//					AngMom,
+	//					Transform,
+	//					AngularMomentum,
 	//					B[ModIndex],
 	//					KineticDt);
 	//				break;
@@ -194,8 +194,8 @@ namespace HamiltonEngine::Physics
 	//				const float KineticDt = D[ModIndex] * Dt;
 	//				RigidBodyKineticYOnly(
 	//					InertiaTensor,
-	//					Orientation,
-	//					AngMom,
+	//					Transform,
+	//					AngularMomentum,
 	//					B[ModIndex],
 	//					KineticDt);
 	//				break;
@@ -208,8 +208,8 @@ namespace HamiltonEngine::Physics
 	//				const float KineticDt = D[ModIndex] * Dt;
 	//				RigidBodyKineticZOnly(
 	//					InertiaTensor,
-	//					Orientation,
-	//					AngMom,
+	//					Transform,
+	//					AngularMomentum,
 	//					B[ModIndex],
 	//					KineticDt);
 	//				break;

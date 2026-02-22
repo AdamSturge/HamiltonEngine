@@ -23,13 +23,10 @@ namespace HamiltonEngine::Physics
 		{
 			entt::entity Entity = Registry.create();
 
-			Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
-			Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f(1.0f, 0.0f, 0.0f));
-			Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
-			Registry.emplace<Physics::OrientationComponent>(Entity, Eigen::Matrix3f::Identity());
-			Registry.emplace<Physics::AngularMomentumComponent>(Entity, Eigen::Vector3f::Zero());
-			Registry.emplace<Physics::InertiaTensorComponent>(Entity, Eigen::Diagonal3f(1.0f, 1.0f, 1.0f));
-			Registry.emplace<Physics::RigidBodyPotentialEnergyListHeadComponent>(Entity);
+			Registry.emplace<Physics::RigidBodyStateComponent>(Entity, 
+				RigidBodyStateComponent{ Eigen::Diagonal3f(1.0f, 1.0f, 1.0f),
+				Eigen::Affine3f::Identity(),
+				Eigen::Vector3f::Zero()});
 		}
 
 	}
@@ -44,12 +41,9 @@ namespace HamiltonEngine::Physics
 		//TODO look into EnTT groups instead of multi views
 
 		//Rigid Body Sim
-		auto RigidBodyView = Registry.view<
-			InertiaTensorComponent,
-			OrientationComponent,
-			AngularMomentumComponent>();
+		auto RigidBodyView = Registry.view<Physics::RigidBodyStateComponent>();
 
-		for (auto [Entity, InertiaC, OrientationC, AngMomC] : RigidBodyView.each())
+		for (auto [Entity, StateC] : RigidBodyView.each())
 		{
 			constexpr int NumPotential = 1;
 			constexpr int NumKinetic = 3;
@@ -70,9 +64,9 @@ namespace HamiltonEngine::Physics
 					KineticWeights, 
 					PotentialTickRateWeights, 
 					KineticTickRateWeights, 
-					InertiaC.InertiaTensor, 
-					OrientationC.Orientation,
-					AngMomC.AngularMomentum);
+					StateC.InertiaTensor,
+					StateC.Transform,
+					StateC.AngularMomentum);
 			
 			//RigidBodyKineticXOnly(InertiaC.InertiaTensor, OrientationC.Orientation, AngMomC.AngularMomentum);
 			//std::cout << OrientationC.Orientation.transpose() * OrientationC.Orientation << std::endl << std::endl;

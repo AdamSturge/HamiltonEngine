@@ -23,28 +23,28 @@ namespace HamiltonEngine::Physics
 	
 	void RigidBodyPotentialOnly(
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
+		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngMom,
 		float PotentialWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
 	void RigidBodyKineticXOnly(
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
+		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngMom,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
 	void RigidBodyKineticYOnly(
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
+		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngMom,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
 	void RigidBodyKineticZOnly(
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
+		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngMom,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);

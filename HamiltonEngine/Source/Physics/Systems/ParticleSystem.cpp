@@ -23,9 +23,7 @@ namespace HamiltonEngine::Physics
 		{
 			entt::entity Entity = Registry.create();
 
-			Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
-			Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f(0.0f, 0.0f, 0.0f));
-			Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
+			Registry.emplace<Physics::ParticleStateComponent>(Entity, ParticleStateComponent{1.0f, Eigen::Vector3f::Zero(), Eigen::Vector3f::Zero()});
 		}
 	}
 
@@ -39,15 +37,12 @@ namespace HamiltonEngine::Physics
 		//TODO look into EnTT groups instead of multi views
 
 		//Particle Sim
-		auto ParticleView = Registry.view<
-			Physics::MassComponent,
-			Physics::PositionComponent,
-			Physics::LinearMomentumComponent>();
+		auto ParticleView = Registry.view<ParticleStateComponent>();
 
-		for (auto [Entity, MassC, PositionC, LinMomC] : ParticleView.each())
+		for (auto [Entity, ParticleStateC] : ParticleView.each())
 		{
 			//EulerA(MassC.Mass, PositionC.Position, LinMomC.LinearMomentum);
-			EulerB(MassC.Mass, PositionC.Position, LinMomC.LinearMomentum);
+			EulerB(ParticleStateC.Mass, ParticleStateC.Position, ParticleStateC.LinearMomentum);
 			//StormerVerlet(MassC.Mass, PositionC.Position, LinMomC.LinearMomentum);
 			//std::cout << PositionC.Position << std::endl << std::endl;
 		}

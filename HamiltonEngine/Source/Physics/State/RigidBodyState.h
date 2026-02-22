@@ -9,7 +9,19 @@ namespace Eigen
 
 namespace HamiltonEngine::Physics
 {
-	struct OrientationComponent
+	struct RigidBodyStateComponent 
+	{
+		RigidBodyStateComponent(const Eigen::Diagonal3f& I,
+			const Eigen::Affine3f& Trans,
+			const Eigen::Vector3f& AngMom);
+		
+		Eigen::Diagonal3f InertiaTensor; // Body Coordinates
+		Eigen::Affine3f Transform; //Body To World
+		Eigen::Vector3f AngularMomentum; // Body Coordinates
+		entt::entity PotentialEnergyListHead{ entt::null };
+	};
+	
+	/*struct OrientationComponent
 	{
 		OrientationComponent(const Eigen::Matrix3f& O);
 		Eigen::Matrix3f Orientation;
@@ -34,6 +46,7 @@ namespace HamiltonEngine::Physics
 		//TODO change this to EnTT handle
 		entt::entity Head{ entt::null };
 	};
+	*/
 
 	using PotentialEnergyFn = float (*)(const Eigen::Affine3f& BodyToWorldTransform, Eigen::Vector3f BodyPosition);
 	using PotentialEnergyGradFn = void (*)(const Eigen::Affine3f& BodyToWorldTransform, 

@@ -6,7 +6,7 @@ namespace  HamiltonEngine::Physics
 {	
 	void RigidBodyPotentialOnly(
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
+		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngMom, 
 		float PotentialWeight, 
 		float Dt)
@@ -25,7 +25,7 @@ namespace  HamiltonEngine::Physics
 	*/
 	void RigidBodyKineticXOnly(
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
+		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngMom,
 		float KineticWeight,
 		float Dt)
@@ -40,12 +40,12 @@ namespace  HamiltonEngine::Physics
 		};
 
 		AngMom = EX * AngMom;
-		Orientation = EX * Orientation;
+		Transform = EX * Transform;
 	}
 
 	void RigidBodyKineticYOnly(
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
+		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngMom,
 		float KineticWeight,
 		float Dt)
@@ -60,12 +60,12 @@ namespace  HamiltonEngine::Physics
 		};
 
 		AngMom = EY * AngMom;
-		Orientation = EY * Orientation;
+		Transform = EY * Transform;
 	}
 
 	void RigidBodyKineticZOnly(
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
+		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngMom,
 		float KineticWeight,
 		float Dt)
@@ -80,6 +80,6 @@ namespace  HamiltonEngine::Physics
 		};
 
 		AngMom = EZ * AngMom;
-		Orientation = EZ * Orientation;
+		Transform = EZ * Transform;
 	}
 }

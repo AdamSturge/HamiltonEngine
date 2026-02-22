@@ -5,15 +5,12 @@
 
 namespace HamiltonEngine::Physics
 {
-    PositionComponent::PositionComponent(const Eigen::Vector3f& Pos) : Position{Pos}
-    {
-    }
-    
-    LinearMomentumComponent::LinearMomentumComponent(const Eigen::Vector3f& Mom) : LinearMomentum{Mom}
-    {
-    }
-
-    MassComponent::MassComponent(float M) : Mass{M}
-    {
-    }
+	ParticleStateComponent::ParticleStateComponent(float M,
+		const Eigen::Vector3f& Pos, 
+		const Eigen::Vector3f& LinMom)
+		: Mass{ M }
+		,Position {Pos}
+		, LinearMomentum{ LinMom }
+	{
+	}
 }
