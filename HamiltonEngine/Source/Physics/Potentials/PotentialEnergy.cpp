@@ -40,7 +40,7 @@ namespace HamiltonEngine::Physics
 		const Eigen::Matrix3f Orientation = Transform.rotation();
 		
 		const RigidBodyPotentialEnergyComponent* Current = &PotentialEnergyComponent;
-		entt::entity NextEntity;
+		entt::const_handle NextEntityHandle;
 		const entt::registry& Reigstry = HamiltonEngine::Globals::Registry;
 		do 
 		{
@@ -52,8 +52,8 @@ namespace HamiltonEngine::Physics
 					OutGradAngularPotentialEnergy);
 			}
 
-			NextEntity = Current->NextEntity;
-			Current = Reigstry.try_get<RigidBodyPotentialEnergyComponent>(NextEntity);
+			NextEntityHandle = Current->NextEntity;
+			Current = NextEntityHandle.try_get<RigidBodyPotentialEnergyComponent>();
 
 		} while (Current);
 	}

@@ -22,6 +22,7 @@ namespace HamiltonEngine::Physics
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
+		const RigidBodyPotentialEnergyComponent& PotentialComponent,
 		float Dt = Globals::PhysicsTickLength)
 	{
 		static_assert((1 + sizeof...(Rest)) == (NumPotential + NumKinetic - PotentialIndex - KineticIndex),
@@ -35,6 +36,7 @@ namespace HamiltonEngine::Physics
 				InertiaTensor,
 				Transform,
 				AngularMomentum,
+				PotentialComponent,
 				PotentialWeights[PotentialIndex],
 				PotentialDt);
 
@@ -50,6 +52,7 @@ namespace HamiltonEngine::Physics
 					InertiaTensor,
 					Transform,
 					AngularMomentum,
+					PotentialComponent,
 					Dt);
 			}
 		}
@@ -77,6 +80,7 @@ namespace HamiltonEngine::Physics
 					InertiaTensor,
 					Transform,
 					AngularMomentum,
+					PotentialComponent,
 					Dt);
 			}
 		}
@@ -104,6 +108,7 @@ namespace HamiltonEngine::Physics
 						InertiaTensor,
 						Transform,
 						AngularMomentum,
+						PotentialComponent,
 						Dt);
 			}
 		}
@@ -131,6 +136,7 @@ namespace HamiltonEngine::Physics
 						InertiaTensor,
 						Transform,
 						AngularMomentum,
+						PotentialComponent,
 						Dt);
 			}
 		}

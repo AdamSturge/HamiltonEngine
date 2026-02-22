@@ -1,16 +1,25 @@
 #include "PrecompiledHeader/Pch.h"
 
 #include "RigidBodySplitting.h"
+#include "Physics/Potentials/PotentialEnergy.h"
 
 namespace  HamiltonEngine::Physics
 {	
 	void RigidBodyPotentialOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
-		Eigen::Vector3f& AngMom, 
+		Eigen::Vector3f& AngularMomentum,
+		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent,
 		float PotentialWeight, 
 		float Dt)
 	{
+		Eigen::Vector3f PotentialEnergyLinearGrad;
+		Eigen::Vector3f PotentialEnergyAngularGrad;
+		ComputeGradPotentialEnergy(Transform, PotentialEnergyComponent, PotentialEnergyLinearGrad, PotentialEnergyAngularGrad);
+	
+		AngularMomentum -= PotentialEnergyAngularGrad * Dt;
+		
+		//TODO Linear update
 	}
 
 	/*
@@ -26,12 +35,12 @@ namespace  HamiltonEngine::Physics
 	void RigidBodyKineticXOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
-		Eigen::Vector3f& AngMom,
+		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight,
 		float Dt)
 	{
 		Eigen::Vector3f MomentsOfIntertia = InertiaTensor.diagonal();
-		const float w0 = AngMom(0) / MomentsOfIntertia(0);
+		const float w0 = AngularMomentum(0) / MomentsOfIntertia(0);
 
 		const Eigen::Matrix3f EX{ 
 			{1.0f, 0.0f,          0.0f},
@@ -39,19 +48,21 @@ namespace  HamiltonEngine::Physics
 			{0.0f, -sin(w0 * Dt), cos(w0 * Dt)}
 		};
 
-		AngMom = EX * AngMom;
+		AngularMomentum = EX * AngularMomentum;
 		Transform = EX * Transform;
+
+		//TODO Linear update
 	}
 
 	void RigidBodyKineticYOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
-		Eigen::Vector3f& AngMom,
+		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight,
 		float Dt)
 	{
 		Eigen::Vector3f MomentsOfIntertia = InertiaTensor.diagonal();
-		const float w1 = AngMom(1) / MomentsOfIntertia(1);
+		const float w1 = AngularMomentum(1) / MomentsOfIntertia(1);
 
 		const Eigen::Matrix3f EY{
 			{cos(w1 * Dt),  0.0f, sin(w1 * Dt)},
@@ -59,19 +70,21 @@ namespace  HamiltonEngine::Physics
 			{-sin(w1 * Dt), 0.0f, cos(w1 * Dt)}
 		};
 
-		AngMom = EY * AngMom;
+		AngularMomentum = EY * AngularMomentum;
 		Transform = EY * Transform;
+
+		//TODO Linear update
 	}
 
 	void RigidBodyKineticZOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
-		Eigen::Vector3f& AngMom,
+		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight,
 		float Dt)
 	{
 		Eigen::Vector3f MomentsOfIntertia = InertiaTensor.diagonal();
-		const float w2 = AngMom(2) / MomentsOfIntertia(2);
+		const float w2 = AngularMomentum(2) / MomentsOfIntertia(2);
 
 		const Eigen::Matrix3f EZ{
 			{cos(w2 * Dt),  -sin(w2 * Dt), 0.0f},
@@ -79,7 +92,9 @@ namespace  HamiltonEngine::Physics
 			{0.0f,          0.0f,          1.0f}
 		};
 
-		AngMom = EZ * AngMom;
+		AngularMomentum = EZ * AngularMomentum;
 		Transform = EZ * Transform;
+
+		//TODO Linear update
 	}
 }

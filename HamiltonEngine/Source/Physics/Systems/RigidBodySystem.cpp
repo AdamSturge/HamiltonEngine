@@ -55,6 +55,9 @@ namespace HamiltonEngine::Physics
 			constexpr int KineticIndex = 0;
 			
 
+			const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent = 
+				StateC.PotentialEnergyListHead.get<RigidBodyPotentialEnergyComponent>();
+
 			RigidBodyFlowComposition<NumPotential, NumKinetic,
 				PotentialIndex, KineticIndex,
 				RigidBodyIntegrationCompositionMode::KineticX,
@@ -66,7 +69,8 @@ namespace HamiltonEngine::Physics
 					KineticTickRateWeights, 
 					StateC.InertiaTensor,
 					StateC.Transform,
-					StateC.AngularMomentum);
+					StateC.AngularMomentum,
+					PotentialEnergyComponent);
 			
 			//RigidBodyKineticXOnly(InertiaC.InertiaTensor, OrientationC.Orientation, AngMomC.AngularMomentum);
 			//std::cout << OrientationC.Orientation.transpose() * OrientationC.Orientation << std::endl << std::endl;

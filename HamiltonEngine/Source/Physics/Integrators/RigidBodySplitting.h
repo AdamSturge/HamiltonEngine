@@ -20,32 +20,35 @@ namespace HamiltonEngine::Physics
 		KineticZ,
 		Potential
 	};
+
+	struct RigidBodyPotentialEnergyComponent;
 	
 	void RigidBodyPotentialOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
-		Eigen::Vector3f& AngMom,
+		Eigen::Vector3f& AngularMomentum,
+		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent,
 		float PotentialWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
 	void RigidBodyKineticXOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
-		Eigen::Vector3f& AngMom,
+		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
 	void RigidBodyKineticYOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
-		Eigen::Vector3f& AngMom,
+		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
 	void RigidBodyKineticZOnly(
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
-		Eigen::Vector3f& AngMom,
+		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 }

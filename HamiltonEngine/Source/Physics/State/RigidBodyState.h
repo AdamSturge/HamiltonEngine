@@ -18,7 +18,7 @@ namespace HamiltonEngine::Physics
 		Eigen::Diagonal3f InertiaTensor; // Body Coordinates
 		Eigen::Affine3f Transform; //Body To World
 		Eigen::Vector3f AngularMomentum; // Body Coordinates
-		entt::entity PotentialEnergyListHead{ entt::null };
+		entt::const_handle PotentialEnergyListHead;
 	};
 	
 	/*struct OrientationComponent
@@ -59,8 +59,8 @@ namespace HamiltonEngine::Physics
 		//This is a linked list that connects to entities that are designed to compute 
 		//potential energies acting on a given rigid body
 		//TODO change these to EnTT handle
-		entt::entity NextEntity{ entt::null };
-		entt::entity RigidBodyEntity{ entt::null }; //back pointer to rigid body
+		entt::const_handle NextEntity{  };
+		entt::const_handle RigidBodyEntity{  }; //back pointer to rigid body
 
 		Eigen::Vector3f BodyPointOfApplication; //Body Coordinates
 		PotentialEnergyFn ComputePotentialEnergyFn;
