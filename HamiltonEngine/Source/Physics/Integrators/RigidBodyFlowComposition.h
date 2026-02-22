@@ -19,6 +19,8 @@ namespace HamiltonEngine::Physics
 		const float* KineticWeights,
 		const float* PotentialTickRateWeights,
 		const float* KineticTickRateWeights,
+		float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
@@ -32,7 +34,8 @@ namespace HamiltonEngine::Physics
 			PotentialIndex >= 0 && PotentialIndex < NumPotential)
 		{
 			const float PotentialDt = PotentialTickRateWeights[PotentialIndex] * Dt;
-			RigidBodyPotentialOnly(
+			RigidBodyPotentialOnly(Mass,
+				LinearMomentum,
 				InertiaTensor,
 				Transform,
 				AngularMomentum,
@@ -49,6 +52,8 @@ namespace HamiltonEngine::Physics
 					KineticWeights,
 					PotentialTickRateWeights,
 					KineticTickRateWeights,
+					Mass,
+					LinearMomentum,
 					InertiaTensor,
 					Transform,
 					AngularMomentum,
@@ -61,7 +66,8 @@ namespace HamiltonEngine::Physics
 			&& KineticIndex >= 0 && KineticIndex < NumKinetic)
 		{
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
-			RigidBodyKineticXOnly(
+			RigidBodyKineticXOnly(Mass,
+				LinearMomentum,
 				InertiaTensor,
 				Transform,
 				AngularMomentum,
@@ -77,6 +83,8 @@ namespace HamiltonEngine::Physics
 					KineticWeights,
 					PotentialTickRateWeights,
 					KineticTickRateWeights,
+					Mass,
+					LinearMomentum,
 					InertiaTensor,
 					Transform,
 					AngularMomentum,
@@ -89,7 +97,8 @@ namespace HamiltonEngine::Physics
 			&& KineticIndex >= 0 && KineticIndex < NumKinetic)
 		{
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
-			RigidBodyKineticYOnly(
+			RigidBodyKineticYOnly(Mass,
+				LinearMomentum,
 				InertiaTensor,
 				Transform,
 				AngularMomentum,
@@ -105,6 +114,8 @@ namespace HamiltonEngine::Physics
 						KineticWeights,
 						PotentialTickRateWeights,
 						KineticTickRateWeights,
+						Mass,
+						LinearMomentum,
 						InertiaTensor,
 						Transform,
 						AngularMomentum,
@@ -117,7 +128,8 @@ namespace HamiltonEngine::Physics
 			&& KineticIndex >= 0 && KineticIndex < NumKinetic)
 		{
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
-			RigidBodyKineticZOnly(
+			RigidBodyKineticZOnly(Mass,
+				LinearMomentum,
 				InertiaTensor,
 				Transform,
 				AngularMomentum,
@@ -133,6 +145,8 @@ namespace HamiltonEngine::Physics
 						KineticWeights,
 						PotentialTickRateWeights,
 						KineticTickRateWeights,
+						Mass,
+						LinearMomentum,
 						InertiaTensor,
 						Transform,
 						AngularMomentum,

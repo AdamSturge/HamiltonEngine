@@ -5,11 +5,15 @@
 namespace HamiltonEngine::Physics 
 {
     RigidBodyStateComponent::RigidBodyStateComponent(
-        const Eigen::Diagonal3f& I, 
-        const Eigen::Affine3f& Trans, 
+        const Eigen::Affine3f& Trans,
+        float M,
+        const Eigen::Vector3f& LinMom,
+        const Eigen::Diagonal3f& I,
         const Eigen::Vector3f& AngMom)
-        : InertiaTensor{I}
-        , Transform{Trans}
+        : Transform{Trans}
+        , Mass{M}
+        , LinearMomentum{LinMom}
+        , InertiaTensor{I}
         , AngularMomentum{AngMom}
     {
     }

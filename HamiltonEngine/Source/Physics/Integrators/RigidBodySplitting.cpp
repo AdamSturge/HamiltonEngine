@@ -6,6 +6,8 @@
 namespace  HamiltonEngine::Physics
 {	
 	void RigidBodyPotentialOnly(
+		float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
@@ -20,6 +22,7 @@ namespace  HamiltonEngine::Physics
 		AngularMomentum -= PotentialEnergyAngularGrad * Dt;
 		
 		//TODO Linear update
+		LinearMomentum -= Dt * PotentialEnergyLinearGrad;
 	}
 
 	/*
@@ -33,6 +36,8 @@ namespace  HamiltonEngine::Physics
 		coded below
 	*/
 	void RigidBodyKineticXOnly(
+		float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
@@ -51,10 +56,13 @@ namespace  HamiltonEngine::Physics
 		AngularMomentum = EX * AngularMomentum;
 		Transform = EX * Transform;
 
-		//TODO Linear update
+		Eigen::Vector3f DeltaLinearPosition(Dt * (1.0f / Mass) * LinearMomentum(0), 0.0f, 0.0f);
+		Transform.translate(DeltaLinearPosition);
 	}
 
 	void RigidBodyKineticYOnly(
+		float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
@@ -73,10 +81,12 @@ namespace  HamiltonEngine::Physics
 		AngularMomentum = EY * AngularMomentum;
 		Transform = EY * Transform;
 
-		//TODO Linear update
+		Eigen::Vector3f DeltaLinearPosition(0.0f, Dt * (1.0f / Mass) * LinearMomentum(1), 0.0f);
+		Transform.translate(DeltaLinearPosition);
 	}
 
-	void RigidBodyKineticZOnly(
+	void RigidBodyKineticZOnly(float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
@@ -95,6 +105,7 @@ namespace  HamiltonEngine::Physics
 		AngularMomentum = EZ * AngularMomentum;
 		Transform = EZ * Transform;
 
-		//TODO Linear update
+		Eigen::Vector3f DeltaLinearPosition(0.0f, 0.0f, Dt * (1.0f / Mass) * LinearMomentum(2));
+		Transform.translate(DeltaLinearPosition);
 	}
 }

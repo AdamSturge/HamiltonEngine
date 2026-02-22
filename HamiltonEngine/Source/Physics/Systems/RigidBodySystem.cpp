@@ -24,9 +24,14 @@ namespace HamiltonEngine::Physics
 			entt::entity Entity = Registry.create();
 
 			Registry.emplace<Physics::RigidBodyStateComponent>(Entity, 
-				RigidBodyStateComponent{ Eigen::Diagonal3f(1.0f, 1.0f, 1.0f),
-				Eigen::Affine3f::Identity(),
-				Eigen::Vector3f::Zero()});
+				RigidBodyStateComponent
+				{
+					Eigen::Affine3f::Identity(), //transform
+					1.0f, // mass
+					Eigen::Vector3f::Zero(), // linear momentum
+					Eigen::Diagonal3f(1.0f, 1.0f, 1.0f), // inertial tensor
+					Eigen::Vector3f::Zero() // angular momentum
+				}); 
 		}
 
 	}
@@ -66,7 +71,9 @@ namespace HamiltonEngine::Physics
 				RigidBodyIntegrationCompositionMode::Potential>(PotentialWeights,
 					KineticWeights, 
 					PotentialTickRateWeights, 
-					KineticTickRateWeights, 
+					KineticTickRateWeights,
+					StateC.Mass,
+					StateC.LinearMomentum,
 					StateC.InertiaTensor,
 					StateC.Transform,
 					StateC.AngularMomentum,

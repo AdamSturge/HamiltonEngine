@@ -23,7 +23,8 @@ namespace HamiltonEngine::Physics
 
 	struct RigidBodyPotentialEnergyComponent;
 	
-	void RigidBodyPotentialOnly(
+	void RigidBodyPotentialOnly(float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
@@ -31,21 +32,24 @@ namespace HamiltonEngine::Physics
 		float PotentialWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
-	void RigidBodyKineticXOnly(
+	void RigidBodyKineticXOnly(float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
-	void RigidBodyKineticYOnly(
+	void RigidBodyKineticYOnly(float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
-	void RigidBodyKineticZOnly(
+	void RigidBodyKineticZOnly(float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,

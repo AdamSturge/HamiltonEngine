@@ -11,12 +11,20 @@ namespace HamiltonEngine::Physics
 {
 	struct RigidBodyStateComponent 
 	{
-		RigidBodyStateComponent(const Eigen::Diagonal3f& I,
-			const Eigen::Affine3f& Trans,
+		RigidBodyStateComponent(const Eigen::Affine3f& Trans,
+			float M,
+			const Eigen::Vector3f& LinMom,
+			const Eigen::Diagonal3f& I,
 			const Eigen::Vector3f& AngMom);
 		
-		Eigen::Diagonal3f InertiaTensor; // Body Coordinates
 		Eigen::Affine3f Transform; //Body To World
+		
+		//Linear state
+		float Mass;
+		Eigen::Vector3f LinearMomentum; //World coordinates
+		
+		//Angular State
+		Eigen::Diagonal3f InertiaTensor; // Body Coordinates
 		Eigen::Vector3f AngularMomentum; // Body Coordinates
 		entt::const_handle PotentialEnergyListHead;
 	};
