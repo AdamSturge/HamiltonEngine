@@ -35,8 +35,12 @@ namespace HamiltonEngine::Physics
 		entt::entity Head{ entt::null };
 	};
 
-	using PotentialEnergyFn = float (*)(Eigen::Vector3f WorldPosition);
-	using PotentialEnergyGradFn = void (*)(Eigen::Vector3f WorldPosition, Eigen::Vector3f OutGradPotentialEnergy);
+	using PotentialEnergyFn = float (*)(const Eigen::Affine3f& BodyToWorldTransform, Eigen::Vector3f BodyPosition);
+	using PotentialEnergyGradFn = void (*)(const Eigen::Affine3f& BodyToWorldTransform, 
+		Eigen::Vector3f BodyPosition, 
+		Eigen::Vector3f OutGradLinearPotentialEnergy,
+		Eigen::Vector3f OutGradAngularPotentialEnergy);
+
 	struct RigidBodyPotentialEnergyComponent
 	{
 		//This is a linked list that connects to entities that are designed to compute 
@@ -45,7 +49,7 @@ namespace HamiltonEngine::Physics
 		entt::entity NextEntity{ entt::null };
 		entt::entity RigidBodyEntity{ entt::null }; //back pointer to rigid body
 
-		Eigen::Vector3f PointOfApplication;
+		Eigen::Vector3f BodyPointOfApplication; //Body Coordinates
 		PotentialEnergyFn ComputePotentialEnergyFn;
 		PotentialEnergyGradFn ComputePotentialEnergyGradFn;
 	};

@@ -18,6 +18,6 @@ namespace HamiltonEngine::Physics
 
 	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform,
 		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent,
-		Eigen::Vector3f& OutGradPotentialEnergy,
-		Eigen::Vector3f& OutTorque);
+		Eigen::Vector3f& OutGradLinearPotentialEnergy,
+		Eigen::Vector3f& OutGradAngularPotentialEnergy);
 }

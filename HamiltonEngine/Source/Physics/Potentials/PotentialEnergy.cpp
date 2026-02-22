@@ -33,8 +33,8 @@ namespace HamiltonEngine::Physics
 	// above
 	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform,
 		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent, 
-		Eigen::Vector3f& OutGradPotentialEnergy,
-		Eigen::Vector3f& OutTorque)
+		Eigen::Vector3f& OutGradLinearPotentialEnergy,
+		Eigen::Vector3f& OutGradAngularPotentialEnergy)
 	{	
 		const Eigen::Vector3f WorldPosition = Transform.translation();
 		const Eigen::Matrix3f Orientation = Transform.rotation();
@@ -44,13 +44,12 @@ namespace HamiltonEngine::Physics
 		const entt::registry& Reigstry = HamiltonEngine::Globals::Registry;
 		do 
 		{
-			Eigen::Vector3f PotentialEnergyGrad;
 			if (Current->ComputePotentialEnergyGradFn)
 			{
-				Current->ComputePotentialEnergyGradFn(WorldPosition, PotentialEnergyGrad);
-				OutGradPotentialEnergy += PotentialEnergyGrad;
-				const Eigen::Vector3f Torque = Current->PointOfApplication.cross(Orientation.transpose()*PotentialEnergyGrad);
-				OutTorque += Torque;
+				Current->ComputePotentialEnergyGradFn(Transform, 
+					Current->BodyPointOfApplication,
+					OutGradLinearPotentialEnergy,
+					OutGradAngularPotentialEnergy);
 			}
 
 			NextEntity = Current->NextEntity;
