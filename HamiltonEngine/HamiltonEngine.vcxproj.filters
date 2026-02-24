@@ -74,11 +74,16 @@
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Source\Physics\Integrators\RigidBodyA.cpp">
       <Filter>Source\Physics\Integrators</Filter>
     </ClCompile>
     <ClCompile Include="Source\Physics\Integrators\RigidBodyB.cpp">
       <Filter>Source\Physics\Integrators</Filter>
+=======
+    <ClCompile Include="Source\OpenGL\BasicShapes\Cube.cpp">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
+>>>>>>> 030ad8e (Basic Unit Cube Object)
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -124,6 +129,12 @@
     <Filter Include="Source\Physics\Systems">
       <UniqueIdentifier>{333c5e3a-87f9-4b26-bf0b-4e99323e5368}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\OpenGL\BasicShapes">
+      <UniqueIdentifier>{d380e7e8-1c5d-46f2-a68f-4f8a04b65991}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenGL\Shaders">
+      <UniqueIdentifier>{5434bcab-4cd8-493e-98b4-aae0b4f5ac22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
@@ -159,7 +170,11 @@
     <ClInclude Include="Source\Configuration\Globals.h">
       <Filter>Source\Configuration</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Source\OpenGL\SimpleShapes.h">
+=======
+    <ClInclude Include="OpenGL.h">
+>>>>>>> 030ad8e (Basic Unit Cube Object)
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Source\OpenGL\Camera.h">
@@ -207,6 +222,7 @@
     <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Source\OpenGL\OpenGL.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
@@ -215,6 +231,13 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\RigidBodyB.h">
       <Filter>Source\Physics\Integrators</Filter>
+=======
+    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\BasicShapes\Cube.h">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
+>>>>>>> 030ad8e (Basic Unit Cube Object)
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -19,8 +19,11 @@
 #include <OpenGL/SimpleShapes.h>
 #include <OpenGL/Utils.h>
 #include "OpenGL/Camera.h"
+#include <OpenGL/BasicShapes/Cube.h>
 #include "Configuration/Globals.h"
 
+// Move the texture images out of root
+// clean up the OpenGL filters
 // TODO: Create an easy way to instantiate boxes 
 // TODO: Make a sphere
 // TODO: LIGHTING!
@@ -166,7 +169,14 @@ int main(int argc, char** argv)
 
 
 		glBindVertexArray(cube_VAO);
+<<<<<<< HEAD
 		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
+=======
+		for (int i = 0; i < 10; i++)
+		{
+			Model = Eigen::Affine3f::Identity();
+			Model.translate(cubePositions[i]);
+>>>>>>> 030ad8e (Basic Unit Cube Object)
 
 
 		// A scattering of default cubes

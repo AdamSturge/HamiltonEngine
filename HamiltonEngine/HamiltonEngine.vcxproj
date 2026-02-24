@@ -141,6 +141,7 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariable.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
     <ClInclude Include="Source\Configuration\Globals.h" />
+    <ClInclude Include="Source\OpenGL\BasicShapes\Cube.h" />
     <ClInclude Include="Source\OpenGL\Camera.h" />
     <ClInclude Include="Source\OpenGL\OpenGL.h" />
     <ClInclude Include="Source\OpenGL\Shader.h" />
@@ -175,6 +176,7 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp" />
     <ClCompile Include="Source\Configuration\Globals.cpp" />
     <ClCompile Include="Source\Main.cpp" />
+    <ClCompile Include="Source\OpenGL\BasicShapes\Cube.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
