@@ -153,9 +153,6 @@
     <ClInclude Include="Source\Configuration\Globals.h">
       <Filter>Source\Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGL.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Source\OpenGL\SimpleShapes.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
@@ -203,6 +200,9 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h">
       <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\OpenGL.h">
+      <Filter>Source\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

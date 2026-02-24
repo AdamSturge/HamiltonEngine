@@ -17,4 +17,16 @@ namespace HamiltonEngine::Physics
         , AngularMomentum{AngMom}
     {
     }
+
+    RigidBodyPotentialEnergyComponent::RigidBodyPotentialEnergyComponent(entt::const_handle Parent,
+        const Eigen::Vector3f& BodyPoC,
+        PotentialEnergyFn PotentialFn, 
+        PotentialEnergyGradFn GradFn)
+        : RigidBodyEntity{Parent}
+        , BodyPointOfApplication{BodyPoC}
+        , ComputePotentialEnergyFn{PotentialFn}
+        , ComputePotentialEnergyGradFn{GradFn}
+    {
+
+    }
 }

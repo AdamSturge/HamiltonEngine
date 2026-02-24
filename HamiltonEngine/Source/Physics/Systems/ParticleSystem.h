@@ -2,6 +2,6 @@
 
 namespace HamiltonEngine::Physics 
 {
-	void CreateParticleEntities(entt::registry& Registry);
-	void ParticleSystem(entt::registry& Registry);
+	void CreateParticleEntities();
+	void ParticleSystem();
 }

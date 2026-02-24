@@ -26,49 +26,33 @@ namespace HamiltonEngine::Physics
 		//Angular State
 		Eigen::Diagonal3f InertiaTensor; // Body Coordinates
 		Eigen::Vector3f AngularMomentum; // Body Coordinates
+
+		//Potential Energy
 		entt::const_handle PotentialEnergyListHead;
 	};
 	
-	/*struct OrientationComponent
-	{
-		OrientationComponent(const Eigen::Matrix3f& O);
-		Eigen::Matrix3f Orientation;
-	};
-	
-	struct AngularMomentumComponent
-	{
-		AngularMomentumComponent(const Eigen::Vector3f& AngMom);
-		Eigen::Vector3f AngularMomentum;
-	};
-
-	
-	struct InertiaTensorComponent
-	{
-		InertiaTensorComponent() = default;
-		InertiaTensorComponent(const Eigen::Diagonal3f& I);
-		Eigen::Diagonal3f InertiaTensor;
-	};
-
-	struct RigidBodyPotentialEnergyListHeadComponent 
-	{
-		//TODO change this to EnTT handle
-		entt::entity Head{ entt::null };
-	};
-	*/
-
-	using PotentialEnergyFn = float (*)(const Eigen::Affine3f& BodyToWorldTransform, Eigen::Vector3f BodyPosition);
+	using PotentialEnergyFn = float (*)(const Eigen::Affine3f& BodyToWorldTransform, 
+		Eigen::Vector3f BodyPosition,
+		float Mass,
+		const Eigen::Diagonal3f& InertiaTensor);
 	using PotentialEnergyGradFn = void (*)(const Eigen::Affine3f& BodyToWorldTransform, 
-		Eigen::Vector3f BodyPosition, 
-		Eigen::Vector3f OutGradLinearPotentialEnergy,
-		Eigen::Vector3f OutGradAngularPotentialEnergy);
+		Eigen::Vector3f BodyPosition,
+		float Mass,
+		const Eigen::Diagonal3f& InertiaTensor,
+		Eigen::Vector3f& OutGradLinearPotentialEnergy,
+		Eigen::Vector3f& OutGradAngularPotentialEnergy);
 
 	struct RigidBodyPotentialEnergyComponent
 	{
+		RigidBodyPotentialEnergyComponent(entt::const_handle Parent,
+			const Eigen::Vector3f& BodyPoC,
+			PotentialEnergyFn PotentialFn,
+			PotentialEnergyGradFn GradFn);
+		
 		//This is a linked list that connects to entities that are designed to compute 
 		//potential energies acting on a given rigid body
-		//TODO change these to EnTT handle
-		entt::const_handle NextEntity{  };
-		entt::const_handle RigidBodyEntity{  }; //back pointer to rigid body
+		entt::const_handle NextEntity;
+		entt::const_handle RigidBodyEntity; //back pointer to rigid body
 
 		Eigen::Vector3f BodyPointOfApplication; //Body Coordinates
 		PotentialEnergyFn ComputePotentialEnergyFn;

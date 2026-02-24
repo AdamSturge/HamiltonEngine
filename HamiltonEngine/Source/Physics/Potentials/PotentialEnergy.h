@@ -1,9 +1,13 @@
 #pragma once
+namespace Eigen
+{
+	using Diagonal3f = Eigen::DiagonalMatrix<float, 3, 3>;
+}
 
 namespace HamiltonEngine::Physics 
 {	
 	struct RigidBodyPotentialEnergyComponent;
-	
+
 	float ComputePotentialEnergy(const Eigen::Affine3f& Transform, float Mass);
 
 	//The assumption here is that the {V_i, V_j} = 0. ie.) The Poisson Bracket of the
@@ -17,6 +21,8 @@ namespace HamiltonEngine::Physics
 		Eigen::Vector3f& OutGradPotentialEnergy);
 
 	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform,
+		float Mass,
+		Eigen::Diagonal3f InertiaTensor,
 		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent,
 		Eigen::Vector3f& OutGradLinearPotentialEnergy,
 		Eigen::Vector3f& OutGradAngularPotentialEnergy);

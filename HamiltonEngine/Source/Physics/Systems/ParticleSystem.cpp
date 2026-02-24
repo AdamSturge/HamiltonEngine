@@ -12,7 +12,7 @@ namespace HamiltonEngine::Physics
 {
 	ConfigurationVariable<int> NumParticles("NumParticles", 10);
 
-	void CreateParticleEntities(entt::registry& Registry)
+	void CreateParticleEntities()
 	{
 		if (!Globals::PhysicsSimEnabled)
 		{
@@ -21,13 +21,13 @@ namespace HamiltonEngine::Physics
 
 		for (int EntityIndex = 0; EntityIndex < NumParticles; ++EntityIndex)
 		{
-			entt::entity Entity = Registry.create();
+			entt::entity Entity = Globals::Registry.create();
 
-			Registry.emplace<Physics::ParticleStateComponent>(Entity, ParticleStateComponent{1.0f, Eigen::Vector3f::Zero(), Eigen::Vector3f::Zero()});
+			Globals::Registry.emplace<Physics::ParticleStateComponent>(Entity, ParticleStateComponent{1.0f, Eigen::Vector3f::Zero(), Eigen::Vector3f::Zero()});
 		}
 	}
 
-	void ParticleSystem(entt::registry& Registry)
+	void ParticleSystem()
 	{
 		if (!Globals::PhysicsSimEnabled)
 		{
@@ -37,7 +37,7 @@ namespace HamiltonEngine::Physics
 		//TODO look into EnTT groups instead of multi views
 
 		//Particle Sim
-		auto ParticleView = Registry.view<ParticleStateComponent>();
+		auto ParticleView = Globals::Registry.view<ParticleStateComponent>();
 
 		for (auto [Entity, ParticleStateC] : ParticleView.each())
 		{

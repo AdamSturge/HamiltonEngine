@@ -8,7 +8,7 @@
 
 namespace HamiltonEngine::Physics 
 {
-	float ComputePotentialEnergy(const Eigen::Affine3f& Transform, 
+	float ComputePotentialEnergy(const Eigen::Affine3f& Transform,
 		float Mass)
 	{
 		float PotentialEnergy = 0.0f;
@@ -32,6 +32,8 @@ namespace HamiltonEngine::Physics
 	//locations. However we do want to sum up gradV terms for the particle update system 
 	// above
 	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform,
+		float Mass,
+		Eigen::Diagonal3f InertiaTensor,
 		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent, 
 		Eigen::Vector3f& OutGradLinearPotentialEnergy,
 		Eigen::Vector3f& OutGradAngularPotentialEnergy)
@@ -48,11 +50,18 @@ namespace HamiltonEngine::Physics
 			{
 				Current->ComputePotentialEnergyGradFn(Transform, 
 					Current->BodyPointOfApplication,
+					Mass,
+					InertiaTensor,
 					OutGradLinearPotentialEnergy,
 					OutGradAngularPotentialEnergy);
 			}
 
 			NextEntityHandle = Current->NextEntity;
+			if (!NextEntityHandle.valid()) //TODO circular list trick?
+			{
+				break;
+			}
+
 			Current = NextEntityHandle.try_get<RigidBodyPotentialEnergyComponent>();
 
 		} while (Current);

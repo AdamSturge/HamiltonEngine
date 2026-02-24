@@ -24,7 +24,7 @@ namespace HamiltonEngine::Physics
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
-		const RigidBodyPotentialEnergyComponent& PotentialComponent,
+		const RigidBodyPotentialEnergyComponent* PotentialComponent,
 		float Dt = Globals::PhysicsTickLength)
 	{
 		static_assert((1 + sizeof...(Rest)) == (NumPotential + NumKinetic - PotentialIndex - KineticIndex),
@@ -33,15 +33,22 @@ namespace HamiltonEngine::Physics
 		if constexpr (First == RigidBodyIntegrationCompositionMode::Potential &&
 			PotentialIndex >= 0 && PotentialIndex < NumPotential)
 		{
-			const float PotentialDt = PotentialTickRateWeights[PotentialIndex] * Dt;
-			RigidBodyPotentialOnly(Mass,
-				LinearMomentum,
-				InertiaTensor,
-				Transform,
-				AngularMomentum,
-				PotentialComponent,
-				PotentialWeights[PotentialIndex],
-				PotentialDt);
+			if (PotentialComponent) 
+			{
+				const float PotentialDt = PotentialTickRateWeights[PotentialIndex] * Dt;
+				RigidBodyPotentialOnly(Mass,
+					LinearMomentum,
+					InertiaTensor,
+					Transform,
+					AngularMomentum,
+					*PotentialComponent,
+					PotentialWeights[PotentialIndex],
+					PotentialDt);
+			}
+			else 
+			{
+				//LOG THIS?
+			}
 
 			constexpr int NextIndex = PotentialIndex + 1;
 			if constexpr (NextIndex < NumPotential || KineticIndex < NumKinetic)

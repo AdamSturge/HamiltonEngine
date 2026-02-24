@@ -2,6 +2,6 @@
 
 namespace HamiltonEngine::Physics
 {
-	void CreateRigidBodyEntities(entt::registry& Registry);
-	void RigidBodySystem(entt::registry& Registry);
+	void CreateRigidBodyEntities();
+	void RigidBodySystem();
 }

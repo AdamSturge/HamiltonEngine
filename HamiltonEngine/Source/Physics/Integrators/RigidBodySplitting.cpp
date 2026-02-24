@@ -15,13 +15,17 @@ namespace  HamiltonEngine::Physics
 		float PotentialWeight, 
 		float Dt)
 	{
-		Eigen::Vector3f PotentialEnergyLinearGrad;
-		Eigen::Vector3f PotentialEnergyAngularGrad;
-		ComputeGradPotentialEnergy(Transform, PotentialEnergyComponent, PotentialEnergyLinearGrad, PotentialEnergyAngularGrad);
+		Eigen::Vector3f PotentialEnergyLinearGrad = Eigen::Vector3f::Zero();
+		Eigen::Vector3f PotentialEnergyAngularGrad = Eigen::Vector3f::Zero();
+		ComputeGradPotentialEnergy(Transform,
+			Mass,
+			InertiaTensor,
+			PotentialEnergyComponent,
+			PotentialEnergyLinearGrad, 
+			PotentialEnergyAngularGrad);
 	
 		AngularMomentum -= PotentialEnergyAngularGrad * Dt;
-		
-		//TODO Linear update
+
 		LinearMomentum -= Dt * PotentialEnergyLinearGrad;
 	}
 
