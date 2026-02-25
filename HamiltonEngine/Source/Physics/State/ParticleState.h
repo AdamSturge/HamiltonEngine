@@ -2,7 +2,17 @@
 
 namespace HamiltonEngine::Physics 
 {
-	struct PositionComponent
+	struct ParticleStateComponent 
+	{
+		ParticleStateComponent(float M, const Eigen::Vector3f& Pos,
+			const Eigen::Vector3f& LinMom);
+
+		float Mass; 
+		Eigen::Vector3f Position;
+		Eigen::Vector3f LinearMomentum;
+	};
+	
+	/*struct PositionComponent
 	{
 		PositionComponent(const Eigen::Vector3f& Pos);
 		Eigen::Vector3f Position;
@@ -18,5 +28,5 @@ namespace HamiltonEngine::Physics
 	{
 		MassComponent(float M);
 		float Mass;
-	};
+	};*/
 }

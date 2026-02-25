@@ -5,6 +5,7 @@
 #include "Configuration/Globals.h"
 #include "Physics/Systems/ParticleSystem.h"
 #include "Physics/Systems/RigidBodySystem.h"
+#include "Physics/State/RigidBodyState.h"
 
 #include <OpenGl/OpenGL.h>
 #include <OpenGL/Window.h>
@@ -37,9 +38,8 @@ int main(int argc, char** argv)
 	GLuint WindowHeight = HamiltonEngine::Globals::WindowHeight;
 	std::string WindowName = HamiltonEngine::Globals::WindowName;
 
-	entt::registry Registry;
-	HamiltonEngine::Physics::CreateParticleEntities(Registry);
-	HamiltonEngine::Physics::CreateRigidBodyEntities(Registry);
+	HamiltonEngine::Physics::CreateParticleEntities();
+	HamiltonEngine::Physics::CreateRigidBodyEntities();
 
 	glfwInit(); // Initialize OpenGL
 	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(WindowHeight, WindowWidth, WindowName.c_str());
@@ -122,8 +122,8 @@ int main(int argc, char** argv)
 		glfwSetCursorPosCallback(window, HamiltonEngine::OpenGL::mouse_callback);
 		glfwSetScrollCallback(window, HamiltonEngine::OpenGL::scroll_callback);
 
-		HamiltonEngine::Physics::ParticleSystem(Registry);
-		HamiltonEngine::Physics::RigidBodySystem(Registry);
+		HamiltonEngine::Physics::ParticleSystem();
+		HamiltonEngine::Physics::RigidBodySystem();
 
 		// rendering
 		glClearColor(WindowBackgroundRed, WindowBackgroundGreen, WindowBackgroundBlue, 1.0f);
@@ -164,16 +164,20 @@ int main(int argc, char** argv)
 
 
 		glBindVertexArray(cube_VAO);
-		for (int i = 0; i < 1; i++)
+		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
+
+		for (auto [Entity, StateC] : RigidBodyView.each())
 		{
-			Model = Eigen::Affine3f::Identity();
+			/*Model = Eigen::Affine3f::Identity();
 			Model.translate(cubePositions[i]);
 
 			float angle = 20.0f * i;
 				Model.rotate(Eigen::AngleAxisf(
 					DegToRad(angle) 
-					, Eigen::Vector3f(0.5f, 1.0f, 0.0f).normalized()));
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
+					, Eigen::Vector3f(0.5f, 1.0f, 0.0f).normalized()));*/
+
+
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, StateC.Transform.data());
 
 			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
 

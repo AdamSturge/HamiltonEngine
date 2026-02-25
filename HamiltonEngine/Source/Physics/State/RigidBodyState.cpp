@@ -1,31 +1,36 @@
 #include "PrecompiledHeader/Pch.h"
-#define ORIENTATION_CHECK
 
 #include "RigidBodyState.h"
 
-#ifdef ORIENTATION_CHECK
-#include "Configuration/Globals.h"
-#endif
-
 namespace HamiltonEngine::Physics 
 {
-
-    OrientationComponent::OrientationComponent(const Eigen::Matrix3f& O) : Orientation {O}
+    RigidBodyStateComponent::RigidBodyStateComponent(
+        const Eigen::Affine3f& Trans,
+        float M,
+        const Eigen::Vector3f& LinMom,
+        const Eigen::Diagonal3f& I,
+        const Eigen::Vector3f& AngMom)
+        : Transform{Trans}
+        , Mass{M}
+        , LinearMomentum{LinMom}
+        , InertiaTensor{I}
+        , AngularMomentum{AngMom}
     {
-#ifdef ORIENTATION_CHECK
-        const Eigen::Matrix3f StoppingCondition = (Orientation.transpose() * Orientation - Eigen::Matrix3f::Identity());
-        const bool IsProperOrientation = StoppingCondition.cwiseLessOrEqual(Globals::Epsilon).all();
-        //TODO Log this
-        //TODO Assert this
-#endif
     }
 
-    AngularMomentumComponent::AngularMomentumComponent(const Eigen::Vector3f& AngMom) : AngularMomentum{ AngMom }
+    RigidBodyPotentialEnergyListComponent::RigidBodyPotentialEnergyListComponent(entt::const_handle Parent) : RigidBodyEntity{Parent}
     {
     }
 
-
-    InertiaTensorComponent::InertiaTensorComponent(const Eigen::Diagonal3f& I) : InertiaTensor{I}
+    RigidBodyPotentialEnergyComponent::RigidBodyPotentialEnergyComponent(entt::const_handle Parent,
+        const Eigen::Vector3f& BodyPoC,
+        PotentialEnergyFn PotentialFn, 
+        PotentialEnergyGradFn GradFn)
+        : RigidBodyPotentialEnergyListComponent(Parent)
+        , BodyPointOfApplication{BodyPoC}
+        , ComputePotentialEnergyFn{PotentialFn}
+        , ComputePotentialEnergyGradFn{GradFn}
     {
+
     }
 }

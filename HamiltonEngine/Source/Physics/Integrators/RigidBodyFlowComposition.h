@@ -19,9 +19,12 @@ namespace HamiltonEngine::Physics
 		const float* KineticWeights,
 		const float* PotentialTickRateWeights,
 		const float* KineticTickRateWeights,
+		float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
-		Eigen::Vector3f& AngMom,
+		Eigen::Affine3f& Transform,
+		Eigen::Vector3f& AngularMomentum,
+		entt::const_handle PotentialEnergyEntity,
 		float Dt = Globals::PhysicsTickLength)
 	{
 		static_assert((1 + sizeof...(Rest)) == (NumPotential + NumKinetic - PotentialIndex - KineticIndex),
@@ -30,13 +33,22 @@ namespace HamiltonEngine::Physics
 		if constexpr (First == RigidBodyIntegrationCompositionMode::Potential &&
 			PotentialIndex >= 0 && PotentialIndex < NumPotential)
 		{
-			const float PotentialDt = PotentialTickRateWeights[PotentialIndex] * Dt;
-			RigidBodyPotentialOnly(
-				InertiaTensor,
-				Orientation,
-				AngMom,
-				PotentialWeights[PotentialIndex],
-				PotentialDt);
+			if (PotentialEnergyEntity.valid())
+			{
+				const float PotentialDt = PotentialTickRateWeights[PotentialIndex] * Dt;
+				RigidBodyPotentialOnly(Mass,
+					LinearMomentum,
+					InertiaTensor,
+					Transform,
+					AngularMomentum,
+					PotentialEnergyEntity,
+					PotentialWeights[PotentialIndex],
+					PotentialDt);
+			}
+			else 
+			{
+				//LOG THIS?
+			}
 
 			constexpr int NextIndex = PotentialIndex + 1;
 			if constexpr (NextIndex < NumPotential || KineticIndex < NumKinetic)
@@ -47,9 +59,12 @@ namespace HamiltonEngine::Physics
 					KineticWeights,
 					PotentialTickRateWeights,
 					KineticTickRateWeights,
+					Mass,
+					LinearMomentum,
 					InertiaTensor,
-					Orientation,
-					AngMom,
+					Transform,
+					AngularMomentum,
+					PotentialEnergyEntity,
 					Dt);
 			}
 		}
@@ -58,10 +73,11 @@ namespace HamiltonEngine::Physics
 			&& KineticIndex >= 0 && KineticIndex < NumKinetic)
 		{
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
-			RigidBodyKineticXOnly(
+			RigidBodyKineticXOnly(Mass,
+				LinearMomentum,
 				InertiaTensor,
-				Orientation,
-				AngMom,
+				Transform,
+				AngularMomentum,
 				KineticWeights[KineticIndex],
 				KineticDt);
 
@@ -74,9 +90,12 @@ namespace HamiltonEngine::Physics
 					KineticWeights,
 					PotentialTickRateWeights,
 					KineticTickRateWeights,
+					Mass,
+					LinearMomentum,
 					InertiaTensor,
-					Orientation,
-					AngMom,
+					Transform,
+					AngularMomentum,
+					PotentialEnergyEntity,
 					Dt);
 			}
 		}
@@ -85,10 +104,11 @@ namespace HamiltonEngine::Physics
 			&& KineticIndex >= 0 && KineticIndex < NumKinetic)
 		{
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
-			RigidBodyKineticYOnly(
+			RigidBodyKineticYOnly(Mass,
+				LinearMomentum,
 				InertiaTensor,
-				Orientation,
-				AngMom,
+				Transform,
+				AngularMomentum,
 				KineticWeights[KineticIndex],
 				KineticDt);
 
@@ -101,9 +121,12 @@ namespace HamiltonEngine::Physics
 						KineticWeights,
 						PotentialTickRateWeights,
 						KineticTickRateWeights,
+						Mass,
+						LinearMomentum,
 						InertiaTensor,
-						Orientation,
-						AngMom,
+						Transform,
+						AngularMomentum,
+						PotentialEnergyEntity,
 						Dt);
 			}
 		}
@@ -112,10 +135,11 @@ namespace HamiltonEngine::Physics
 			&& KineticIndex >= 0 && KineticIndex < NumKinetic)
 		{
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
-			RigidBodyKineticZOnly(
+			RigidBodyKineticZOnly(Mass,
+				LinearMomentum,
 				InertiaTensor,
-				Orientation,
-				AngMom,
+				Transform,
+				AngularMomentum,
 				KineticWeights[KineticIndex],
 				KineticDt);
 
@@ -128,9 +152,12 @@ namespace HamiltonEngine::Physics
 						KineticWeights,
 						PotentialTickRateWeights,
 						KineticTickRateWeights,
+						Mass,
+						LinearMomentum,
 						InertiaTensor,
-						Orientation,
-						AngMom,
+						Transform,
+						AngularMomentum,
+						PotentialEnergyEntity,
 						Dt);
 			}
 		}
@@ -149,8 +176,8 @@ namespace HamiltonEngine::Physics
 	//	const float D[M],
 	//	const RigidBodyIntegrationCompositionMode Modes[N + M],
 	//	Eigen::Diagonal3f& InertiaTensor,
-	//	Eigen::Matrix3f& Orientation,
-	//	Eigen::Vector3f& AngMom,
+	//	Eigen::Matrix3f& Transform,
+	//	Eigen::Vector3f& AngularMomentum,
 	//	float Dt = Globals::PhysicsTickLength)
 	//{
 	//	const int NumSteps = N + M;
@@ -166,8 +193,8 @@ namespace HamiltonEngine::Physics
 	//				const float PotentialDt = C[ModIndex] * Dt;
 	//				RigidBodyPotentialOnly(
 	//					InertiaTensor,
-	//					Orientation,
-	//					AngMom,
+	//					Transform,
+	//					AngularMomentum,
 	//					A[ModIndex],
 	//					PotentialDt);
 	//				break;
@@ -180,8 +207,8 @@ namespace HamiltonEngine::Physics
 	//				const float KineticDt = D[ModIndex] * Dt;
 	//				RigidBodyKineticXOnly(
 	//					InertiaTensor,
-	//					Orientation,
-	//					AngMom,
+	//					Transform,
+	//					AngularMomentum,
 	//					B[ModIndex],
 	//					KineticDt);
 	//				break;
@@ -194,8 +221,8 @@ namespace HamiltonEngine::Physics
 	//				const float KineticDt = D[ModIndex] * Dt;
 	//				RigidBodyKineticYOnly(
 	//					InertiaTensor,
-	//					Orientation,
-	//					AngMom,
+	//					Transform,
+	//					AngularMomentum,
 	//					B[ModIndex],
 	//					KineticDt);
 	//				break;
@@ -208,8 +235,8 @@ namespace HamiltonEngine::Physics
 	//				const float KineticDt = D[ModIndex] * Dt;
 	//				RigidBodyKineticZOnly(
 	//					InertiaTensor,
-	//					Orientation,
-	//					AngMom,
+	//					Transform,
+	//					AngularMomentum,
 	//					B[ModIndex],
 	//					KineticDt);
 	//				break;

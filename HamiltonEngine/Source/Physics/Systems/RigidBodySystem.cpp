@@ -5,13 +5,14 @@
 #include "Configuration/Globals.h"
 #include "Physics/State/ParticleState.h"
 #include "Physics/State/RigidBodyState.h"
-#include "Physics/Integrators/RigidBodyFlowComposition.h"
+#include "Physics/Integrators/RigidBodyB.h"
+#include "Physics/Potentials/ConstantGravityPotential.h"
 
 namespace HamiltonEngine::Physics
 {
 	ConfigurationVariable<int> NumRigidBodies("NumRigidBodies", 10);
 
-	void CreateRigidBodyEntities(entt::registry& Registry)
+	void CreateRigidBodyEntities()
 	{
 		if (!Globals::PhysicsSimEnabled)
 		{
@@ -21,19 +22,32 @@ namespace HamiltonEngine::Physics
 		//A rigid body is a particle with orientation, inertia tensor, and angular momentum
 		for (int EntityIndex = 0; EntityIndex < NumRigidBodies; ++EntityIndex)
 		{
-			entt::entity Entity = Registry.create();
+			entt::entity RigidBodyEntity = Globals::Registry.create();
 
-			Registry.emplace<Physics::PositionComponent>(Entity, Eigen::Vector3f::Zero());
-			Registry.emplace<Physics::LinearMomentumComponent>(Entity, Eigen::Vector3f(1.0f, 0.0f, 0.0f));
-			Registry.emplace<Physics::MassComponent>(Entity, 1.0f);
-			Registry.emplace<Physics::OrientationComponent>(Entity, Eigen::Matrix3f::Identity());
-			Registry.emplace<Physics::AngularMomentumComponent>(Entity, Eigen::Vector3f::Zero());
-			Registry.emplace<Physics::InertiaTensorComponent>(Entity, Eigen::Diagonal3f(1.0f, 1.0f, 1.0f));
+			Physics::RigidBodyStateComponent& RigidBodyState = 
+				Globals::Registry.emplace<Physics::RigidBodyStateComponent>(RigidBodyEntity,
+					RigidBodyStateComponent
+					{
+						Eigen::Affine3f::Identity(), //transform
+						1.0f, // mass
+						Eigen::Vector3f(0.0f,0.0f,0.0f), // linear momentum
+						Eigen::Diagonal3f(1.0f, 1.0f, 1.0f), // inertial tensor
+						Eigen::Vector3f(0.0f,0.0f,0.0f) // angular momentum
+					});
+
+
+			entt::entity GravityEntity = Globals::Registry.create();
+			Globals::Registry.emplace<RigidBodyGravityComponent>(GravityEntity,
+				RigidBodyGravityComponent{
+					entt::const_handle(Globals::Registry,RigidBodyEntity) //Rigid body parent
+				});
+
+			RigidBodyState.PotentialEnergyListHead = entt::const_handle(Globals::Registry, GravityEntity);
 		}
 
 	}
 
-	void RigidBodySystem(entt::registry& Registry)
+	void RigidBodySystem()
 	{
 		if (!Globals::PhysicsSimEnabled)
 		{
@@ -43,39 +57,19 @@ namespace HamiltonEngine::Physics
 		//TODO look into EnTT groups instead of multi views
 
 		//Rigid Body Sim
-		auto RigidBodyView = Registry.view<
-			InertiaTensorComponent,
-			OrientationComponent,
-			AngularMomentumComponent>();
+		auto RigidBodyView = Globals::Registry.view<Physics::RigidBodyStateComponent>();
 
-		for (auto [Entity, InertiaC, OrientationC, AngMomC] : RigidBodyView.each())
+		for (auto [Entity, StateC] : RigidBodyView.each())
 		{
-			constexpr int NumPotential = 1;
-			constexpr int NumKinetic = 3;
-			constexpr float PotentialWeights[NumPotential]{ 1.0f };
-			constexpr float KineticWeights[NumKinetic]{ 1.0f,1.0f,1.0f };
-			constexpr float PotentialTickRateWeights[NumPotential]{ 1.0f };
-			constexpr float KineticTickRateWeights[NumKinetic]{ 1.0f,1.0f,1.0f };
-			constexpr int PotentialIndex = 0;
-			constexpr int KineticIndex = 0;
-			
+			RigidBodyB(StateC.Mass,
+				StateC.LinearMomentum,
+				StateC.InertiaTensor,
+				StateC.Transform,
+				StateC.AngularMomentum,
+				StateC.PotentialEnergyListHead);
 
-			RigidBodyFlowComposition<NumPotential, NumKinetic,
-				PotentialIndex, KineticIndex,
-				RigidBodyIntegrationCompositionMode::KineticX,
-				RigidBodyIntegrationCompositionMode::KineticY,
-				RigidBodyIntegrationCompositionMode::KineticZ,
-				RigidBodyIntegrationCompositionMode::Potential>(PotentialWeights,
-					KineticWeights, 
-					PotentialTickRateWeights, 
-					KineticTickRateWeights, 
-					InertiaC.InertiaTensor, 
-					OrientationC.Orientation,
-					AngMomC.AngularMomentum);
-			
-			//RigidBodyKineticXOnly(InertiaC.InertiaTensor, OrientationC.Orientation, AngMomC.AngularMomentum);
-			//std::cout << OrientationC.Orientation.transpose() * OrientationC.Orientation << std::endl << std::endl;
-			//std::cout << AngMomC.AngularMomentum.norm() << std::endl << std::endl;
+			//std::cout << StateC.Transform.translation() << std::endl << std::endl;
+			//std::cout << StateC.Transform.rotation() << std::endl << std::endl;
 		}
 	}
 }

@@ -20,32 +20,39 @@ namespace HamiltonEngine::Physics
 		KineticZ,
 		Potential
 	};
+
+	struct RigidBodyPotentialEnergyComponent;
 	
-	void RigidBodyPotentialOnly(
+	void RigidBodyPotentialOnly(float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
-		Eigen::Vector3f& AngMom,
+		Eigen::Affine3f& Transform,
+		Eigen::Vector3f& AngularMomentum,
+		entt::const_handle PotentialEnergyEntity,
 		float PotentialWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
-	void RigidBodyKineticXOnly(
+	void RigidBodyKineticXOnly(float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
-		Eigen::Vector3f& AngMom,
+		Eigen::Affine3f& Transform,
+		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
-	void RigidBodyKineticYOnly(
+	void RigidBodyKineticYOnly(float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
-		Eigen::Vector3f& AngMom,
+		Eigen::Affine3f& Transform,
+		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
-	void RigidBodyKineticZOnly(
+	void RigidBodyKineticZOnly(float Mass,
+		Eigen::Vector3f& LinearMomentum,
 		Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Matrix3f& Orientation,
-		Eigen::Vector3f& AngMom,
+		Eigen::Affine3f& Transform,
+		Eigen::Vector3f& AngularMomentum,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 }
