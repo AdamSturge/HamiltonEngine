@@ -26,44 +26,44 @@ namespace HamiltonEngine::Physics
 		ComputeGradConstantGravityPotential(Mass, OutGradPotentialEnergy);
 	}
 
-
-	//TODO This still needs time to cook. The output here should be torque (r x gradV)
-	//so we can't just sum all all the gradV terms since they are applied at different
-	//locations. However we do want to sum up gradV terms for the particle update system 
-	// above
 	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform,
 		float Mass,
 		Eigen::Diagonal3f InertiaTensor,
-		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent, 
+		entt::const_handle PotentialEnergyEntity,
 		Eigen::Vector3f& OutGradLinearPotentialEnergy,
 		Eigen::Vector3f& OutGradAngularPotentialEnergy)
 	{	
 		const Eigen::Vector3f WorldPosition = Transform.translation();
 		const Eigen::Matrix3f Orientation = Transform.rotation();
 		
-		const RigidBodyPotentialEnergyComponent* Current = &PotentialEnergyComponent;
-		entt::const_handle NextEntityHandle;
+		entt::const_handle CurrentEntityHandle = PotentialEnergyEntity;
 		const entt::registry& Reigstry = HamiltonEngine::Globals::Registry;
-		do 
+		while(CurrentEntityHandle.valid())
 		{
-			if (Current->ComputePotentialEnergyGradFn)
+			//You need to add to this list whenever a new type of potential is added to the engine/game
+			//TODO maybe some kind of global type registry?
+			
+			if (const RigidBodyGravityComponent* GravityComponent = CurrentEntityHandle.try_get<RigidBodyGravityComponent>())
 			{
-				Current->ComputePotentialEnergyGradFn(Transform, 
-					Current->BodyPointOfApplication,
+				const Eigen::Vector3f BodyPointOfApplication = Eigen::Vector3f::Zero();
+				ComputeGradConstantGravityPotentialRigidBody(Transform,
+					BodyPointOfApplication,
 					Mass,
 					InertiaTensor,
 					OutGradLinearPotentialEnergy,
 					OutGradAngularPotentialEnergy);
 			}
 
-			NextEntityHandle = Current->NextEntity;
-			if (!NextEntityHandle.valid()) //TODO circular list trick?
+			if (const RigidBodyPotentialEnergyListComponent* ListComponent = CurrentEntityHandle.try_get<RigidBodyPotentialEnergyListComponent>()) 
 			{
+				CurrentEntityHandle = ListComponent->NextEntity;
+			}
+			else 
+			{
+				//TODO Log this?
 				break;
 			}
 
-			Current = NextEntityHandle.try_get<RigidBodyPotentialEnergyComponent>();
-
-		} while (Current);
+		} 
 	}
 }

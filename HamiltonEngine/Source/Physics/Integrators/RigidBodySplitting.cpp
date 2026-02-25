@@ -11,7 +11,7 @@ namespace  HamiltonEngine::Physics
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
-		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent,
+		entt::const_handle PotentialEnergyEntity,
 		float PotentialWeight, 
 		float Dt)
 	{
@@ -20,7 +20,7 @@ namespace  HamiltonEngine::Physics
 		ComputeGradPotentialEnergy(Transform,
 			Mass,
 			InertiaTensor,
-			PotentialEnergyComponent,
+			PotentialEnergyEntity,
 			PotentialEnergyLinearGrad, 
 			PotentialEnergyAngularGrad);
 	

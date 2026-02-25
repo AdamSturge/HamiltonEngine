@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Physics/State/RigidBodyState.h"
+
 namespace Eigen
 {
 	using Diagonal3f = Eigen::DiagonalMatrix<float, 3, 3>;
@@ -26,4 +28,11 @@ namespace HamiltonEngine::Physics
 		const Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Vector3f& OutGradLinearPotentialEnergy,
 		Eigen::Vector3f& OutGradAngularPotentialEnergy);
+
+	struct RigidBodyGravityComponent : public RigidBodyPotentialEnergyListComponent
+	{
+		RigidBodyGravityComponent(entt::const_handle Parent);
+
+		float Gravity;
+	};
 }

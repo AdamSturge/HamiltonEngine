@@ -28,7 +28,7 @@ namespace HamiltonEngine::Physics
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
-		const RigidBodyPotentialEnergyComponent& PotentialEnergyComponent,
+		entt::const_handle PotentialEnergyEntity,
 		float PotentialWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 

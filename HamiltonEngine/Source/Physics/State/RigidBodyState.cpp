@@ -18,11 +18,15 @@ namespace HamiltonEngine::Physics
     {
     }
 
+    RigidBodyPotentialEnergyListComponent::RigidBodyPotentialEnergyListComponent(entt::const_handle Parent) : RigidBodyEntity{Parent}
+    {
+    }
+
     RigidBodyPotentialEnergyComponent::RigidBodyPotentialEnergyComponent(entt::const_handle Parent,
         const Eigen::Vector3f& BodyPoC,
         PotentialEnergyFn PotentialFn, 
         PotentialEnergyGradFn GradFn)
-        : RigidBodyEntity{Parent}
+        : RigidBodyPotentialEnergyListComponent(Parent)
         , BodyPointOfApplication{BodyPoC}
         , ComputePotentialEnergyFn{PotentialFn}
         , ComputePotentialEnergyGradFn{GradFn}

@@ -40,4 +40,11 @@ namespace HamiltonEngine::Physics
 	{
 		OutGradLinearPotentialEnergy += Mass * GravitationalAcceleration * Eigen::Vector3f(0.0f, 0.0f, 1.0f);
 	}
+
+	RigidBodyGravityComponent::RigidBodyGravityComponent(entt::const_handle Parent) 
+		: RigidBodyPotentialEnergyListComponent(Parent)
+		, Gravity{ GravitationalAcceleration }
+	{
+
+	}
 }

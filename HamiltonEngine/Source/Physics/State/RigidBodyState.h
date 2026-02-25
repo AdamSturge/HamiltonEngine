@@ -42,17 +42,23 @@ namespace HamiltonEngine::Physics
 		Eigen::Vector3f& OutGradLinearPotentialEnergy,
 		Eigen::Vector3f& OutGradAngularPotentialEnergy);
 
-	struct RigidBodyPotentialEnergyComponent
+	struct RigidBodyPotentialEnergyListComponent 
+	{
+		RigidBodyPotentialEnergyListComponent(entt::const_handle Parent);
+		
+		//This is a linked list that connects to entities that are designed to compute 
+		//potential energies acting on a given rigid body
+		entt::const_handle NextEntity;
+		entt::const_handle RigidBodyEntity; //back pointer to rigid body
+	};
+
+	struct RigidBodyPotentialEnergyComponent : public RigidBodyPotentialEnergyListComponent
 	{
 		RigidBodyPotentialEnergyComponent(entt::const_handle Parent,
 			const Eigen::Vector3f& BodyPoC,
 			PotentialEnergyFn PotentialFn,
 			PotentialEnergyGradFn GradFn);
 		
-		//This is a linked list that connects to entities that are designed to compute 
-		//potential energies acting on a given rigid body
-		entt::const_handle NextEntity;
-		entt::const_handle RigidBodyEntity; //back pointer to rigid body
 
 		Eigen::Vector3f BodyPointOfApplication; //Body Coordinates
 		PotentialEnergyFn ComputePotentialEnergyFn;

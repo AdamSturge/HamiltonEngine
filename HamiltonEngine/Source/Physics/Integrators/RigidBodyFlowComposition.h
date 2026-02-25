@@ -24,7 +24,7 @@ namespace HamiltonEngine::Physics
 		Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Affine3f& Transform,
 		Eigen::Vector3f& AngularMomentum,
-		const RigidBodyPotentialEnergyComponent* PotentialComponent,
+		entt::const_handle PotentialEnergyEntity,
 		float Dt = Globals::PhysicsTickLength)
 	{
 		static_assert((1 + sizeof...(Rest)) == (NumPotential + NumKinetic - PotentialIndex - KineticIndex),
@@ -33,7 +33,7 @@ namespace HamiltonEngine::Physics
 		if constexpr (First == RigidBodyIntegrationCompositionMode::Potential &&
 			PotentialIndex >= 0 && PotentialIndex < NumPotential)
 		{
-			if (PotentialComponent) 
+			if (PotentialEnergyEntity.valid())
 			{
 				const float PotentialDt = PotentialTickRateWeights[PotentialIndex] * Dt;
 				RigidBodyPotentialOnly(Mass,
@@ -41,7 +41,7 @@ namespace HamiltonEngine::Physics
 					InertiaTensor,
 					Transform,
 					AngularMomentum,
-					*PotentialComponent,
+					PotentialEnergyEntity,
 					PotentialWeights[PotentialIndex],
 					PotentialDt);
 			}
@@ -64,7 +64,7 @@ namespace HamiltonEngine::Physics
 					InertiaTensor,
 					Transform,
 					AngularMomentum,
-					PotentialComponent,
+					PotentialEnergyEntity,
 					Dt);
 			}
 		}
@@ -95,7 +95,7 @@ namespace HamiltonEngine::Physics
 					InertiaTensor,
 					Transform,
 					AngularMomentum,
-					PotentialComponent,
+					PotentialEnergyEntity,
 					Dt);
 			}
 		}
@@ -126,7 +126,7 @@ namespace HamiltonEngine::Physics
 						InertiaTensor,
 						Transform,
 						AngularMomentum,
-						PotentialComponent,
+						PotentialEnergyEntity,
 						Dt);
 			}
 		}
@@ -157,7 +157,7 @@ namespace HamiltonEngine::Physics
 						InertiaTensor,
 						Transform,
 						AngularMomentum,
-						PotentialComponent,
+						PotentialEnergyEntity,
 						Dt);
 			}
 		}

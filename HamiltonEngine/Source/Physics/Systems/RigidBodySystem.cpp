@@ -37,12 +37,9 @@ namespace HamiltonEngine::Physics
 
 
 			entt::entity GravityEntity = Globals::Registry.create();
-			Globals::Registry.emplace<RigidBodyPotentialEnergyComponent>(GravityEntity,
-				RigidBodyPotentialEnergyComponent{ 
-					entt::const_handle(Globals::Registry,RigidBodyEntity), //Rigid body parent
-					Eigen::Vector3f::Zero(), // body coordinates for point of application
-					&ComputeConstantGravityPotentialRigidBody,
-					&ComputeGradConstantGravityPotentialRigidBody
+			Globals::Registry.emplace<RigidBodyGravityComponent>(GravityEntity,
+				RigidBodyGravityComponent{
+					entt::const_handle(Globals::Registry,RigidBodyEntity) //Rigid body parent
 				});
 
 			RigidBodyState.PotentialEnergyListHead = entt::const_handle(Globals::Registry, GravityEntity);
@@ -73,12 +70,6 @@ namespace HamiltonEngine::Physics
 			constexpr int PotentialIndex = 0;
 			constexpr int KineticIndex = 0;
 			
-			const RigidBodyPotentialEnergyComponent* PotentialEnergyComponent = nullptr;
-			if (StateC.PotentialEnergyListHead.valid()) 
-			{
-				PotentialEnergyComponent = &StateC.PotentialEnergyListHead.get<RigidBodyPotentialEnergyComponent>();
-			}
-
 			RigidBodyFlowComposition<NumPotential, NumKinetic,
 				PotentialIndex, KineticIndex,
 				RigidBodyIntegrationCompositionMode::KineticX,
@@ -93,7 +84,7 @@ namespace HamiltonEngine::Physics
 					StateC.InertiaTensor,
 					StateC.Transform,
 					StateC.AngularMomentum,
-					PotentialEnergyComponent);
+					StateC.PotentialEnergyListHead);
 
 			//std::cout << StateC.Transform.translation() << std::endl << std::endl;
 			//std::cout << StateC.Transform.rotation() << std::endl << std::endl;
