@@ -5,7 +5,7 @@
 #include "Configuration/Globals.h"
 #include "Physics/State/ParticleState.h"
 #include "Physics/State/RigidBodyState.h"
-#include "Physics/Integrators/RigidBodyFlowComposition.h"
+#include "Physics/Integrators/RigidBodyB.h"
 #include "Physics/Potentials/ConstantGravityPotential.h"
 
 namespace HamiltonEngine::Physics
@@ -61,30 +61,12 @@ namespace HamiltonEngine::Physics
 
 		for (auto [Entity, StateC] : RigidBodyView.each())
 		{
-			constexpr int NumPotential = 1;
-			constexpr int NumKinetic = 3;
-			constexpr float PotentialWeights[NumPotential]{ 1.0f };
-			constexpr float KineticWeights[NumKinetic]{ 1.0f,1.0f,1.0f };
-			constexpr float PotentialTickRateWeights[NumPotential]{ 1.0f };
-			constexpr float KineticTickRateWeights[NumKinetic]{ 1.0f,1.0f,1.0f };
-			constexpr int PotentialIndex = 0;
-			constexpr int KineticIndex = 0;
-			
-			RigidBodyFlowComposition<NumPotential, NumKinetic,
-				PotentialIndex, KineticIndex,
-				RigidBodyIntegrationCompositionMode::KineticX,
-				RigidBodyIntegrationCompositionMode::KineticY,
-				RigidBodyIntegrationCompositionMode::KineticZ,
-				RigidBodyIntegrationCompositionMode::Potential>(PotentialWeights,
-					KineticWeights, 
-					PotentialTickRateWeights, 
-					KineticTickRateWeights,
-					StateC.Mass,
-					StateC.LinearMomentum,
-					StateC.InertiaTensor,
-					StateC.Transform,
-					StateC.AngularMomentum,
-					StateC.PotentialEnergyListHead);
+			RigidBodyB(StateC.Mass,
+				StateC.LinearMomentum,
+				StateC.InertiaTensor,
+				StateC.Transform,
+				StateC.AngularMomentum,
+				StateC.PotentialEnergyListHead);
 
 			//std::cout << StateC.Transform.translation() << std::endl << std::endl;
 			//std::cout << StateC.Transform.rotation() << std::endl << std::endl;
