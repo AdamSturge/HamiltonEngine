@@ -2,8 +2,9 @@
 
 #include "Cube.h"
 
-namespace OpenGL::BasicShapes
+namespace HamiltonEngine::OpenGL::BasicShapes
 {
+	// Returns a Vertex Array and Vertex Buffer with all the data for a unit cube 
 	void CreateUnitCube(GLuint* VAO, GLuint* VBO)
 	{
 		glGenVertexArrays(1, VAO);
@@ -19,5 +20,7 @@ namespace OpenGL::BasicShapes
 
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(1);
+
+		glBindVertexArray(0); // unbind so something else doesn't do something to this array.
 	}
 };

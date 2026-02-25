@@ -1,7 +1,7 @@
 #pragma once
 #include <PrecompiledHeader/Pch.h>
 
-namespace OpenGL::BasicShapes {
+namespace HamiltonEngine::OpenGL::BasicShapes {
 	const float UNIT_CUBE_VERTS[] =
 	{
 			-0.5f, -0.5f, -0.5f,
@@ -139,4 +139,15 @@ namespace OpenGL::BasicShapes {
 
 
 	void CreateUnitCube(GLuint* VAO, GLuint* VBO);
+
+
+	struct PositionComponent
+	{
+		Eigen::Vector3f position;
+	};
+	struct RotationComponent
+	{
+		float degrees;
+		Eigen::Vector3f axis;
+	};
 }
