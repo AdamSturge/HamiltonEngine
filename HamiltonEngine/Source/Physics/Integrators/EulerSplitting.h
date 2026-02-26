@@ -17,14 +17,15 @@ namespace HamiltonEngine::Physics
 	};
 	
 	void EulerPotentialOnly(float Mass,
-		Eigen::Vector3f& Pos,
-		Eigen::Vector3f& LinMom,
+		Eigen::Vector3f& Position,
+		Eigen::Vector3f& LinearMomentum,
+		entt::const_handle PotentialEnergyEntity,
 		float PotentialWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 
 	void EulerKineticOnly(float Mass,
-		Eigen::Vector3f& Pos,
-		Eigen::Vector3f& LinMom,
+		Eigen::Vector3f& Position,
+		Eigen::Vector3f& LinearMomentum,
 		float KineticWeight = 1.0f,
 		float Dt = Globals::PhysicsTickLength);
 }

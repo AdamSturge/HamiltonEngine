@@ -10,14 +10,15 @@ namespace HamiltonEngine::Physics
 	void EulerPotentialOnly(float Mass, 
 		Eigen::Vector3f& Position,
 		Eigen::Vector3f& LinearMomentum,
+		entt::const_handle PotentialEnergyEntity,
 		float PotentialWeight,
 		float Dt)
-	{
-		Eigen::Affine3f Transform;
-		Transform.translate(Position);
-		
-		Eigen::Vector3f PotentialEnergyGradient;
-		ComputeGradPotentialEnergy(Transform, Mass, PotentialEnergyGradient);
+	{	
+		Eigen::Vector3f PotentialEnergyGradient = Eigen::Vector3f::Zero();
+		ComputeGradPotentialEnergyParticle(Position,
+			Mass, 
+			PotentialEnergyEntity,
+			PotentialEnergyGradient);
 		
 		LinearMomentum -= Dt * PotentialWeight * PotentialEnergyGradient;
 	}

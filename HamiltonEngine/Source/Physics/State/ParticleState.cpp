@@ -6,11 +6,15 @@
 namespace HamiltonEngine::Physics
 {
 	ParticleStateComponent::ParticleStateComponent(float M,
-		const Eigen::Vector3f& Pos, 
-		const Eigen::Vector3f& LinMom)
+		const Eigen::Vector3f& Position, 
+		const Eigen::Vector3f& LinearMomentum)
 		: Mass{ M }
-		,Position {Pos}
-		, LinearMomentum{ LinMom }
+		,Position {Position}
+		, LinearMomentum{ LinearMomentum }
+	{
+	}
+
+	ParticlePotentialEnergyListComponent::ParticlePotentialEnergyListComponent(entt::const_handle Parent) : ParticleEntity{ Parent }
 	{
 	}
 }

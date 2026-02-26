@@ -6,8 +6,9 @@
 namespace HamiltonEngine::Physics
 {
 	void EulerA(const float Mass,
-		Eigen::Vector3f& Pos,
-		Eigen::Vector3f& LinMom,
+		Eigen::Vector3f& Position,
+		Eigen::Vector3f& LinearMomentum,
+		entt::const_handle PotentialEnergyEntity,
 		float Dt)
 	{
 		constexpr int NumPotential = 1;
@@ -27,8 +28,9 @@ namespace HamiltonEngine::Physics
 				PotentialTickRateWeights,
 				KineticTickRateWeights,
 				Mass,
-				Pos,
-				LinMom,
+				Position,
+				LinearMomentum,
+				PotentialEnergyEntity,
 				Dt);
 	}
 }

@@ -9,7 +9,7 @@ namespace Eigen
 
 namespace HamiltonEngine::Physics
 {
-	float ComputeConstantGravityPotential(const Eigen::Vector3f& Pos,
+	float ComputeConstantGravityPotential(const Eigen::Vector3f& Position,
 		float Mass);
 
 	void ComputeGradConstantGravityPotential(float Mass,
@@ -28,6 +28,13 @@ namespace HamiltonEngine::Physics
 		const Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Vector3f& OutGradLinearPotentialEnergy,
 		Eigen::Vector3f& OutGradAngularPotentialEnergy);
+
+	struct ParticleGravityComponent : public ParticlePotentialEnergyListComponent
+	{
+		ParticleGravityComponent(entt::const_handle Parent);
+
+		float Gravity;
+	};
 
 	struct RigidBodyGravityComponent : public RigidBodyPotentialEnergyListComponent
 	{

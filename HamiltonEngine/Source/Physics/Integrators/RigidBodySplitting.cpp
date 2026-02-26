@@ -17,7 +17,7 @@ namespace  HamiltonEngine::Physics
 	{
 		Eigen::Vector3f PotentialEnergyLinearGrad = Eigen::Vector3f::Zero();
 		Eigen::Vector3f PotentialEnergyAngularGrad = Eigen::Vector3f::Zero();
-		ComputeGradPotentialEnergy(Transform,
+		ComputeGradPotentialEnergyRigidBody(Transform,
 			Mass,
 			InertiaTensor,
 			PotentialEnergyEntity,

@@ -13,7 +13,7 @@ namespace HamiltonEngine::Physics
 	{
 		RigidBodyStateComponent(const Eigen::Affine3f& Trans,
 			float M,
-			const Eigen::Vector3f& LinMom,
+			const Eigen::Vector3f& LinearMomentum,
 			const Eigen::Diagonal3f& I,
 			const Eigen::Vector3f& AngMom);
 		
@@ -30,17 +30,6 @@ namespace HamiltonEngine::Physics
 		//Potential Energy
 		entt::const_handle PotentialEnergyListHead;
 	};
-	
-	using PotentialEnergyFn = float (*)(const Eigen::Affine3f& BodyToWorldTransform, 
-		Eigen::Vector3f BodyPosition,
-		float Mass,
-		const Eigen::Diagonal3f& InertiaTensor);
-	using PotentialEnergyGradFn = void (*)(const Eigen::Affine3f& BodyToWorldTransform, 
-		Eigen::Vector3f BodyPosition,
-		float Mass,
-		const Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Vector3f& OutGradLinearPotentialEnergy,
-		Eigen::Vector3f& OutGradAngularPotentialEnergy);
 
 	struct RigidBodyPotentialEnergyListComponent 
 	{
@@ -50,19 +39,6 @@ namespace HamiltonEngine::Physics
 		//potential energies acting on a given rigid body
 		entt::const_handle NextEntity;
 		entt::const_handle RigidBodyEntity; //back pointer to rigid body
-	};
-
-	struct RigidBodyPotentialEnergyComponent : public RigidBodyPotentialEnergyListComponent
-	{
-		RigidBodyPotentialEnergyComponent(entt::const_handle Parent,
-			const Eigen::Vector3f& BodyPoC,
-			PotentialEnergyFn PotentialFn,
-			PotentialEnergyGradFn GradFn);
-		
-
-		Eigen::Vector3f BodyPointOfApplication; //Body Coordinates
-		PotentialEnergyFn ComputePotentialEnergyFn;
-		PotentialEnergyGradFn ComputePotentialEnergyGradFn;
 	};
 
 }

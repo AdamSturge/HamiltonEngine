@@ -7,6 +7,7 @@
 #include "Physics/Integrators/EulerA.h"
 #include "Physics/Integrators/EulerB.h"
 #include "Physics/Integrators/StormerVerlet.h"
+#include "Physics/Potentials/ConstantGravityPotential.h"
 
 namespace HamiltonEngine::Physics
 {
@@ -21,9 +22,25 @@ namespace HamiltonEngine::Physics
 
 		for (int EntityIndex = 0; EntityIndex < NumParticles; ++EntityIndex)
 		{
-			entt::entity Entity = Globals::Registry.create();
+			entt::entity ParticleEntity = Globals::Registry.create();
 
-			Globals::Registry.emplace<Physics::ParticleStateComponent>(Entity, ParticleStateComponent{1.0f, Eigen::Vector3f::Zero(), Eigen::Vector3f::Zero()});
+			ParticleStateComponent& ParticleState =
+				Globals::Registry.emplace<ParticleStateComponent>(ParticleEntity,
+					ParticleStateComponent
+					{
+						1.0f, //Mass
+						Eigen::Vector3f::Zero(), //Position
+						Eigen::Vector3f::Zero() // Linear Momentum
+					});
+
+			entt::entity GraivtyEntity = Globals::Registry.create();
+
+			Globals::Registry.emplace<ParticleGravityComponent>(GraivtyEntity,
+				ParticleGravityComponent{
+					entt::const_handle(Globals::Registry, ParticleEntity)
+				});
+
+			ParticleState.PotentialEnergyListHead = entt::const_handle(Globals::Registry, GraivtyEntity);
 		}
 	}
 
@@ -42,9 +59,12 @@ namespace HamiltonEngine::Physics
 		for (auto [Entity, ParticleStateC] : ParticleView.each())
 		{
 			//EulerA(MassC.Mass, PositionC.Position, LinMomC.LinearMomentum);
-			EulerB(ParticleStateC.Mass, ParticleStateC.Position, ParticleStateC.LinearMomentum);
+			EulerB(ParticleStateC.Mass, 
+				ParticleStateC.Position,
+				ParticleStateC.LinearMomentum,
+				ParticleStateC.PotentialEnergyListHead);
 			//StormerVerlet(MassC.Mass, PositionC.Position, LinMomC.LinearMomentum);
-			//std::cout << PositionC.Position << std::endl << std::endl;
+			//std::cout << ParticleStateC.Position << std::endl << std::endl;
 		}
 	}
 }

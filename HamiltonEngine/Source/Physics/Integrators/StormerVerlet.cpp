@@ -6,8 +6,9 @@
 namespace HamiltonEngine::Physics
 {
 	void StormerVerlet(const float Mass,
-		Eigen::Vector3f& Pos,
-		Eigen::Vector3f& LinMom,
+		Eigen::Vector3f& Position,
+		Eigen::Vector3f& LinearMomentum,
+		entt::const_handle PotentialEnergyEntity,
 		float Dt)
 	{
 		//Note: While formally we are doing H = 0.5V + T + 0.5V the below code is
@@ -33,8 +34,9 @@ namespace HamiltonEngine::Physics
 				PotentialTickRateWeights,
 				KineticTickRateWeights, 
 				Mass,
-				Pos,
-				LinMom, 
+				Position,
+				LinearMomentum,
+				PotentialEnergyEntity,
 				Dt);
 	}
 }
