@@ -20,8 +20,9 @@ namespace HamiltonEngine::Physics
 		const float* PotentialTickRateWeights,
 		const float* KineticTickRateWeights,
 		float Mass,
-		Eigen::Vector3f& Pos,
-		Eigen::Vector3f& LinMom,
+		Eigen::Vector3f& Position,
+		Eigen::Vector3f& LinearMomentum,
+		entt::const_handle PotentialEnergyEntity,
 		float Dt = Globals::PhysicsTickLength)
 	{
 		static_assert((1 + sizeof...(Rest)) == (NumPotential + NumKinetic - PotentialIndex - KineticIndex),
@@ -32,8 +33,9 @@ namespace HamiltonEngine::Physics
 		{
 			const float PotentialDt = PotentialTickRateWeights[PotentialIndex] * Dt;
 			EulerPotentialOnly(Mass,
-				Pos,
-				LinMom,
+				Position,
+				LinearMomentum,
+				PotentialEnergyEntity,
 				PotentialWeights[PotentialIndex],
 				PotentialDt);
 
@@ -45,8 +47,9 @@ namespace HamiltonEngine::Physics
 					PotentialTickRateWeights,
 					KineticTickRateWeights,
 					Mass,
-					Pos,
-					LinMom,
+					Position,
+					LinearMomentum,
+					PotentialEnergyEntity,
 					Dt);
 			}
 		}
@@ -56,8 +59,8 @@ namespace HamiltonEngine::Physics
 		{
 			const float KineticDt = KineticTickRateWeights[KineticIndex] * Dt;
 			EulerKineticOnly(Mass,
-				Pos,
-				LinMom,
+				Position,
+				LinearMomentum,
 				KineticWeights[KineticIndex],
 				KineticDt);
 
@@ -69,8 +72,9 @@ namespace HamiltonEngine::Physics
 					PotentialTickRateWeights,
 					KineticTickRateWeights,
 					Mass,
-					Pos,
-					LinMom,
+					Position,
+					LinearMomentum,
+					PotentialEnergyEntity,
 					Dt);
 			}
 		}
@@ -83,8 +87,8 @@ namespace HamiltonEngine::Physics
 	//	const float D[M],
 	//	const EulerIntegrationCompositionMode Modes[N + M],
 	//	const float Mass,
-	//	Eigen::Vector3f& Pos,
-	//	Eigen::Vector3f& LinMom,
+	//	Eigen::Vector3f& Position,
+	//	Eigen::Vector3f& LinearMomentum,
 	//	float Dt = Globals::PhysicsTickLength)
 	//{
 	//	const int NumSteps = N + M;
@@ -99,8 +103,8 @@ namespace HamiltonEngine::Physics
 	//				const int ModIndex = Index % N;
 	//				const float PotentialDt = C[ModIndex] * Dt;
 	//				EulerPotentialOnly(Mass,
-	//					Pos, 
-	//					LinMom, 
+	//					Position, 
+	//					LinearMomentum, 
 	//					A[ModIndex],
 	//					PotentialDt);
 	//				break;
@@ -112,8 +116,8 @@ namespace HamiltonEngine::Physics
 	//				const int ModIndex = Index % M;
 	//				const float KineticDt = D[ModIndex] * Dt;
 	//				EulerKineticOnly(Mass,
-	//					Pos, 
-	//					LinMom,
+	//					Position, 
+	//					LinearMomentum,
 	//					B[ModIndex],
 	//					KineticDt);
 	//				break;

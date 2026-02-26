@@ -4,29 +4,25 @@ namespace HamiltonEngine::Physics
 {
 	struct ParticleStateComponent 
 	{
-		ParticleStateComponent(float M, const Eigen::Vector3f& Pos,
-			const Eigen::Vector3f& LinMom);
+		ParticleStateComponent(float M, 
+			const Eigen::Vector3f& Position,
+			const Eigen::Vector3f& LinearMomentum);
 
 		float Mass; 
 		Eigen::Vector3f Position;
 		Eigen::Vector3f LinearMomentum;
-	};
-	
-	/*struct PositionComponent
-	{
-		PositionComponent(const Eigen::Vector3f& Pos);
-		Eigen::Vector3f Position;
-	};
-	
-	struct LinearMomentumComponent
-	{
-		LinearMomentumComponent(const Eigen::Vector3f& Mom);
-		Eigen::Vector3f LinearMomentum;
+
+		//Potential Energy
+		entt::const_handle PotentialEnergyListHead;
 	};
 
-	struct MassComponent
+	struct ParticlePotentialEnergyListComponent
 	{
-		MassComponent(float M);
-		float Mass;
-	};*/
+		ParticlePotentialEnergyListComponent(entt::const_handle Parent);
+
+		//This is a linked list that connects to entities that are designed to compute 
+		//potential energies acting on a given particle
+		entt::const_handle NextEntity;
+		entt::const_handle ParticleEntity; //back pointer to particle
+	};
 }

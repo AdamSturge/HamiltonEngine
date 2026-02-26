@@ -7,12 +7,12 @@ namespace HamiltonEngine::Physics
     RigidBodyStateComponent::RigidBodyStateComponent(
         const Eigen::Affine3f& Trans,
         float M,
-        const Eigen::Vector3f& LinMom,
+        const Eigen::Vector3f& LinearMomentum,
         const Eigen::Diagonal3f& I,
         const Eigen::Vector3f& AngMom)
         : Transform{Trans}
         , Mass{M}
-        , LinearMomentum{LinMom}
+        , LinearMomentum{LinearMomentum}
         , InertiaTensor{I}
         , AngularMomentum{AngMom}
     {
@@ -22,15 +22,4 @@ namespace HamiltonEngine::Physics
     {
     }
 
-    RigidBodyPotentialEnergyComponent::RigidBodyPotentialEnergyComponent(entt::const_handle Parent,
-        const Eigen::Vector3f& BodyPoC,
-        PotentialEnergyFn PotentialFn, 
-        PotentialEnergyGradFn GradFn)
-        : RigidBodyPotentialEnergyListComponent(Parent)
-        , BodyPointOfApplication{BodyPoC}
-        , ComputePotentialEnergyFn{PotentialFn}
-        , ComputePotentialEnergyGradFn{GradFn}
-    {
-
-    }
 }

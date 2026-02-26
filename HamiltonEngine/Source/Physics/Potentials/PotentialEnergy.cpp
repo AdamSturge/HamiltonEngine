@@ -8,25 +8,70 @@
 
 namespace HamiltonEngine::Physics 
 {
-	float ComputePotentialEnergy(const Eigen::Affine3f& Transform,
-		float Mass)
+	float ComputePotentialEnergyParticle(const Eigen::Vector3f& Position,
+		float Mass,
+		entt::const_handle PotentialEnergyEntity)
 	{
 		float PotentialEnergy = 0.0f;
 
-		const Eigen::Vector3f Position = Transform.translation();
-		PotentialEnergy = ComputeConstantGravityPotential(Position, Mass);
-		
+		entt::const_handle CurrentEntityHandle = PotentialEnergyEntity;
+		const entt::registry& Reigstry = HamiltonEngine::Globals::Registry;
+		while (CurrentEntityHandle.valid())
+		{
+			//You need to add to this list whenever a new type of potential is added to the engine/game
+			//TODO maybe some kind of global type registry?
+
+			if (const ParticleGravityComponent* GravityComponent = CurrentEntityHandle.try_get<ParticleGravityComponent>())
+			{
+				PotentialEnergy += ComputeConstantGravityPotential(Position, Mass);
+			}
+
+			if (const ParticlePotentialEnergyListComponent* ListComponent = CurrentEntityHandle.try_get<ParticlePotentialEnergyListComponent>())
+			{
+				CurrentEntityHandle = ListComponent->NextEntity;
+			}
+			else
+			{
+				//TODO Log this?
+				break;
+			}
+		}
+
 		return PotentialEnergy;
 	}
 
-	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform,
+	void ComputeGradPotentialEnergyParticle(const Eigen::Vector3f& Position,
 		float Mass,
+		entt::const_handle PotentialEnergyEntity,
 		Eigen::Vector3f& OutGradPotentialEnergy)
 	{
-		ComputeGradConstantGravityPotential(Mass, OutGradPotentialEnergy);
+		entt::const_handle CurrentEntityHandle = PotentialEnergyEntity;
+		const entt::registry& Reigstry = HamiltonEngine::Globals::Registry;
+		while (CurrentEntityHandle.valid())
+		{
+			//You need to add to this list whenever a new type of potential is added to the engine/game
+			//TODO maybe some kind of global type registry?
+
+			if (const ParticleGravityComponent* GravityComponent = CurrentEntityHandle.try_get<ParticleGravityComponent>())
+			{
+				ComputeGradConstantGravityPotential(Mass, OutGradPotentialEnergy);
+			}
+
+			if (const ParticlePotentialEnergyListComponent* ListComponent = CurrentEntityHandle.try_get<ParticlePotentialEnergyListComponent>())
+			{
+				CurrentEntityHandle = ListComponent->NextEntity;
+			}
+			else
+			{
+				//TODO Log this?
+				break;
+			}
+
+		}
+		
 	}
 
-	void ComputeGradPotentialEnergy(const Eigen::Affine3f& Transform,
+	void ComputeGradPotentialEnergyRigidBody(const Eigen::Affine3f& Transform,
 		float Mass,
 		Eigen::Diagonal3f InertiaTensor,
 		entt::const_handle PotentialEnergyEntity,
