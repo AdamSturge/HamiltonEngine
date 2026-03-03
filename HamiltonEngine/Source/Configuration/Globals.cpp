@@ -11,23 +11,20 @@ namespace HamiltonEngine::Globals
 
 
 	// Rendering + OpenGL stuff
-	ConfigurationVariable<std::vector<float>> BackgroundColorRGB("BackgroundColorRGB", { 0.2f, 0.3f, 0.3f });
-	ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
-	ConfigurationVariable<int> WindowWidth("WindowWidth", 600);
-	ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
+	ConfigurationVariable<int> NewNameWindowHeight("WindowHeight", 800);
+	ConfigurationVariable<int> INeverUseThisNewNameWindowWidth("WindowWidth", 600); // Removing this line breaks it?
+	//ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
 	ConfigurationVariable<float> FieldOfView("FieldOfView", 30.0);
+	ConfigurationVariable<float> NearClipPlane("NearClipPlane", 0.01f);
+	ConfigurationVariable<float> FarClipPlane("FarClipPlane", 2000.0f);
 	GLuint FrameCount = 0;
-
-	// Control States
-	bool CaptureMouseMovement = false;
-	Eigen::Vector3f DefaultCameraPosition(0.0f, 0.0f, 3.0f);
-	Eigen::Vector3f DefaultCameraFront(0.0f, 0.0f, -1.0f);
-	Eigen::Vector3f DefaultCameraUp(0.0f, 1.0f, 0.0f);
-
-	HamiltonEngine::OpenGL::Camera camera{
-		DefaultCameraPosition, DefaultCameraFront, DefaultCameraUp,
-			-90, 0.0f, FieldOfView};
 
 	//EnTT
 	entt::registry Registry = entt::registry();
+
+	// Control States
+	HamiltonEngine::OpenGL::Camera Camera{
+		HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION, HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP,
+			0.0f, 0.0f, FieldOfView};
+
 }

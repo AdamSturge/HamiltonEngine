@@ -43,12 +43,18 @@ namespace HamiltonEngine::OpenGL
 
 		Eigen::Matrix4f PosM4;
 		PosM4 << 1, 0, 0, -CameraPos.x(),
-			0, 1, 0, -CameraPos.y(),
-			0, 0, 1, -CameraPos.z(),
-			0, 0, 0, 1;
+				 0, 1, 0, -CameraPos.y(),
+				 0, 0, 1, -CameraPos.z(),
+				 0, 0, 0, 1;
 
 		Eigen::Matrix4f res = LookingAt * PosM4;
 
 		return res;
+	}
+
+	void PrintCameraDetails(const Camera& camera)
+	{
+		printf("Camera Location - ( %f, %f, %f )\n", camera.CameraPosition.x(), camera.CameraPosition.y(), camera.CameraPosition.z());
+		printf("Camera YPR - ( %f, %f, %f )\n", camera.yaw, camera.pitch, 0.0f);
 	}
 }

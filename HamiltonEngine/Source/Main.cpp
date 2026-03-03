@@ -25,25 +25,34 @@
 // TODO: Make a sphere
 // TODO: LIGHTING!
 
-void ProcessMovement(GLFWwindow* window, HamiltonEngine::OpenGL::Camera* camera, float DeltaTime);
 //void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
 //void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
+
+namespace
+{
+	bool RenderDefaultCubes = true;
+
+}
 
 int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
-	GLuint WindowWidth = HamiltonEngine::Globals::WindowWidth;
-	GLuint WindowHeight = HamiltonEngine::Globals::WindowHeight;
-	std::string WindowName = HamiltonEngine::Globals::WindowName;
+	HamiltonEngine::ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
+	HamiltonEngine::ConfigurationVariable<int> WindowWidth("WindowWidth", 600);
+	HamiltonEngine::ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
+
+	//int WindowHeight = 800;
+	//int WindowWidth = 600;
+	//std::string WindowName = "MyWin";
 
 	HamiltonEngine::Physics::CreateParticleEntities();
 	HamiltonEngine::Physics::CreateRigidBodyEntities();
 
 	glfwInit(); // Initialize OpenGL
-	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(WindowHeight, WindowWidth, WindowName.c_str());
-	glfwSetCursorPos(window, HamiltonEngine::Globals::WindowHeight / 2, HamiltonEngine::Globals::WindowWidth / 2);
+	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(WindowHeight, WindowWidth, ((std::string)WindowName).c_str());
+	glfwSetCursorPos(window, WindowHeight / 2, WindowWidth / 2);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	if (window == NULL)
@@ -90,18 +99,18 @@ int main(int argc, char** argv)
 	simpleShader.setInt("texture1", 0);
 	simpleShader.setInt("texture2", 1);
 	
+	// Setup and use the default Camera
+	HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::Camera;
 
 	Eigen::Affine3f Model = Eigen::Affine3f::Identity();
-	Eigen::Matrix4f Projection = HamiltonEngine::OpenGL::MakeFrustum(HamiltonEngine::Globals::camera.fov, (float) WindowHeight / WindowWidth, 0.1f, 100.0f);
-	Eigen::Matrix4f View = HamiltonEngine::OpenGL::LookAt(HamiltonEngine::Globals::camera.CameraPosition, Eigen::Vector3f::Zero(), Eigen::Vector3f::UnitY());
+	Eigen::Matrix4f Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov, (float) WindowHeight / WindowWidth, 0.1f, 100.0f);
+	Eigen::Matrix4f View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition, Eigen::Vector3f::Zero(), Eigen::Vector3f::UnitY());
 
-	float WindowBackgroundRed = ((std::vector<float>)HamiltonEngine::Globals::BackgroundColorRGB)[0];
-	float WindowBackgroundGreen = ((std::vector<float>)HamiltonEngine::Globals::BackgroundColorRGB)[1];
-	float WindowBackgroundBlue = ((std::vector<float>)HamiltonEngine::Globals::BackgroundColorRGB)[2];
-	
-	float yaw = DegToRad( -90.f);
-	Eigen::Vector3f direction = Eigen::Vector3f::Zero();
-	
+	std::vector<float> WindowBackgroundColour = HamiltonEngine::ConfigurationVariable<std::vector<float>>("BackgroundColorRGB", { 0.2f, 0.3f, 0.3f });
+	float WindowBackgroundRed = WindowBackgroundColour[0];
+	float WindowBackgroundGreen = WindowBackgroundColour[1];
+	float WindowBackgroundBlue = WindowBackgroundColour[2];
+		
 	glEnable(GL_DEPTH_TEST);
 
 	HamiltonEngine::Globals::FrameCount = 0;
@@ -118,7 +127,7 @@ int main(int argc, char** argv)
 
 		// input
 		HamiltonEngine::OpenGL::processInput(window);
-		ProcessMovement(window, &HamiltonEngine::Globals::camera, deltaTime);
+		HamiltonEngine::OpenGL::ProcessMovement(window, deltaTime);
 		glfwSetCursorPosCallback(window, HamiltonEngine::OpenGL::mouse_callback);
 		glfwSetScrollCallback(window, HamiltonEngine::OpenGL::scroll_callback);
 
@@ -142,14 +151,16 @@ int main(int argc, char** argv)
 		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
 		GLint viewLoc = glGetUniformLocation(simpleShader.ID, "view");
 
-		const float radius = 20.0f;
-		const float camX = static_cast<float>(sin(glfwGetTime()) * radius);
-		const float camZ = static_cast<float>(cos(glfwGetTime()) * radius);
+		Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov,
+														(float)WindowHeight / WindowWidth, 
+														HamiltonEngine::Globals::NearClipPlane,
+														HamiltonEngine::Globals::FarClipPlane);
 
-		Projection = HamiltonEngine::OpenGL::MakeFrustum(HamiltonEngine::Globals::camera.fov, (float)WindowHeight / WindowWidth, 0.1f, 100.0f);
-		View = HamiltonEngine::OpenGL::LookAt(HamiltonEngine::Globals::camera.CameraPosition,
-					  HamiltonEngine::Globals::camera.CameraPosition + HamiltonEngine::Globals::camera.CameraFront, 
-					  HamiltonEngine::Globals::camera.CameraUp);
+
+		View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition,
+											  Camera.CameraPosition + Camera.CameraFront,
+												Camera.CameraUp);
+
 
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());
 
@@ -166,16 +177,32 @@ int main(int argc, char** argv)
 		glBindVertexArray(cube_VAO);
 		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
 
+
+		// A scattering of default cubes
+		if (RenderDefaultCubes)
+		{
+			for (int i = 0; i < 10; i++)
+			{
+				Model = Eigen::Affine3f::Identity();
+				Model.translate(cubePositions[i]);
+
+				float angle = 20.0f * i;
+				Model.rotate(Eigen::AngleAxisf(
+					DegToRad(angle)
+					, Eigen::Vector3f(0.5f, 1.0f, 0.0f).normalized()));
+
+				glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
+
+				glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
+
+			}
+		}
+
+
+
 		for (auto [Entity, StateC] : RigidBodyView.each())
 		{
-			/*Model = Eigen::Affine3f::Identity();
-			Model.translate(cubePositions[i]);
-
-			float angle = 20.0f * i;
-				Model.rotate(Eigen::AngleAxisf(
-					DegToRad(angle) 
-					, Eigen::Vector3f(0.5f, 1.0f, 0.0f).normalized()));*/
-
+			
 
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, StateC.Transform.data());
 
@@ -195,51 +222,3 @@ int main(int argc, char** argv)
 	glfwTerminate();
 	return 0;
 }
-
-
-void ProcessMovement(GLFWwindow* window, HamiltonEngine::OpenGL::Camera* camera, float DeltaTime)
-{
-	const float CameraSpeed = 2.5f * DeltaTime;
-
-	// Release the Camera
-	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
-	{
-		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
-		{
-			glfwSetCursorPos(window, HamiltonEngine::Globals::WindowHeight / 2, HamiltonEngine::Globals::WindowWidth / 2);
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		}
-		else
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
-	}
-
-	// Reset to the default Camera Position
-	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-	{
-		HamiltonEngine::Globals::camera.CameraFront = HamiltonEngine::Globals::DefaultCameraFront;
-		HamiltonEngine::Globals::camera.CameraPosition = HamiltonEngine::Globals::DefaultCameraPosition;
-		HamiltonEngine::Globals::camera.CameraUp = HamiltonEngine::Globals::DefaultCameraUp;
-	}
-
-
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-	{
-		camera->CameraPosition += CameraSpeed * camera->CameraFront;
-	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-	{
-		camera->CameraPosition -= CameraSpeed * camera->CameraFront;
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-	{
-		camera->CameraPosition -= camera->CameraFront.cross(camera->CameraUp).normalized() * CameraSpeed;
-	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-	{
-		camera->CameraPosition += camera->CameraFront.cross(camera->CameraUp).normalized() * CameraSpeed;
-	}
-}
-
-
