@@ -6,8 +6,8 @@
 namespace
 {
 	bool firstMouse = true;
-	float lastX = HamiltonEngine::ConfigurationVariable<int>("WindowWidth", 800) / 2.0f;
-	float lastY = HamiltonEngine::ConfigurationVariable<int>("WindowHeight", 600) / 2.0f;
+	float lastX;
+	float lastY;
 }
 
 namespace HamiltonEngine::OpenGL 
@@ -41,6 +41,9 @@ namespace HamiltonEngine::OpenGL
 
 			// Register callback functions AFTER we create the window but BEFORE render loop is started
 			glfwSetFramebufferSizeCallback(window, HamiltonEngine::OpenGL::framebuffer_size_callback);
+
+			glfwSetCursorPosCallback(window, HamiltonEngine::OpenGL::mouse_callback);
+			glfwSetScrollCallback(window, HamiltonEngine::OpenGL::scroll_callback);
 
 			return window;
 		}
@@ -87,8 +90,10 @@ namespace HamiltonEngine::OpenGL
 
 		if (firstMouse)
 		{
-			lastX = xpos;
-			lastY = ypos;
+			int wid, hei;
+			glfwGetWindowSize(window, &wid, &hei);
+			lastX = wid / 2.0f;
+			lastY = hei / 2.0f;
 			firstMouse = false;
 		}
 

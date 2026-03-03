@@ -31,7 +31,7 @@
 
 namespace
 {
-	bool RenderDefaultCubes = true;
+	bool RenderDefaultCubes = false;
 
 }
 
@@ -42,10 +42,6 @@ int main(int argc, char** argv)
 	HamiltonEngine::ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
 	HamiltonEngine::ConfigurationVariable<int> WindowWidth("WindowWidth", 600);
 	HamiltonEngine::ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
-
-	//int WindowHeight = 800;
-	//int WindowWidth = 600;
-	//std::string WindowName = "MyWin";
 
 	HamiltonEngine::Physics::CreateParticleEntities();
 	HamiltonEngine::Physics::CreateRigidBodyEntities();
@@ -60,6 +56,7 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
+	// TODO: Move into using the ECS Systems
 	GLuint cube_VAO, cube_VBO;
 	glGenVertexArrays(1, &cube_VAO);
 	glBindVertexArray(cube_VAO);
@@ -114,22 +111,23 @@ int main(int argc, char** argv)
 	glEnable(GL_DEPTH_TEST);
 
 	HamiltonEngine::Globals::FrameCount = 0;
-	float curTime = 0.0f;
-	float oldTime = 0.0f;
-	float deltaTime = 0.0f;
+	float CurTime = 0.0f;
+	float OldTime = 0.0f;
+	float DeltaTime = 0.0f;
+	float NearClip = HamiltonEngine::ConfigurationVariable("NearClipPlane", HamiltonEngine::OpenGL::DEFAULT_NEAR_CLIP);
+	float FarClip = HamiltonEngine::ConfigurationVariable("FarClipPlane", HamiltonEngine::OpenGL::DEFAULT_FAR_CLIP);
+
 	while (!glfwWindowShouldClose(window)) {
 		++HamiltonEngine::Globals::FrameCount;
 
 		// How long as it been since the last frame?
-		oldTime = curTime;
-		curTime = static_cast<float>(glfwGetTime());
-		deltaTime = curTime - oldTime;
+		OldTime = CurTime;
+		CurTime = static_cast<float>(glfwGetTime());
+		DeltaTime = CurTime - OldTime;
 
 		// input
 		HamiltonEngine::OpenGL::processInput(window);
-		HamiltonEngine::OpenGL::ProcessMovement(window, deltaTime);
-		glfwSetCursorPosCallback(window, HamiltonEngine::OpenGL::mouse_callback);
-		glfwSetScrollCallback(window, HamiltonEngine::OpenGL::scroll_callback);
+		HamiltonEngine::OpenGL::ProcessMovement(window, DeltaTime);
 
 		HamiltonEngine::Physics::ParticleSystem();
 		HamiltonEngine::Physics::RigidBodySystem();
@@ -144,17 +142,18 @@ int main(int argc, char** argv)
 		glBindTexture(GL_TEXTURE_2D, texture2c.ID);
 
 
-		simpleShader.setFloat("TIME", curTime);
-		simpleShader.setFloat("mixRatio", sin(curTime));
+		simpleShader.setFloat("TIME", CurTime);
+		simpleShader.setFloat("mixRatio", sin(CurTime));
 		simpleShader.use();
 
 		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
 		GLint viewLoc = glGetUniformLocation(simpleShader.ID, "view");
 
+
 		Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov,
 														(float)WindowHeight / WindowWidth, 
-														HamiltonEngine::Globals::NearClipPlane,
-														HamiltonEngine::Globals::FarClipPlane);
+														NearClip,
+														FarClip);
 
 
 		View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition,
@@ -179,6 +178,7 @@ int main(int argc, char** argv)
 
 
 		// A scattering of default cubes
+		RenderDefaultCubes = HamiltonEngine::ConfigurationVariable<bool>("RenderDefaultCubes", false);
 		if (RenderDefaultCubes)
 		{
 			for (int i = 0; i < 10; i++)

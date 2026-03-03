@@ -11,12 +11,6 @@ namespace HamiltonEngine::Globals
 
 
 	// Rendering + OpenGL stuff
-	ConfigurationVariable<int> NewNameWindowHeight("WindowHeight", 800);
-	ConfigurationVariable<int> INeverUseThisNewNameWindowWidth("WindowWidth", 600); // Removing this line breaks it?
-	//ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
-	ConfigurationVariable<float> FieldOfView("FieldOfView", 30.0);
-	ConfigurationVariable<float> NearClipPlane("NearClipPlane", 0.01f);
-	ConfigurationVariable<float> FarClipPlane("FarClipPlane", 2000.0f);
 	GLuint FrameCount = 0;
 
 	//EnTT
@@ -24,7 +18,12 @@ namespace HamiltonEngine::Globals
 
 	// Control States
 	HamiltonEngine::OpenGL::Camera Camera{
-		HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION, HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP,
-			0.0f, 0.0f, FieldOfView};
+		HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION, 
+		HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, 
+		HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP,
+		HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW, 
+		HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH, 
+		// Pitch if we need it
+		HamiltonEngine::OpenGL::DEFAULT_FOV};
 
 }

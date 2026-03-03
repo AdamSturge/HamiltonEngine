@@ -7,9 +7,11 @@ namespace HamiltonEngine::OpenGL
 	const Eigen::Vector3f DEFAULT_CAMERA_POSITION(-10.0f, 0.0f, 0.0f);
 	const Eigen::Vector3f DEFAULT_CAMERA_FRONT(1.0f, 0.0f, 0.0f);
 	const Eigen::Vector3f DEFAULT_CAMERA_UP(0.0f, 0.0f, 1.0f);
-	const float DEFAULT_CAMERA_YAW = -90.0f;
+	const float DEFAULT_CAMERA_YAW = 0.0f;
 	const float DEFAULT_CAMERA_PITCH = 0.0f;
-
+	const float DEFAULT_FOV = 30;
+	const float DEFAULT_NEAR_CLIP = 0.01f;
+	const float DEFAULT_FAR_CLIP = 10.0f;
 
 	struct Camera
 		{

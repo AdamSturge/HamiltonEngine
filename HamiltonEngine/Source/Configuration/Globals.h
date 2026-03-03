@@ -12,12 +12,6 @@ namespace HamiltonEngine::Globals
 	extern ConfigurationVariable<float> Epsilon;
 
 	// Rendering + OpenGL stuff
-//	extern ConfigurationVariable<int> WindowHeight;
-//	extern ConfigurationVariable<int> WindowWidth;
-//	extern ConfigurationVariable<std::string> WindowName;
-	extern ConfigurationVariable<float> FieldOfView;
-	extern ConfigurationVariable<float> NearClipPlane;
-	extern ConfigurationVariable<float> FarClipPlane;
 	extern GLuint FrameCount;
 
 	//EnTT
