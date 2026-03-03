@@ -3,6 +3,9 @@
 #include "Configuration/ConfigurationSystem.h"
 #include "Configuration/ConfigurationVariable.h"
 #include "Configuration/Globals.h"
+
+#include "Logging/Logging.h"
+
 #include "Physics/Systems/ParticleSystem.h"
 #include "Physics/Systems/RigidBodySystem.h"
 #include "Physics/State/RigidBodyState.h"
@@ -11,10 +14,6 @@
 #include <OpenGL/Window.h>
 #include <OpenGL/Shader.h>
 #include "OpenGL/Texture.h"
-#include <iostream>
-
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 #include <OpenGL/SimpleShapes.h>
 #include <OpenGL/Utils.h>
@@ -33,6 +32,7 @@ void ProcessMovement(GLFWwindow* window, HamiltonEngine::OpenGL::Camera* camera,
 int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
+	HamiltonEngine::Logging::ConfigureGlobalLoggingOptions("Logs//Log.txt");
 
 	GLuint WindowWidth = HamiltonEngine::Globals::WindowWidth;
 	GLuint WindowHeight = HamiltonEngine::Globals::WindowHeight;

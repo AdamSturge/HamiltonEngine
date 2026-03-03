@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Source;$(ProjectDir)Libraries\entt-main\src;$(ProjectDir)Libraries\eigen-5.0.0;$(ProjectDir)Libraries;$(ProjectDir)Libraries\glfw\include;$(ProjectDir)Libraries\glad;$(ProjectDir)Libraries\KHR;$(ProjectDir)Libraries\\json-3.11.3\include;$(ProjectDir)Libraries\stbi;$(ProjectDir)Libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Source;$(ProjectDir)Libraries\entt-main\src;$(ProjectDir)Libraries\eigen-5.0.0;$(ProjectDir)Libraries;$(ProjectDir)Libraries\glfw\include;$(ProjectDir)Libraries\glad;$(ProjectDir)Libraries\KHR;$(ProjectDir)Libraries\json-3.11.3\include;$(ProjectDir)Libraries\spdlog-1.17.0\include;$(ProjectDir)Libraries\stbi;$(ProjectDir)Libraries\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Libraries\glfw\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -141,6 +141,7 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariable.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
     <ClInclude Include="Source\Configuration\Globals.h" />
+    <ClInclude Include="Source\Logging\Logging.h" />
     <ClInclude Include="Source\OpenGL\Camera.h" />
     <ClInclude Include="Source\OpenGL\OpenGL.h" />
     <ClInclude Include="Source\OpenGL\Shader.h" />
@@ -174,6 +175,7 @@
     <ClCompile Include="Source\Configuration\ConfigurationSystem.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
     <ClCompile Include="Source\Configuration\Globals.cpp" />
+    <ClCompile Include="Source\Logging\Logging.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
