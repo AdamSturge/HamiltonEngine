@@ -69,17 +69,17 @@ namespace HamiltonEngine::OpenGL
 
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		HamiltonEngine::Globals::Camera.fov -= (float)yoffset;
-		if (HamiltonEngine::Globals::Camera.fov < 1.0f)
-			HamiltonEngine::Globals::Camera.fov = 1.0f;
-		if (HamiltonEngine::Globals::Camera.fov > 45.0f)
-			HamiltonEngine::Globals::Camera.fov = 45.0f;
+		HamiltonEngine::Globals::ActiveCamera.fov -= (float)yoffset;
+		if (HamiltonEngine::Globals::ActiveCamera.fov < 1.0f)
+			HamiltonEngine::Globals::ActiveCamera.fov = 1.0f;
+		if (HamiltonEngine::Globals::ActiveCamera.fov > 45.0f)
+			HamiltonEngine::Globals::ActiveCamera.fov = 45.0f;
 	}
 
 	void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 	{
 
-		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::Camera;
+		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 		float sensitivity = HamiltonEngine::ConfigurationVariable<float>("MouseSensitivity", 0.1f);
 
 		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
@@ -132,7 +132,7 @@ namespace HamiltonEngine::OpenGL
 
 		// Left Hand Coord system
 		NewFront = { cos(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
-					 sin(DegToRad(Camera.yaw)),
+					 sin(DegToRad(Camera.pitch)),
 					 sin(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw))
 		};
 
@@ -143,7 +143,7 @@ namespace HamiltonEngine::OpenGL
 	void ProcessMovement(GLFWwindow* window, float DeltaTime)
 	{
 
-		HamiltonEngine::OpenGL::Camera& camera = HamiltonEngine::Globals::Camera;
+		HamiltonEngine::OpenGL::Camera& camera = HamiltonEngine::Globals::ActiveCamera;
 		const float CameraSpeed = HamiltonEngine::ConfigurationVariable<float>("MovementSpeed", 2.5) * DeltaTime;
 
 		// Release the Camera
@@ -164,11 +164,11 @@ namespace HamiltonEngine::OpenGL
 		// Reset to the default Camera Position
 		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
 		{
-			HamiltonEngine::Globals::Camera.CameraPosition = HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION;
-			HamiltonEngine::Globals::Camera.CameraFront = HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT;
-			HamiltonEngine::Globals::Camera.CameraUp = HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP;
-			HamiltonEngine::Globals::Camera.yaw = HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW;
-			HamiltonEngine::Globals::Camera.pitch = HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH;
+			HamiltonEngine::Globals::ActiveCamera.CameraPosition = HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION;
+			HamiltonEngine::Globals::ActiveCamera.CameraFront = HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT;
+			HamiltonEngine::Globals::ActiveCamera.CameraUp = HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP;
+			HamiltonEngine::Globals::ActiveCamera.yaw = HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW;
+			HamiltonEngine::Globals::ActiveCamera.pitch = HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH;
 			PrintCameraDetails(camera);
 		}
 

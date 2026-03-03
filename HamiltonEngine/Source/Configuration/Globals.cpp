@@ -17,13 +17,6 @@ namespace HamiltonEngine::Globals
 	entt::registry Registry = entt::registry();
 
 	// Control States
-	HamiltonEngine::OpenGL::Camera Camera{
-		HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION, 
-		HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, 
-		HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP,
-		HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW, 
-		HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH, 
-		// Pitch if we need it
-		HamiltonEngine::OpenGL::DEFAULT_FOV};
+	HamiltonEngine::OpenGL::Camera ActiveCamera;
 
 }

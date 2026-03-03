@@ -18,5 +18,5 @@ namespace HamiltonEngine::Globals
 	extern entt::registry Registry;
 
 	// Control States
-	extern HamiltonEngine::OpenGL::Camera Camera;
+	extern HamiltonEngine::OpenGL::Camera ActiveCamera;
 }

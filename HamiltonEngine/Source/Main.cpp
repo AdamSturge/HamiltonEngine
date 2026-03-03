@@ -25,10 +25,6 @@
 // TODO: Make a sphere
 // TODO: LIGHTING!
 
-//void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
-//void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-
-
 namespace
 {
 	bool RenderDefaultCubes = false;
@@ -96,8 +92,17 @@ int main(int argc, char** argv)
 	simpleShader.setInt("texture1", 0);
 	simpleShader.setInt("texture2", 1);
 	
-	// Setup and use the default Camera
-	HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::Camera;
+	// Setup and use the Camera
+	HamiltonEngine::OpenGL::Camera NewCamera{
+		HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION,
+			HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT,
+			HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP,
+			HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW,
+			HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH,
+			// Pitch if we need it
+			HamiltonEngine::OpenGL::DEFAULT_FOV};
+	HamiltonEngine::Globals::ActiveCamera = NewCamera;
+	HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 
 	Eigen::Affine3f Model = Eigen::Affine3f::Identity();
 	Eigen::Matrix4f Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov, (float) WindowHeight / WindowWidth, 0.1f, 100.0f);

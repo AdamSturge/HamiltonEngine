@@ -9,5 +9,5 @@
 	"MovementSpeed": 10.5,
 	"NearClipPlane": 0.01,
 	"FarClipPlane": 2000.0,
-	"RenderDefaultCubes":  false
+	"RenderDefaultCubes":  true
 }

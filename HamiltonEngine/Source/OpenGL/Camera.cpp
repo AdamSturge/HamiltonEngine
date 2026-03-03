@@ -4,6 +4,7 @@
 
 namespace HamiltonEngine::OpenGL
 {
+
 	Eigen::Matrix4f MakeFrustum(float fovY, float aspectRatio, float front, float back)
 	{
 		// basically stolen from: https://www.songho.ca/opengl/gl_projectionmatrix.html#fov
