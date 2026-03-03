@@ -132,7 +132,7 @@ namespace HamiltonEngine::OpenGL
 
 		// Left Hand Coord system
 		NewFront = { cos(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
-					 sin(DegToRad(Camera.pitch)),
+					 sin(DegToRad(Camera.yaw)),
 					 sin(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw))
 		};
 
