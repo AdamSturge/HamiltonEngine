@@ -6,7 +6,7 @@
 
 namespace HamiltonEngine::Physics
 {
-	ConfigurationVariable<float> GravitationalAcceleration("GravitationalAcceleration", 0.8f);
+	ConfigurationVariable<float> GravitationalAcceleration("GravitationalAcceleration", 9.8f);
 	
 	float ComputeConstantGravityPotential(const Eigen::Vector3f& Position,
 		float Mass)
