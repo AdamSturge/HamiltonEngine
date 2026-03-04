@@ -32,7 +32,8 @@ void ProcessMovement(GLFWwindow* window, HamiltonEngine::OpenGL::Camera* camera,
 int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
-	HamiltonEngine::Logging::ConfigureGlobalLoggingOptions("Logs//Log.txt");
+
+	HAMILTON_LOG(Physics, Warning, "Test")
 
 	GLuint WindowWidth = HamiltonEngine::Globals::WindowWidth;
 	GLuint WindowHeight = HamiltonEngine::Globals::WindowHeight;

@@ -27,6 +27,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #define FMT_UNICODE 0
 #include <spdlog/spdlog.h>
+#include <spdlog/sinks/callback_sink.h>
 #include <spdlog/sinks/rotating_file_sink.h>
 #include <spdlog/sinks/daily_file_sink.h>
 #include <spdlog/sinks/basic_file_sink.h>
