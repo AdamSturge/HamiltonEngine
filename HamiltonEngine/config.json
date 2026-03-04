@@ -4,5 +4,10 @@
 	"WindowWidth": 600,
 	"WindowName": "HamiltonEngine",
 	"BackgroundColorRGB": [ 0.2, 0.3, 0.3 ],
-	"FieldOfView":  45.0
+	"FieldOfView": 45.0,
+	"MouseSensitivity": 0.1,
+	"MovementSpeed": 10.5,
+	"NearClipPlane": 0.01,
+	"FarClipPlane": 2000.0,
+	"RenderDefaultCubes":  true
 }

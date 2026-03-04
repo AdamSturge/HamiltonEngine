@@ -9,4 +9,5 @@ namespace HamiltonEngine::OpenGL
 	void processInput(GLFWwindow* window);
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	void mouse_callback(GLFWwindow* window, double xposIn, double yposIn);
+	void ProcessMovement(GLFWwindow* window, float DeltaTime);
 }

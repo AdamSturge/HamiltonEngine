@@ -2,6 +2,14 @@
 #include "Window.h"
 #include <Configuration/Globals.h>
 #include "Utils.h"
+#include "Window.h"
+
+namespace
+{
+	bool firstMouse = true;
+	float lastX;
+	float lastY;
+}
 
 namespace HamiltonEngine::OpenGL 
 {
@@ -35,6 +43,9 @@ namespace HamiltonEngine::OpenGL
 			// Register callback functions AFTER we create the window but BEFORE render loop is started
 			glfwSetFramebufferSizeCallback(window, HamiltonEngine::OpenGL::framebuffer_size_callback);
 
+			glfwSetCursorPosCallback(window, HamiltonEngine::OpenGL::mouse_callback);
+			glfwSetScrollCallback(window, HamiltonEngine::OpenGL::scroll_callback);
+
 			return window;
 		}
 		else
@@ -59,20 +70,15 @@ namespace HamiltonEngine::OpenGL
 
 	void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	{
-		HamiltonEngine::Globals::camera.fov -= (float)yoffset;
-		if (HamiltonEngine::Globals::camera.fov < 1.0f)
-			HamiltonEngine::Globals::camera.fov = 1.0f;
-		if (HamiltonEngine::Globals::camera.fov > 45.0f)
-			HamiltonEngine::Globals::camera.fov = 45.0f;
+		HamiltonEngine::Globals::ActiveCamera.fov -= (float)yoffset;
+		if (HamiltonEngine::Globals::ActiveCamera.fov < 1.0f)
+			HamiltonEngine::Globals::ActiveCamera.fov = 1.0f;
+		if (HamiltonEngine::Globals::ActiveCamera.fov > 45.0f)
+			HamiltonEngine::Globals::ActiveCamera.fov = 45.0f;
 	}
-
-	bool firstMouse = true;
-	float lastX = HamiltonEngine::Globals::WindowWidth / 2.0f;
-	float lastY = HamiltonEngine::Globals::WindowHeight / 2.0f;
 
 	void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 	{
-
 		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
 			return;
 
@@ -81,36 +87,80 @@ namespace HamiltonEngine::OpenGL
 
 		if (firstMouse)
 		{
-			lastX = xpos;
-			lastY = ypos;
+			int wid, hei;
+			glfwGetWindowSize(window, &wid, &hei);
+			lastX = wid / 2.0f;
+			lastY = hei / 2.0f;
 			firstMouse = false;
 		}
 
 		float xoffset = xpos - lastX;
-		float yoffset = lastY - ypos; // x-coords are reversed because reasons
+		float yoffset = lastY - ypos; // reversed since y-coordinates range from bottom to top
 		lastX = xpos;
 		lastY = ypos;
 
-		float sensitivity = 0.1f;
-		xoffset *= sensitivity;
-		yoffset *= sensitivity;
+		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
+		
+		HamiltonEngine::OpenGL::ProcessMouseMovement(Camera, xoffset, yoffset);
 
-		HamiltonEngine::Globals::camera.yaw += xoffset;
-		HamiltonEngine::Globals::camera.pitch += yoffset;
+		PrintCameraDetails(Camera);
+	}
 
-		// make sure that when pitch is out of bounds, screen doesn't get flipped
-		if (HamiltonEngine::Globals::camera.pitch > 89.0f)
-			HamiltonEngine::Globals::camera.pitch = 89.0f;
-		if (HamiltonEngine::Globals::camera.pitch < -89.0f)
-			HamiltonEngine::Globals::camera.pitch = -89.0f;
+	void ProcessMovement(GLFWwindow* Window, float DeltaTime)
+	{
 
-		Eigen::Vector3f NewFront;
-		NewFront << cos(DegToRad(HamiltonEngine::Globals::camera.yaw)) * cos(DegToRad(HamiltonEngine::Globals::camera.pitch)),
-			sin(DegToRad(HamiltonEngine::Globals::camera.pitch)),
-			sin(DegToRad(HamiltonEngine::Globals::camera.yaw))* cos(DegToRad(HamiltonEngine::Globals::camera.pitch));
-		NewFront.normalize();
-		HamiltonEngine::Globals::camera.CameraFront = NewFront;
+		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
+		const float CameraSpeed = HamiltonEngine::ConfigurationVariable<float>("MovementSpeed", 2.5) * DeltaTime;
 
+		// Release the Camera
+		if (glfwGetKey(Window, GLFW_KEY_M) == GLFW_PRESS)
+		{
+			if (glfwGetInputMode(Window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
+			{
+				int WindowHeight, WindowWidth;
+				glfwGetWindowSize(Window, &WindowHeight, &WindowWidth);
+				glfwSetCursorPos(Window, WindowHeight / 2, WindowWidth / 2);
+				glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			}
+			else
+				glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+		}
+
+		// Reset to the default Camera Position
+		if (glfwGetKey(Window, GLFW_KEY_R) == GLFW_PRESS)
+		{
+			Camera.CameraPosition = HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION;
+			Camera.CameraFront = HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT;
+			Camera.CameraUp = HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP;
+			Camera.yaw = HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW;
+			Camera.pitch = HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH;
+		}
+
+
+		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, FORWARD, DeltaTime);
+		}
+		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, BACKWARD, DeltaTime);
+		}
+
+		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, LEFT, DeltaTime);
+		}
+		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, RIGHT, DeltaTime);
+		}
+
+		//if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && CameraMoved)
+		//{
+		//	RenderDefaultCubes = !RenderDefaultCubes;
+		//}
+		
 	}
 
 }

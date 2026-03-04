@@ -11,23 +11,11 @@ namespace HamiltonEngine::Globals
 
 
 	// Rendering + OpenGL stuff
-	ConfigurationVariable<std::vector<float>> BackgroundColorRGB("BackgroundColorRGB", { 0.2f, 0.3f, 0.3f });
-	ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
-	ConfigurationVariable<int> WindowWidth("WindowWidth", 600);
-	ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
-	ConfigurationVariable<float> FieldOfView("FieldOfView", 30.0);
 	GLuint FrameCount = 0;
-
-	// Control States
-	bool CaptureMouseMovement = false;
-	Eigen::Vector3f DefaultCameraPosition(0.0f, 0.0f, 3.0f);
-	Eigen::Vector3f DefaultCameraFront(0.0f, 0.0f, -1.0f);
-	Eigen::Vector3f DefaultCameraUp(0.0f, 1.0f, 0.0f);
-
-	HamiltonEngine::OpenGL::Camera camera{
-		DefaultCameraPosition, DefaultCameraFront, DefaultCameraUp,
-			-90, 0.0f, FieldOfView};
 
 	//EnTT
 	entt::registry Registry = entt::registry();
+
+	// Control States
+	HamiltonEngine::OpenGL::Camera ActiveCamera;
 }

@@ -60,8 +60,15 @@ namespace HamiltonEngine
 			auto Iter = PreInitializationVars.find(Key.c_str());
 			if (Iter != PreInitializationVars.end())
 			{
-				ConfigurationVariableBase* Var = Iter->second;
-				Var->SetValue(Value);
+				//ConfigurationVariableBase* Var = Iter->second;
+				if (ConfigurationVariableBase* Var = Iter->second)
+				{
+					Var->SetValue(Value);
+				}
+				else
+				{
+					std::cout << "Hit a nullptr? wtf happened?" << std::endl;
+				}
 			}
 		}
 
