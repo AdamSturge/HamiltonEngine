@@ -1,6 +1,8 @@
 #include "PrecompiledHeader/Pch.h"
 #include "Camera.h"
 #include "Utils.h"
+#include <Configuration/ConfigurationVariable.h>
+#include "Configuration/Globals.h"
 
 namespace HamiltonEngine::OpenGL
 {
@@ -23,13 +25,8 @@ namespace HamiltonEngine::OpenGL
 	}
 
 	//Eigen::Affine3f lookAt = glm::lookAt(eye, centre, up)
-	Eigen::Matrix4f LookAt(
-		Eigen::Vector3f CameraPos,
-		Eigen::Vector3f TargetPos,
-		Eigen::Vector3f Up
-	)
+	Eigen::Matrix4f LookAt(Eigen::Vector3f CameraPos, Eigen::Vector3f TargetPos,Eigen::Vector3f Up)
 	{
-
 		Eigen::Vector3f CameraDirection = (CameraPos - TargetPos).normalized();
 		Eigen::Vector3f CameraRight = Up.cross(CameraDirection).normalized();
 		Eigen::Vector3f CameraUp = CameraDirection.cross(CameraRight);
@@ -51,11 +48,72 @@ namespace HamiltonEngine::OpenGL
 		Eigen::Matrix4f res = LookingAt * PosM4;
 
 		return res;
+
+
+
+
+
+	}
+
+	void ProcessMouseMovement(HamiltonEngine::OpenGL::Camera& Camera, float DeltaX, float DeltaY)
+	{
+		float MouseSensitivity = HamiltonEngine::ConfigurationVariable<float>("MouseSensitivity", 0.1f);
+		DeltaX *= MouseSensitivity;
+		DeltaY *= MouseSensitivity;
+
+		Camera.yaw += DeltaX;
+		Camera.pitch += DeltaY;
+
+		// make sure that when pitch is out of bounds, screen doesn't get flipped
+		if (Camera.pitch > 89.0f)
+			Camera.pitch = 89.0f;
+		if (Camera.pitch < -89.0f)
+			Camera.pitch = -89.0f;
+
+		UpdateCameraVectors(Camera);
+
+	}
+
+	void ProcessKeyboardMovement(HamiltonEngine::OpenGL::Camera& Camera)
+	{
+
+		// TODO
+	}
+
+	void UpdateCameraVectors(HamiltonEngine::OpenGL::Camera& Camera)
+	{
+
+		Eigen::Vector3f NewFront;
+		/*NewFront = { 
+					 
+					 
+		};*/
+
+		// UE5 ?
+		//NewFront = { -1 * sin(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
+		//			cos(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw)),
+		//			sin(DegToRad(Camera.pitch)),
+		//			};
+
+		NewFront << cos(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
+			sin(DegToRad(Camera.pitch)),
+			sin(DegToRad(Camera.yaw))* cos(DegToRad(Camera.pitch));
+
+
+		NewFront.normalize();
+		Camera.CameraFront = NewFront;
+		
+		//Eigen::Vector3f Right = Camera.CameraFront.cross(Camera.WorldUp).normalized();
+		//Camera.CameraUp = Right.cross(Camera.CameraFront).normalized();
+
 	}
 
 	void PrintCameraDetails(const Camera& camera)
 	{
+		printf("Frame - %d\n", HamiltonEngine::Globals::FrameCount);
 		printf("Camera Location - ( %f, %f, %f )\n", camera.CameraPosition.x(), camera.CameraPosition.y(), camera.CameraPosition.z());
 		printf("Camera YPR - ( %f, %f, %f )\n", camera.yaw, camera.pitch, 0.0f);
+		printf("Camera Front - ( %f, %f, %f )\n", camera.CameraFront.x(), camera.CameraFront.y(), camera.CameraFront.z());
+		printf("Camera Up - ( %f, %f, %f )\n", camera.CameraUp.x(), camera.CameraUp.y(), camera.CameraUp.z());
 	}
 }

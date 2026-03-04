@@ -94,19 +94,22 @@ int main(int argc, char** argv)
 	
 	// Setup and use the Camera
 	HamiltonEngine::OpenGL::Camera NewCamera{
-		HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION,
-			HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT,
-			HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP,
-			HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW,
+		HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION, // Some where in space
+			HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, // Camera is looking at this direction
+			HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP, // Camera can change, but is +Z
+			Eigen::Vector3f(0, 1.0f, 0.0f), // Right is +Y
+			Eigen::Vector3f(1.0f, 0.0f, 0.0f), // Up is +Z
+			HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW, 
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH,
 			// Pitch if we need it
 			HamiltonEngine::OpenGL::DEFAULT_FOV};
+
 	HamiltonEngine::Globals::ActiveCamera = NewCamera;
 	HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 
 	Eigen::Affine3f Model = Eigen::Affine3f::Identity();
-	Eigen::Matrix4f Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov, (float) WindowHeight / WindowWidth, 0.1f, 100.0f);
-	Eigen::Matrix4f View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition, Eigen::Vector3f::Zero(), Eigen::Vector3f::UnitY());
+	Eigen::Matrix4f Projection; //= HamiltonEngine::OpenGL::MakeFrustum(Camera.fov, (float) WindowHeight / WindowWidth, 0.1f, 100.0f);
+	Eigen::Matrix4f View;  //= HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition, Eigen::Vector3f::Zero(), Eigen::Vector3f::UnitZ());
 
 	std::vector<float> WindowBackgroundColour = HamiltonEngine::ConfigurationVariable<std::vector<float>>("BackgroundColorRGB", { 0.2f, 0.3f, 0.3f });
 	float WindowBackgroundRed = WindowBackgroundColour[0];
@@ -163,7 +166,7 @@ int main(int argc, char** argv)
 
 		View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition,
 											  Camera.CameraPosition + Camera.CameraFront,
-												Camera.CameraUp);
+												Camera.WorldUp);
 
 
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());

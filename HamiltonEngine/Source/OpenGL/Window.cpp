@@ -78,10 +78,6 @@ namespace HamiltonEngine::OpenGL
 
 	void mouse_callback(GLFWwindow* window, double xposIn, double yposIn)
 	{
-
-		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
-		float sensitivity = HamiltonEngine::ConfigurationVariable<float>("MouseSensitivity", 0.1f);
-
 		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
 			return;
 
@@ -98,46 +94,55 @@ namespace HamiltonEngine::OpenGL
 		}
 
 		float xoffset = xpos - lastX;
-		float yoffset = lastY - ypos; // x-coords are reversed because reasons
+		float yoffset = lastY - ypos; // reversed since y-coordinates range from bottom to top
 		lastX = xpos;
 		lastY = ypos;
 
-		xoffset *= sensitivity;
-		yoffset *= sensitivity;
+		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
+		
+		HamiltonEngine::OpenGL::ProcessMouseMovement(Camera, xoffset, yoffset);
 
-		Camera.yaw -= xoffset;
-		Camera.pitch += yoffset;
 
-		// make sure that when pitch is out of bounds, screen doesn't get flipped
-		if (Camera.pitch > 89.0f)
-			 Camera.pitch = 89.0f;
-		if (Camera.pitch < -89.0f)
-			Camera.pitch = -89.0f;
+		//xoffset *= sensitivity;
+		//yoffset *= sensitivity;
 
-		if (Camera.yaw > 360.0)
-		{
-			Camera.yaw -= 360.0;
-		}
+		//Camera.yaw += xoffset;
+		//Camera.pitch += yoffset;
 
-		if (Camera.yaw < -360.0)
-		{
-			Camera.yaw += 360.0;
-		}
+		//// make sure that when pitch is out of bounds, screen doesn't get flipped
+		//if (Camera.pitch > 89.0f)
+		//	 Camera.pitch = 89.0f;
+		//if (Camera.pitch < -89.0f)
+		//	Camera.pitch = -89.0f;
 
-		Eigen::Vector3f NewFront;
-		// Leaving this in for reference, this is for a RIGHT handed co-ord system. 
-		//NewFront << cos(DegToRad(camera.yaw)) * cos(DegToRad(camera.pitch)),
-		//			sin(DegToRad(camera.pitch)),
-		//			sin(DegToRad(camera.yaw))* cos(DegToRad(camera.pitch));
+		//if (Camera.yaw > 360.0)
+		//{
+		//	Camera.yaw -= 360.0;
+		//}
 
-		// Left Hand Coord system
-		NewFront = { cos(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
-					 sin(DegToRad(Camera.yaw)),
-					 sin(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw))
-		};
+		//if (Camera.yaw < -360.0)
+		//{
+		//	Camera.yaw += 360.0;
+		//}
 
-		NewFront.normalize();
-		Camera.CameraFront = NewFront;
+		//Eigen::Vector3f NewFront;
+		//// Leaving this in for reference, this is for a RIGHT handed co-ord system. 
+		//NewFront << cos(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
+		//			sin(DegToRad(Camera.pitch)),
+		//			sin(DegToRad(Camera.yaw))* cos(DegToRad(Camera.pitch));
+
+		//// Left Hand Coord system
+		//NewFront = { sin(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw)),
+		//			 sin(DegToRad(Camera.yaw)),
+		//			 cos(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw))
+		//};
+
+		//NewFront.normalize();
+		//Camera.CameraFront = NewFront;
+		////Eigen::Vector3f Right = Camera.CameraFront.cross(Camera.WorldUp).normalized();
+		////Camera.CameraUp = Right.cross(Camera.CameraFront).normalized();
+
+		PrintCameraDetails(Camera);
 	}
 
 	void ProcessMovement(GLFWwindow* window, float DeltaTime)
