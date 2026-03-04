@@ -32,7 +32,7 @@ namespace HamiltonEngine::OpenGL
 	Eigen::Matrix4f LookAt(Eigen::Vector3f CameraPos,Eigen::Vector3f TargetPos,Eigen::Vector3f Up);
 	Eigen::Matrix4f CameraLookAt(HamiltonEngine::OpenGL::Camera& Camera, Eigen::Vector3f Target);
 	void ProcessMouseMovement(HamiltonEngine::OpenGL::Camera& Camera, float DeltaX, float DeltaY);
-	void ProcessKeyboardMovement(HamiltonEngine::OpenGL::Camera& Camera, CameraDirection dir, float DeltaTime);
+	void ProcessKeyboardMovement(GLFWwindow* Window, HamiltonEngine::OpenGL::Camera& Camera, CameraDirection dir, float DeltaTime);
 	void UpdateCameraVectors(HamiltonEngine::OpenGL::Camera& Camera);
 	void PrintCameraDetails(const Camera& camera);
 

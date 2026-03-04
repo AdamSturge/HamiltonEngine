@@ -94,28 +94,27 @@ namespace HamiltonEngine::OpenGL
 
 	}
 
-	void ProcessKeyboardMovement(HamiltonEngine::OpenGL::Camera& Camera, CameraDirection dir, float DeltaTime)
+	void ProcessKeyboardMovement(GLFWwindow* Window, HamiltonEngine::OpenGL::Camera& Camera, CameraDirection dir, float DeltaTime)
 	{
 
 		//HamiltonEngine::OpenGL::Camera& camera = HamiltonEngine::Globals::ActiveCamera;
-		GLFWwindow* window = HamiltonEngine::Globals::ActiveWindow;
 		const float CameraSpeed = HamiltonEngine::ConfigurationVariable<float>("MovementSpeed", 2.5) * DeltaTime;
 
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS)
 		{
 			Camera.CameraPosition += CameraSpeed * Camera.CameraFront;
 		}
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS)
 		{
 			Camera.CameraPosition -= CameraSpeed * Camera.CameraFront;
 		}
 
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS)
 		{
 			Camera.CameraPosition -= Camera.CameraFront.cross(Camera.CameraUp).normalized() * CameraSpeed;
 
 		}
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS)
 		{
 			Camera.CameraPosition += Camera.CameraFront.cross(Camera.CameraUp).normalized() * CameraSpeed;
 		}

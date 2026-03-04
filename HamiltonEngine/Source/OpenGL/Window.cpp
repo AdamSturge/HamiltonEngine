@@ -106,29 +106,29 @@ namespace HamiltonEngine::OpenGL
 		PrintCameraDetails(Camera);
 	}
 
-	void ProcessMovement(GLFWwindow* window, float DeltaTime)
+	void ProcessMovement(GLFWwindow* Window, float DeltaTime)
 	{
 
 		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 		const float CameraSpeed = HamiltonEngine::ConfigurationVariable<float>("MovementSpeed", 2.5) * DeltaTime;
 
 		// Release the Camera
-		if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_M) == GLFW_PRESS)
 		{
-			if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
+			if (glfwGetInputMode(Window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
 			{
 				int WindowHeight, WindowWidth;
-				glfwGetWindowSize(window, &WindowHeight, &WindowWidth);
-				glfwSetCursorPos(window, WindowHeight / 2, WindowWidth / 2);
-				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+				glfwGetWindowSize(Window, &WindowHeight, &WindowWidth);
+				glfwSetCursorPos(Window, WindowHeight / 2, WindowWidth / 2);
+				glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 			}
 			else
-				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+				glfwSetInputMode(Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 		}
 
 		// Reset to the default Camera Position
-		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_R) == GLFW_PRESS)
 		{
 			Camera.CameraPosition = HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION;
 			Camera.CameraFront = HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT;
@@ -138,22 +138,22 @@ namespace HamiltonEngine::OpenGL
 		}
 
 
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Camera, FORWARD, DeltaTime);
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, FORWARD, DeltaTime);
 		}
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS)
 		{
-			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Camera, BACKWARD, DeltaTime);
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, BACKWARD, DeltaTime);
 		}
 
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Camera, LEFT, DeltaTime);
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, LEFT, DeltaTime);
 		}
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Camera, RIGHT, DeltaTime);
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, RIGHT, DeltaTime);
 		}
 
 		//if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && CameraMoved)

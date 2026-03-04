@@ -25,8 +25,6 @@
 // TODO: Make a sphere
 // TODO: LIGHTING!
 
-
-
 int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
@@ -41,7 +39,6 @@ int main(int argc, char** argv)
 	glfwInit(); // Initialize OpenGL
 	
 	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(WindowHeight, WindowWidth, ((std::string)WindowName).c_str());
-	HamiltonEngine::Globals::ActiveWindow = window;
 
 	glfwSetCursorPos(window, WindowHeight / 2, WindowWidth / 2);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -210,6 +207,7 @@ int main(int argc, char** argv)
 	}
 	
 	std::cout << "There were " << HamiltonEngine::Globals::FrameCount << " frames rendered." << std::endl;
+	std::cout << "The average frame time " << glfwGetTime() / HamiltonEngine::Globals::FrameCount << std::endl;
 	glfwTerminate();
 	return 0;
 }

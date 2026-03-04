@@ -18,6 +18,4 @@ namespace HamiltonEngine::Globals
 
 	// Control States
 	HamiltonEngine::OpenGL::Camera ActiveCamera;
-	GLFWwindow* ActiveWindow;
-
 }
