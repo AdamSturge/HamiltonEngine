@@ -54,24 +54,21 @@ int main(int argc, char** argv)
 
 	// TODO: Move into using the ECS Systems
 	GLuint cube_VAO, cube_VBO;
+	glGenVertexArrays(1, &cube_VAO);
+	glBindVertexArray(cube_VAO);
 
-	HamiltonEngine::OpenGL::BasicShapes::CreateUnitCube(&cube_VAO, &cube_VBO);
+	glCreateBuffers(1, &cube_VBO);	
 
-	//glGenVertexArrays(1, &cube_VAO);
-	//glBindVertexArray(cube_VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, cube_VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(CUBE_VERTICIES), CUBE_VERTICIES, GL_STATIC_DRAW);
 
-	//glCreateBuffers(1, &cube_VBO);	
+	// position attribute
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
 
-	//glBindBuffer(GL_ARRAY_BUFFER, cube_VBO);
-	//glBufferData(GL_ARRAY_BUFFER, sizeof(CUBE_VERTICIES), CUBE_VERTICIES, GL_STATIC_DRAW);
-
-	//// position attribute
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-	//glEnableVertexAttribArray(0);
-
-	//// texture attribute
-	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-	//glEnableVertexAttribArray(1);
+	// texture attribute
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	HamiltonEngine::OpenGL::Texture texture1c = HamiltonEngine::OpenGL::Texture::Texture("Assets\\Textures\\container.jpg", GL_RGB, GL_RGB, GL_UNSIGNED_BYTE);
 	texture1c.setActive();
@@ -172,14 +169,7 @@ int main(int argc, char** argv)
 
 
 		glBindVertexArray(cube_VAO);
-<<<<<<< HEAD
 		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
-=======
-		for (int i = 0; i < 10; i++)
-		{
-			Model = Eigen::Affine3f::Identity();
-			Model.translate(cubePositions[i]);
->>>>>>> 030ad8e (Basic Unit Cube Object)
 
 
 		// A scattering of default cubes

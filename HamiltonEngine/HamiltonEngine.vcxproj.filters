@@ -23,9 +23,6 @@
     <ClCompile Include="Source\PrecompiledHeader\Pch.cpp">
       <Filter>Source\PrecompiledHeader</Filter>
     </ClCompile>
-    <ClCompile Include="ConfigurationVariableBase.cpp">
-      <Filter>Source\Configuration</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Configuration\Globals.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
@@ -74,16 +71,17 @@
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-<<<<<<< HEAD
+    <ClCompile Include="Source\OpenGL\BasicShapes\Cube.cpp">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
+    </ClCompile>
     <ClCompile Include="Source\Physics\Integrators\RigidBodyA.cpp">
       <Filter>Source\Physics\Integrators</Filter>
     </ClCompile>
     <ClCompile Include="Source\Physics\Integrators\RigidBodyB.cpp">
       <Filter>Source\Physics\Integrators</Filter>
-=======
-    <ClCompile Include="Source\OpenGL\BasicShapes\Cube.cpp">
-      <Filter>Source\OpenGL\BasicShapes</Filter>
->>>>>>> 030ad8e (Basic Unit Cube Object)
+    </ClCompile>
+    <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp">
+      <Filter>Source\Configuration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,11 +168,7 @@
     <ClInclude Include="Source\Configuration\Globals.h">
       <Filter>Source\Configuration</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="Source\OpenGL\SimpleShapes.h">
-=======
-    <ClInclude Include="OpenGL.h">
->>>>>>> 030ad8e (Basic Unit Cube Object)
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Source\OpenGL\Camera.h">
@@ -222,7 +216,12 @@
     <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
-<<<<<<< HEAD
+    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\BasicShapes\Cube.h">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
+    </ClInclude>
     <ClInclude Include="Source\OpenGL\OpenGL.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
@@ -231,13 +230,6 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\RigidBodyB.h">
       <Filter>Source\Physics\Integrators</Filter>
-=======
-    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
-      <Filter>Source\OpenGL\BasicShapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\BasicShapes\Cube.h">
-      <Filter>Source\OpenGL\BasicShapes</Filter>
->>>>>>> 030ad8e (Basic Unit Cube Object)
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
