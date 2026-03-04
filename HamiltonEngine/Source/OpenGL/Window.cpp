@@ -2,6 +2,7 @@
 #include "Window.h"
 #include <Configuration/Globals.h>
 #include "Utils.h"
+#include "Window.h"
 
 namespace
 {
@@ -102,53 +103,13 @@ namespace HamiltonEngine::OpenGL
 		
 		HamiltonEngine::OpenGL::ProcessMouseMovement(Camera, xoffset, yoffset);
 
-
-		//xoffset *= sensitivity;
-		//yoffset *= sensitivity;
-
-		//Camera.yaw += xoffset;
-		//Camera.pitch += yoffset;
-
-		//// make sure that when pitch is out of bounds, screen doesn't get flipped
-		//if (Camera.pitch > 89.0f)
-		//	 Camera.pitch = 89.0f;
-		//if (Camera.pitch < -89.0f)
-		//	Camera.pitch = -89.0f;
-
-		//if (Camera.yaw > 360.0)
-		//{
-		//	Camera.yaw -= 360.0;
-		//}
-
-		//if (Camera.yaw < -360.0)
-		//{
-		//	Camera.yaw += 360.0;
-		//}
-
-		//Eigen::Vector3f NewFront;
-		//// Leaving this in for reference, this is for a RIGHT handed co-ord system. 
-		//NewFront << cos(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
-		//			sin(DegToRad(Camera.pitch)),
-		//			sin(DegToRad(Camera.yaw))* cos(DegToRad(Camera.pitch));
-
-		//// Left Hand Coord system
-		//NewFront = { sin(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw)),
-		//			 sin(DegToRad(Camera.yaw)),
-		//			 cos(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw))
-		//};
-
-		//NewFront.normalize();
-		//Camera.CameraFront = NewFront;
-		////Eigen::Vector3f Right = Camera.CameraFront.cross(Camera.WorldUp).normalized();
-		////Camera.CameraUp = Right.cross(Camera.CameraFront).normalized();
-
 		PrintCameraDetails(Camera);
 	}
 
 	void ProcessMovement(GLFWwindow* window, float DeltaTime)
 	{
 
-		HamiltonEngine::OpenGL::Camera& camera = HamiltonEngine::Globals::ActiveCamera;
+		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 		const float CameraSpeed = HamiltonEngine::ConfigurationVariable<float>("MovementSpeed", 2.5) * DeltaTime;
 
 		// Release the Camera
@@ -169,43 +130,36 @@ namespace HamiltonEngine::OpenGL
 		// Reset to the default Camera Position
 		if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
 		{
-			HamiltonEngine::Globals::ActiveCamera.CameraPosition = HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION;
-			HamiltonEngine::Globals::ActiveCamera.CameraFront = HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT;
-			HamiltonEngine::Globals::ActiveCamera.CameraUp = HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP;
-			HamiltonEngine::Globals::ActiveCamera.yaw = HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW;
-			HamiltonEngine::Globals::ActiveCamera.pitch = HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH;
-			PrintCameraDetails(camera);
+			Camera.CameraPosition = HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION;
+			Camera.CameraFront = HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT;
+			Camera.CameraUp = HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP;
+			Camera.yaw = HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW;
+			Camera.pitch = HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH;
 		}
 
 
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			camera.CameraPosition += CameraSpeed * camera.CameraFront;
-			PrintCameraDetails(camera);
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Camera, FORWARD, DeltaTime);
 		}
 		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		{
-			camera.CameraPosition -= CameraSpeed * camera.CameraFront;
-			PrintCameraDetails(camera);
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Camera, BACKWARD, DeltaTime);
 		}
 
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			camera.CameraPosition -= camera.CameraFront.cross(camera.CameraUp).normalized() * CameraSpeed;
-			PrintCameraDetails(camera);
-			
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Camera, LEFT, DeltaTime);
 		}
 		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			camera.CameraPosition += camera.CameraFront.cross(camera.CameraUp).normalized() * CameraSpeed;
-			PrintCameraDetails(camera);
+			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Camera, RIGHT, DeltaTime);
 		}
 
 		//if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && CameraMoved)
 		//{
 		//	RenderDefaultCubes = !RenderDefaultCubes;
 		//}
-
 		
 	}
 

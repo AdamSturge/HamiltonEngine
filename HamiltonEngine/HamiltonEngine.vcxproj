@@ -167,12 +167,12 @@
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConfigurationVariableBase.cpp" />
     <ClCompile Include="Libraries\glad\glad.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Source\Configuration\ConfigurationSystem.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
+    <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp" />
     <ClCompile Include="Source\Configuration\Globals.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />

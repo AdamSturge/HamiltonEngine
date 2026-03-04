@@ -6,6 +6,16 @@
 
 namespace HamiltonEngine::OpenGL
 {
+	// CAMERA DEFAULTS
+	const Eigen::Vector3f DEFAULT_CAMERA_POSITION(-10.0f, 0.0f, 0.0f);
+	const Eigen::Vector3f DEFAULT_CAMERA_FRONT(1.0f, 0.0f, 0.0f);
+	const Eigen::Vector3f DEFAULT_CAMERA_UP(0.0f, 0.0f, 1.0f); // Up is +Z
+	const float DEFAULT_CAMERA_YAW = 0.0f;
+	const float DEFAULT_CAMERA_PITCH = 0.0f;
+	const float DEFAULT_FOV = 30;
+	const float DEFAULT_NEAR_CLIP = 0.01f;
+	const float DEFAULT_FAR_CLIP = 10.0f;
+
 
 	Eigen::Matrix4f MakeFrustum(float fovY, float aspectRatio, float front, float back)
 	{
@@ -24,7 +34,6 @@ namespace HamiltonEngine::OpenGL
 		return matrix;
 	}
 
-	//Eigen::Affine3f lookAt = glm::lookAt(eye, centre, up)
 	Eigen::Matrix4f LookAt(Eigen::Vector3f CameraPos, Eigen::Vector3f TargetPos,Eigen::Vector3f Up)
 	{
 		Eigen::Vector3f CameraDirection = (CameraPos - TargetPos).normalized();
@@ -39,9 +48,6 @@ namespace HamiltonEngine::OpenGL
 				 CameraDirection.x(), CameraDirection.y(), CameraDirection.z(), 0.0f,
 								   0,				    0,				     0,    1;
 
-		//LookingAt = { {}, {}, {}, {} };
-
-
 		Eigen::Matrix4f PosM4;
 		PosM4 << 1, 0, 0, -CameraPos.x(),
 				 0, 1, 0, -CameraPos.y(),
@@ -49,12 +55,6 @@ namespace HamiltonEngine::OpenGL
 				 0, 0, 0, 1;
 
 		Eigen::Matrix4f res = LookingAt * PosM4;
-
-
-
-		//Eigen::Vector3f zaxis = (CameraPos - TargetPos).normalized();
-		//Eigen::Vector3f xaxis = ()
-
 
 		return res;
 	}
@@ -81,47 +81,55 @@ namespace HamiltonEngine::OpenGL
 		DeltaX *= MouseSensitivity;
 		DeltaY *= MouseSensitivity;
 
-		Camera.yaw += DeltaX;
+		Camera.yaw -= DeltaX;
 		Camera.pitch += DeltaY;
 
 		// make sure that when pitch is out of bounds, screen doesn't get flipped
-		if (Camera.pitch > 89.0f + 90.0f)
-			Camera.pitch = 89.0f + 90.0f;
-		if (Camera.pitch < -89.0f - 90.0f)
-			Camera.pitch = -89.0f - 90.0f;
+		if (Camera.pitch > 89.0f)
+			Camera.pitch = 89.0f;
+		if (Camera.pitch < -89.0f)
+			Camera.pitch = -89.0f;
 
 		UpdateCameraVectors(Camera);
 
 	}
 
-	void ProcessKeyboardMovement(HamiltonEngine::OpenGL::Camera& Camera)
+	void ProcessKeyboardMovement(HamiltonEngine::OpenGL::Camera& Camera, CameraDirection dir, float DeltaTime)
 	{
 
-		// TODO
+		//HamiltonEngine::OpenGL::Camera& camera = HamiltonEngine::Globals::ActiveCamera;
+		GLFWwindow* window = HamiltonEngine::Globals::ActiveWindow;
+		const float CameraSpeed = HamiltonEngine::ConfigurationVariable<float>("MovementSpeed", 2.5) * DeltaTime;
+
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		{
+			Camera.CameraPosition += CameraSpeed * Camera.CameraFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		{
+			Camera.CameraPosition -= CameraSpeed * Camera.CameraFront;
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		{
+			Camera.CameraPosition -= Camera.CameraFront.cross(Camera.CameraUp).normalized() * CameraSpeed;
+
+		}
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		{
+			Camera.CameraPosition += Camera.CameraFront.cross(Camera.CameraUp).normalized() * CameraSpeed;
+		}
 	}
 
 	void UpdateCameraVectors(HamiltonEngine::OpenGL::Camera& Camera)
 	{
 
 		Eigen::Vector3f NewFront;
-		/*NewFront = { 
-					 
-					 
-		};*/
 
-		// UE5 ?
-		//NewFront = { -1 * sin(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
-		//			cos(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw)),
-		//			sin(DegToRad(Camera.pitch)),
-		//			};
-
-		NewFront << cos(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
-					sin(DegToRad(Camera.pitch)),
-					sin(DegToRad(Camera.yaw))* cos(DegToRad(Camera.pitch));
-
-		//NewFront = { sin(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw)),
-		//			 sin(DegToRad(Camera.yaw)),
-		//			 cos(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw)) };
+		NewFront = { cos(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw)),
+					 sin(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
+					 sin(DegToRad(Camera.pitch))
+					};
 
 
 		NewFront.normalize();
