@@ -34,10 +34,13 @@ namespace HamiltonEngine::OpenGL
 		Eigen::Matrix4f LookingAt;
 
 		// This can probably be simplified
-		LookingAt << CameraRight.x(), CameraRight.y(), CameraRight.z(), 0.0f,
-			CameraUp.x(), CameraUp.y(), CameraUp.z(), 0.0f,
-			CameraDirection.x(), CameraDirection.y(), CameraDirection.z(), 0.0f,
-			0, 0, 0, 1;
+		LookingAt << CameraRight.x(),	  CameraRight.y(),     CameraRight.z(), 0.0f,
+						CameraUp.x(),	 	 CameraUp.y(),		  CameraUp.z(),	0.0f,
+				 CameraDirection.x(), CameraDirection.y(), CameraDirection.z(), 0.0f,
+								   0,				    0,				     0,    1;
+
+		//LookingAt = { {}, {}, {}, {} };
+
 
 		Eigen::Matrix4f PosM4;
 		PosM4 << 1, 0, 0, -CameraPos.x(),
@@ -47,12 +50,29 @@ namespace HamiltonEngine::OpenGL
 
 		Eigen::Matrix4f res = LookingAt * PosM4;
 
+
+
+		//Eigen::Vector3f zaxis = (CameraPos - TargetPos).normalized();
+		//Eigen::Vector3f xaxis = ()
+
+
 		return res;
+	}
 
+	Eigen::Matrix4f CameraLookAt(HamiltonEngine::OpenGL::Camera& Camera, Eigen::Vector3f Target)
+	{
+		Eigen::Vector3f f = (Target - Camera.CameraPosition).normalized();
+		Eigen::Vector3f u = Camera.WorldUp.normalized();
+		Eigen::Vector3f s = f.cross(u).normalized();
+		u = s.cross(f);
 
+		Eigen::Matrix4f res;
+		res << s.x(), s.y(), s.z(), -s.dot(Camera.CameraPosition),
+			   u.x(), u.y(), u.z(), -u.dot(Camera.CameraPosition),
+			   -f.x(), -f.y(), -f.z(),  f.dot(Camera.CameraPosition),
+			   0,0,0,1;
 
-
-
+		return res;
 	}
 
 	void ProcessMouseMovement(HamiltonEngine::OpenGL::Camera& Camera, float DeltaX, float DeltaY)
@@ -65,10 +85,10 @@ namespace HamiltonEngine::OpenGL
 		Camera.pitch += DeltaY;
 
 		// make sure that when pitch is out of bounds, screen doesn't get flipped
-		if (Camera.pitch > 89.0f)
-			Camera.pitch = 89.0f;
-		if (Camera.pitch < -89.0f)
-			Camera.pitch = -89.0f;
+		if (Camera.pitch > 89.0f + 90.0f)
+			Camera.pitch = 89.0f + 90.0f;
+		if (Camera.pitch < -89.0f - 90.0f)
+			Camera.pitch = -89.0f - 90.0f;
 
 		UpdateCameraVectors(Camera);
 
@@ -96,15 +116,19 @@ namespace HamiltonEngine::OpenGL
 		//			};
 
 		NewFront << cos(DegToRad(Camera.yaw)) * cos(DegToRad(Camera.pitch)),
-			sin(DegToRad(Camera.pitch)),
-			sin(DegToRad(Camera.yaw))* cos(DegToRad(Camera.pitch));
+					sin(DegToRad(Camera.pitch)),
+					sin(DegToRad(Camera.yaw))* cos(DegToRad(Camera.pitch));
+
+		//NewFront = { sin(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw)),
+		//			 sin(DegToRad(Camera.yaw)),
+		//			 cos(DegToRad(Camera.pitch)) * cos(DegToRad(Camera.yaw)) };
 
 
 		NewFront.normalize();
 		Camera.CameraFront = NewFront;
 		
-		//Eigen::Vector3f Right = Camera.CameraFront.cross(Camera.WorldUp).normalized();
-		//Camera.CameraUp = Right.cross(Camera.CameraFront).normalized();
+		Eigen::Vector3f Right = Camera.CameraFront.cross(Camera.WorldUp).normalized();
+		Camera.CameraUp = Right.cross(Camera.CameraFront).normalized();
 
 	}
 

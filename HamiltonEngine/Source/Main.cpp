@@ -98,7 +98,7 @@ int main(int argc, char** argv)
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, // Camera is looking at this direction
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP, // Camera can change, but is +Z
 			Eigen::Vector3f(0, 1.0f, 0.0f), // Right is +Y
-			Eigen::Vector3f(1.0f, 0.0f, 0.0f), // Up is +Z
+			Eigen::Vector3f(0.0f, 0.0f, 1.0f), // Up is +Z
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW, 
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH,
 			// Pitch if we need it
@@ -124,6 +124,8 @@ int main(int argc, char** argv)
 	float DeltaTime = 0.0f;
 	float NearClip = HamiltonEngine::ConfigurationVariable("NearClipPlane", HamiltonEngine::OpenGL::DEFAULT_NEAR_CLIP);
 	float FarClip = HamiltonEngine::ConfigurationVariable("FarClipPlane", HamiltonEngine::OpenGL::DEFAULT_FAR_CLIP);
+
+	Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov,(float)WindowHeight / WindowWidth,NearClip,FarClip);
 
 	while (!glfwWindowShouldClose(window)) {
 		++HamiltonEngine::Globals::FrameCount;
@@ -157,16 +159,11 @@ int main(int argc, char** argv)
 		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
 		GLint viewLoc = glGetUniformLocation(simpleShader.ID, "view");
 
+		//View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition,
+		//									  Camera.CameraPosition + Camera.CameraFront,
+		//										Camera.WorldUp);
 
-		Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov,
-														(float)WindowHeight / WindowWidth, 
-														NearClip,
-														FarClip);
-
-
-		View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition,
-											  Camera.CameraPosition + Camera.CameraFront,
-												Camera.WorldUp);
+		View = HamiltonEngine::OpenGL::CameraLookAt(Camera, Camera.CameraPosition + Camera.CameraFront);
 
 
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());
