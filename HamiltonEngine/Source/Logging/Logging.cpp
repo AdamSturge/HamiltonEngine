@@ -10,6 +10,7 @@ namespace
     /*TODO:
         - Figure out how to add name of child log to parent log
         - Try using unique ptrs instead of shared (or even non-heap memory)
+        - Add console sink (with config var to turn off)
     */
     struct LogInfo
     {
