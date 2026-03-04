@@ -102,8 +102,6 @@ namespace HamiltonEngine::OpenGL
 		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 		
 		HamiltonEngine::OpenGL::ProcessMouseMovement(Camera, xoffset, yoffset);
-
-		PrintCameraDetails(Camera);
 	}
 
 	void ProcessMovement(GLFWwindow* Window, float DeltaTime)
