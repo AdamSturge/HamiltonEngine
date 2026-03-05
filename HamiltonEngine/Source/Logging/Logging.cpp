@@ -6,55 +6,60 @@
 namespace 
 {
     HamiltonEngine::ConfigurationVariable<std::string> LogDir("LogDir", "Logs");
+    HamiltonEngine::ConfigurationVariable<bool> LogToConsole("LogToConsole", true);
 
-    /*TODO:
-        - Figure out how to add name of child log to parent log
-        - Try using unique ptrs instead of shared (or even non-heap memory)
-        - Add console sink (with config var to turn off)
-    */
-    struct LogInfo
+    struct SpdLogInfo
     {
-        LogInfo() = delete;
-        LogInfo(LogInfo&) = delete;
+        SpdLogInfo() = delete;
+        SpdLogInfo(SpdLogInfo&) = delete;
         
-        LogInfo(const char* Name,
-            spdlog::level::level_enum LogLevel,
-            LogInfo* ParentLog)
+        SpdLogInfo(const char* Name, spdlog::level::level_enum LogLevel)
         {
+            // Create log for this category
             std::filesystem::path FilePath{ LogDir.Get()};
             FilePath.append(Name);
             FilePath.replace_extension(".log");
-            const std::string FileName = FilePath.string();
+            const std::string CategoryFileName = FilePath.string();
 
-            auto FileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(FileName);
-            FileSink->set_level(LogLevel);
+            auto CategoryFileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(CategoryFileName);
+            CategoryFileSink->set_level(LogLevel);
+
+            // Create log sink for the All log that concatinates the category logs
+            FilePath.replace_filename("All.log");
+            const std::string AllFileName = FilePath.string();
+
+            auto AllFileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(AllFileName);
+            AllFileSink->set_level(LogLevel);
             
-            if (ParentLog) 
+            if (LogToConsole) 
             {
-                auto ParentLogCallback = std::make_shared<spdlog::sinks::callback_sink_mt>(
-                    [ParentLog, Name](const spdlog::details::log_msg& msg)
-                    {
-                        ParentLog->Logger->log(msg.time, msg.source, msg.level, msg.payload);
-                    });
-                ParentLogCallback->set_level(LogLevel);
-                
-                Logger = std::make_shared<spdlog::logger>(spdlog::logger(Name, { FileSink, ParentLogCallback }));
+                // Create console sink so we see warnings in std out
+                auto ConsoleSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+                Logger = new(&Storage) spdlog::logger(Name, { CategoryFileSink, ConsoleSink, AllFileSink });    
             }
             else 
             {
-                Logger = std::make_shared<spdlog::logger>(spdlog::logger(Name, { FileSink }));
+                Logger = new(&Storage) spdlog::logger(Name, { CategoryFileSink, AllFileSink });    
             }
         }
+
+        ~SpdLogInfo() 
+        {
+            Logger->~logger();
+            memset(&Storage, 0, sizeof(Storage));
+        }
         
-        std::shared_ptr<spdlog::logger> Logger;
+        using StorageType = std::aligned_storage_t<sizeof(spdlog::logger), alignof(spdlog::logger)>;
+        StorageType Storage;
+        spdlog::logger* Logger;
     };
 
     constexpr auto LogCount =  static_cast<std::underlying_type_t<HamiltonEngine::Logging::LogCategory>>(HamiltonEngine::Logging::LogCategory::Count);
-    LogInfo Logs[LogCount] = { 
-        LogInfo("All", spdlog::level::info, nullptr),
-        LogInfo("General", spdlog::level::info, &Logs[0]),
-        LogInfo("Physics", spdlog::level::info, &Logs[0]),
-        LogInfo("Graphics",spdlog::level::info, &Logs[0])
+    SpdLogInfo Logs[LogCount] = { 
+        //SpdLogInfo("All", spdlog::level::info, nullptr),
+        SpdLogInfo("General", spdlog::level::info),
+        SpdLogInfo("Physics", spdlog::level::info),
+        SpdLogInfo("Graphics",spdlog::level::info)
     };
 }
 
@@ -63,6 +68,6 @@ namespace HamiltonEngine::Logging
     spdlog::logger* GetLogger(LogCategory Category)
     {
         using PodType = std::underlying_type_t<LogCategory>;
-        return Logs[static_cast<PodType>(Category)].Logger.get();
+        return Logs[static_cast<PodType>(Category)].Logger;
     }
 }

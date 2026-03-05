@@ -8,8 +8,7 @@
 namespace HamiltonEngine::Logging
 {
     enum class LogCategory : uint32_t
-    {
-        All, //Do not use this directly, it's exposed here so we avoid a bunch of potential off by one errors 
+    { 
         General,
         Physics,
         Graphics,
@@ -25,7 +24,7 @@ namespace HamiltonEngine::Logging
         Error = SPDLOG_LEVEL_ERROR,
         Critical = SPDLOG_LEVEL_CRITICAL,
         Off = SPDLOG_LEVEL_OFF,
-        dssadsa
+        Count
     };
 
     spdlog::logger* GetLogger(LogCategory Category);

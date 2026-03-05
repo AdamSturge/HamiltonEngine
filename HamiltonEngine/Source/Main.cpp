@@ -33,8 +33,6 @@ int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
-	HAMILTON_LOG(Physics, Warning, "Test")
-
 	GLuint WindowWidth = HamiltonEngine::Globals::WindowWidth;
 	GLuint WindowHeight = HamiltonEngine::Globals::WindowHeight;
 	std::string WindowName = HamiltonEngine::Globals::WindowName;
