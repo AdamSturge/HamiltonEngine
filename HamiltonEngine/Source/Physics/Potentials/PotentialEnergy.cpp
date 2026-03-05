@@ -24,15 +24,15 @@ namespace HamiltonEngine::Physics
 			if (const ParticleGravityComponent* GravityComponent = CurrentEntityHandle.try_get<ParticleGravityComponent>())
 			{
 				PotentialEnergy += ComputeConstantGravityPotential(Position, Mass);
-			}
-
-			if (const ParticlePotentialEnergyListComponent* ListComponent = CurrentEntityHandle.try_get<ParticlePotentialEnergyListComponent>())
-			{
-				CurrentEntityHandle = ListComponent->NextEntity;
+				CurrentEntityHandle = GravityComponent->NextEntity;
 			}
 			else
 			{
-				//TODO Log this?
+				const auto EntityId = entt::entt_traits<entt::entity>::to_entity(CurrentEntityHandle.entity());
+				HAMILTON_LOG(Physics,
+					Warning,
+					"Computing particle potential energy and encountered unknown energy type. Ending iteration on entity %d", 
+					EntityId)
 				break;
 			}
 		}
@@ -55,16 +55,17 @@ namespace HamiltonEngine::Physics
 			if (const ParticleGravityComponent* GravityComponent = CurrentEntityHandle.try_get<ParticleGravityComponent>())
 			{
 				ComputeGradConstantGravityPotential(Mass, OutGradPotentialEnergy);
-			}
-
-			if (const ParticlePotentialEnergyListComponent* ListComponent = CurrentEntityHandle.try_get<ParticlePotentialEnergyListComponent>())
-			{
-				CurrentEntityHandle = ListComponent->NextEntity;
+				CurrentEntityHandle = GravityComponent->NextEntity;
 			}
 			else
 			{
-				//TODO Log this?
-				break;
+				const auto EntityId = entt::entt_traits<entt::entity>::to_entity(CurrentEntityHandle.entity());
+				HAMILTON_LOG(Physics,
+					Warning,
+					"Computing particle potential energy gradient and encountered unknown energy type. Ending iteration on entity %d", 
+					EntityId)
+					
+					break;
 			}
 
 		}
@@ -97,15 +98,16 @@ namespace HamiltonEngine::Physics
 					InertiaTensor,
 					OutGradLinearPotentialEnergy,
 					OutGradAngularPotentialEnergy);
-			}
-
-			if (const RigidBodyPotentialEnergyListComponent* ListComponent = CurrentEntityHandle.try_get<RigidBodyPotentialEnergyListComponent>()) 
-			{
-				CurrentEntityHandle = ListComponent->NextEntity;
+				
+				CurrentEntityHandle = GravityComponent->NextEntity;
 			}
 			else 
 			{
-				//TODO Log this?
+				const auto EntityId = entt::entt_traits<entt::entity>::to_entity(CurrentEntityHandle.entity());
+				HAMILTON_LOG(Physics,
+					Warning,
+					"Computing rigid body potential energy gradient and encountered unknown energy type. Ending iteration on entity %d",
+					EntityId)
 				break;
 			}
 

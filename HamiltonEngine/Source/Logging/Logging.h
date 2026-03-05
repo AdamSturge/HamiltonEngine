@@ -12,6 +12,7 @@ namespace HamiltonEngine::Logging
         General,
         Physics,
         Graphics,
+        Configuration,
         Count
     };
 

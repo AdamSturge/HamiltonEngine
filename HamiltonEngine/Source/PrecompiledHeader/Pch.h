@@ -34,5 +34,5 @@
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 //Our code. Add stuff that doesn't change often
-//#include "Configuration/Globals.h"
+#include "Logging/Logging.h"
 

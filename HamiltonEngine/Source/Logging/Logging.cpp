@@ -59,7 +59,8 @@ namespace
         //SpdLogInfo("All", spdlog::level::info, nullptr),
         SpdLogInfo("General", spdlog::level::info),
         SpdLogInfo("Physics", spdlog::level::info),
-        SpdLogInfo("Graphics",spdlog::level::info)
+        SpdLogInfo("Graphics",spdlog::level::info),
+        SpdLogInfo("Configuration",spdlog::level::info)
     };
 }
 
