@@ -130,6 +130,9 @@
     <Filter Include="Source\Logging">
       <UniqueIdentifier>{57413c14-320f-4c90-9ea6-1ecc3a0f8c50}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\ECS">
+      <UniqueIdentifier>{838b8f36-e06c-402a-a88b-9ff71d7f2472}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
@@ -224,6 +227,9 @@
     </ClInclude>
     <ClInclude Include="Source\Logging\Logging.h">
       <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ECS\EntityToUnderlyingType.h">
+      <Filter>Source\ECS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

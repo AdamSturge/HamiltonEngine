@@ -141,6 +141,7 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariable.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
     <ClInclude Include="Source\Configuration\Globals.h" />
+    <ClInclude Include="Source\ECS\EntityToUnderlyingType.h" />
     <ClInclude Include="Source\Logging\Logging.h" />
     <ClInclude Include="Source\OpenGL\Camera.h" />
     <ClInclude Include="Source\OpenGL\OpenGL.h" />

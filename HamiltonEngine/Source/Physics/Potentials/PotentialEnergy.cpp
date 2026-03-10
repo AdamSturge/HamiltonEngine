@@ -28,11 +28,14 @@ namespace HamiltonEngine::Physics
 			}
 			else
 			{
-				const auto EntityId = entt::entt_traits<entt::entity>::to_entity(CurrentEntityHandle.entity());
+				const auto EntityId = ENTIY_HADNLE_TO_UNDERLYING_TYPE(CurrentEntityHandle);
+				const auto EntityVersion = ENTIY_HADNLE_TO_VERSION(CurrentEntityHandle);
 				HAMILTON_LOG(Physics,
 					Warning,
-					"Computing particle potential energy and encountered unknown energy type. Ending iteration on entity %d", 
-					EntityId)
+					"Computing particle potential energy and encountered unknown energy type. Ending iteration on entity %d:%d", 
+					EntityId,
+					EntityVersion)
+
 				break;
 			}
 		}
@@ -59,11 +62,13 @@ namespace HamiltonEngine::Physics
 			}
 			else
 			{
-				const auto EntityId = entt::entt_traits<entt::entity>::to_entity(CurrentEntityHandle.entity());
+				const auto EntityId = ENTIY_HADNLE_TO_UNDERLYING_TYPE(CurrentEntityHandle);
+				const auto EntityVersion = ENTIY_HADNLE_TO_VERSION(CurrentEntityHandle);
 				HAMILTON_LOG(Physics,
 					Warning,
-					"Computing particle potential energy gradient and encountered unknown energy type. Ending iteration on entity %d", 
-					EntityId)
+					"Computing particle potential energy gradient and encountered unknown energy type. Ending iteration on entity %d:%d", 
+					EntityId, 
+					EntityVersion)
 					
 					break;
 			}
@@ -103,11 +108,14 @@ namespace HamiltonEngine::Physics
 			}
 			else 
 			{
-				const auto EntityId = entt::entt_traits<entt::entity>::to_entity(CurrentEntityHandle.entity());
+				const auto EntityId = ENTIY_HADNLE_TO_UNDERLYING_TYPE(CurrentEntityHandle);
+				const auto EntityVersion = ENTIY_HADNLE_TO_VERSION(CurrentEntityHandle);
 				HAMILTON_LOG(Physics,
 					Warning,
-					"Computing rigid body potential energy gradient and encountered unknown energy type. Ending iteration on entity %d",
-					EntityId)
+					"Computing rigid body potential energy gradient and encountered unknown energy type. Ending iteration on entity %d:%d",
+					EntityId,
+					EntityVersion)
+
 				break;
 			}
 
