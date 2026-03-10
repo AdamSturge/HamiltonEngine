@@ -8,6 +8,8 @@
 #include <ostream>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 //Config.h before libarries since it configures some via macros
@@ -25,5 +27,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 //Our code. Add stuff that doesn't change often
-//#include "Configuration/Globals.h"
+#include "Logging/Logging.h"
+#include "ECS/EntityToUnderlyingType.h"
 

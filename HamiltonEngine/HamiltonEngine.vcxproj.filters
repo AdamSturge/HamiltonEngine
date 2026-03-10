@@ -80,6 +80,9 @@
     <ClCompile Include="Source\Physics\Integrators\RigidBodyB.cpp">
       <Filter>Source\Physics\Integrators</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Logging\Logging.cpp">
+      <Filter>Source\Logging</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -123,6 +126,12 @@
     </Filter>
     <Filter Include="Source\Physics\Systems">
       <UniqueIdentifier>{333c5e3a-87f9-4b26-bf0b-4e99323e5368}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Logging">
+      <UniqueIdentifier>{57413c14-320f-4c90-9ea6-1ecc3a0f8c50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\ECS">
+      <UniqueIdentifier>{838b8f36-e06c-402a-a88b-9ff71d7f2472}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +224,12 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\RigidBodyB.h">
       <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Logging\Logging.h">
+      <Filter>Source\Logging</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ECS\EntityToUnderlyingType.h">
+      <Filter>Source\ECS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

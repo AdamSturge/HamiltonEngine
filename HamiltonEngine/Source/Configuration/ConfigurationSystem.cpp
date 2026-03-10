@@ -10,7 +10,11 @@ namespace HamiltonEngine
 	{
 		if (PreInitializationVars.contains(Key))
 		{
-			return false; //TODO logging
+			HAMILTON_LOG(Configuration, 
+				Warning,
+				"Attempting multiple initialization of config variable with key: %s",
+				Key)
+			return false; 
 		}
 
 		PreInitializationVars[Key] = &Var;
@@ -40,7 +44,10 @@ namespace HamiltonEngine
 		{
 			if (!std::filesystem::exists(Filename))
 			{
-				//TODO Log
+				HAMILTON_LOG(Configuration,
+					Warning,
+					"Attempting to open file %s but file does not exist: %s",
+					Filename)
 				return false;
 			}
 
@@ -48,7 +55,10 @@ namespace HamiltonEngine
 		}
 		catch (std::filesystem::filesystem_error e) 
 		{
-			//TODO Log
+			HAMILTON_LOG(Configuration,
+				Warning,
+				"Attempting to open file %s but failed with exception: %s",
+				e.what())
 			return false;
 		}
 
