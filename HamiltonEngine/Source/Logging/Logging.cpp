@@ -3,6 +3,14 @@
 #include "Logging.h"
 #include "Configuration/ConfigurationVariable.h"
 
+#define FMT_UNICODE 0
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/callback_sink.h>
+#include <spdlog/sinks/rotating_file_sink.h>
+#include <spdlog/sinks/daily_file_sink.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+
 namespace 
 {
     HamiltonEngine::ConfigurationVariable<std::string> LogDir("LogDir", "Logs");
@@ -66,9 +74,23 @@ namespace
 
 namespace HamiltonEngine::Logging 
 {
-    spdlog::logger* GetLogger(LogCategory Category)
+    void LogMessageVairadic(LogCategory Category, 
+        LogLevel LogLevel,
+        const char* Message,
+        ...)
     {
+        constexpr int MAX_LEN = 1024;
+        char Buff[MAX_LEN];
+       
+        va_list Args;
+        va_start(Args, Message);
+        vsnprintf(Buff, sizeof(Buff), Message, Args);
+        va_end(Args);
+
         using PodType = std::underlying_type_t<LogCategory>;
-        return Logs[static_cast<PodType>(Category)].Logger;
+        spdlog::logger* Logger = Logs[static_cast<PodType>(Category)].Logger;
+
+        SPDLOG_LOGGER_CALL(Logger, static_cast<spdlog::level::level_enum>(LogLevel), Buff);
+    
     }
 }

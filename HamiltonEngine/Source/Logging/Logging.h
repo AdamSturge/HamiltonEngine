@@ -1,8 +1,13 @@
 #pragma once
 
-#define HAMILTON_LOG(Category, Level, ...) {\
-    SPDLOG_LOGGER_CALL(HamiltonEngine::Logging::GetLogger(HamiltonEngine::Logging::LogCategory::Category), \
-        static_cast<spdlog::level::level_enum>(HamiltonEngine::Logging::LogLevel::Level),  __VA_ARGS__); \
+//#define HAMILTON_LOG(Category, Level, ...) {\
+//    SPDLOG_LOGGER_CALL(HamiltonEngine::Logging::GetLogger(HamiltonEngine::Logging::LogCategory::Category), \
+//        static_cast<spdlog::level::level_enum>(HamiltonEngine::Logging::LogLevel::Level),  __VA_ARGS__); \
+//}
+
+#define HAMILTON_LOG(Category, Level, Message, ...) {\
+    using namespace HamiltonEngine::Logging;\
+    LogMessageVairadic(LogCategory::Category, LogLevel::Level, Message, __VA_ARGS__); \
 }
 
 namespace HamiltonEngine::Logging
@@ -16,17 +21,21 @@ namespace HamiltonEngine::Logging
         Count
     };
 
+    //Note that the order here matters as it must match spdlog
     enum class LogLevel : uint32_t 
     {
-        Trace = SPDLOG_LEVEL_TRACE,
-        Debug = SPDLOG_LEVEL_DEBUG,
-        Info = SPDLOG_LEVEL_INFO,
-        Warning = SPDLOG_LEVEL_WARN,
-        Error = SPDLOG_LEVEL_ERROR,
-        Critical = SPDLOG_LEVEL_CRITICAL,
-        Off = SPDLOG_LEVEL_OFF,
+        Trace,
+        Debug,
+        Info,
+        Warning,
+        Error,
+        Critical,
+        Off ,
         Count
     };
 
-    spdlog::logger* GetLogger(LogCategory Category);
+    void LogMessageVairadic(LogCategory Category,
+        LogLevel LogLevel,
+        const char* Message, 
+        ...);
 }
