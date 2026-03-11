@@ -9,37 +9,53 @@ namespace Eigen
 
 namespace HamiltonEngine::Physics
 {
-	float ComputeSprintPotential(const Eigen::Vector3f& Position,
-		float Mass);
+	float ComputeSpringPotentialParticle(const Eigen::Vector3f& Position,
+		float SpringConstant,
+		float RestLength);
 
-	void ComputeGradSpringPotential(float Mass,
+	void ComputeGradSpringPotentialParticle(float SpringConstant,
 		Eigen::Vector3f& OutGradPotentialEnergy);
 
 	float ComputeSpringPotentialRigidBody(
 		const Eigen::Affine3f& BodyToWorldTransform,
 		Eigen::Vector3f BodyPosition,
-		float Mass,
+		float SpringConstant,
 		const Eigen::Diagonal3f& InertiaTensor);
 
 	void ComputeGradSpringPotentialRigidBody(
 		const Eigen::Affine3f& BodyToWorldTransform,
 		Eigen::Vector3f BodyPosition,
-		float Mass,
+		float SpringConstant,
 		const Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Vector3f& OutGradLinearPotentialEnergy,
 		Eigen::Vector3f& OutGradAngularPotentialEnergy);
 
-	struct ParticleSpringComponent
+
+	struct SpringPotentialComponent
 	{
-		ParticleSpringComponent(entt::const_handle Parent);
+		SpringPotentialComponent(entt::const_handle Parent, float SpringConstant,
+			float RestLength, const Eigen::Vector3f& BAnchorPoint);
 
-		float Gravity;
+		//This is a linked list that connects to entities that are designed to compute 
+		//potential energies acting on a given entity
+		entt::const_handle NextEntity;
+		entt::const_handle ParentEntity; //Back pointer to parent entity
+
+		float K; //Spring constant
+		float L; //Rest length
+
+		Eigen::Vector3f AnchorPointBody; //Body coordinates of point spring is anchored to on this entity
+		entt::const_handle OtherEntity; //Entity on other end of the spring
 	};
+	
+	//struct SpringComponent
+	//{
+	//	entt::const_handle Entity1; //Entity on one end of the spring
+	//	entt::const_handle Entity2; //Entity on other end of the spring
+	//	Eigen::Vector3f AttachPoint1; //Attach point for entity 1 in world coordinates
+	//	Eigen::Vector3f AttachPoint2; //Attach point for entity 2 in world coordinates
+	//	float K; //Spring constant
+	//	float L; // Rest length
+	//};
 
-	struct RigidBodySpringComponent
-	{
-		RigidBodySpringComponent(entt::const_handle Parent);
-
-		float Gravity;
-	};
 }

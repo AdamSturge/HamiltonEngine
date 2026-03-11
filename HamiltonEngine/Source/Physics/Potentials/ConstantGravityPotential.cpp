@@ -23,20 +23,15 @@ namespace HamiltonEngine::Physics
 
 	float ComputeConstantGravityPotentialRigidBody(const Eigen::Affine3f& BodyToWorldTransform, 
 		Eigen::Vector3f BodyPosition,
-		float Mass,
-		const Eigen::Diagonal3f& InertiaTensor)
+		float Mass)
 	{
 		const Eigen::Vector3f WorldPosition = BodyToWorldTransform * BodyPosition;
 		const float Height = WorldPosition.z();
 		return Mass * GravitationalAcceleration * Height;
 	}
 
-	void ComputeGradConstantGravityPotentialRigidBody(const Eigen::Affine3f& BodyToWorldTransform, 
-		Eigen::Vector3f BodyPosition, 
-		float Mass,
-		const Eigen::Diagonal3f& InertiaTensor, 
-		Eigen::Vector3f& OutGradLinearPotentialEnergy, 
-		Eigen::Vector3f& OutGradAngularPotentialEnergy)
+	void ComputeGradConstantGravityPotentialRigidBody(float Mass,
+		Eigen::Vector3f& OutGradLinearPotentialEnergy)
 	{
 		OutGradLinearPotentialEnergy += Mass * GravitationalAcceleration * Eigen::Vector3f(0.0f, 0.0f, 1.0f);
 	}

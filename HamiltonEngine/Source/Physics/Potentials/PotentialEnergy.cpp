@@ -3,6 +3,7 @@
 #include "PotentialEnergy.h"
 #include "Configuration/Globals.h"
 #include "ConstantGravityPotential.h"
+#include "SpringPotential.h"
 #include "Physics/State/ParticleState.h"
 #include "Physics/State/RigidBodyState.h"
 
@@ -15,7 +16,6 @@ namespace HamiltonEngine::Physics
 		float PotentialEnergy = 0.0f;
 
 		entt::const_handle CurrentEntityHandle = PotentialEnergyEntity;
-		const entt::registry& Reigstry = HamiltonEngine::Globals::Registry;
 		while (CurrentEntityHandle.valid())
 		{
 			//You need to add to this list whenever a new type of potential is added to the engine/game
@@ -25,6 +25,10 @@ namespace HamiltonEngine::Physics
 			{
 				PotentialEnergy += ComputeConstantGravityPotentialParticle(Position, Mass);
 				CurrentEntityHandle = GravityComponent->NextEntity;
+			}
+			else if (const SpringPotentialComponent* SpringComponent = CurrentEntityHandle.try_get<SpringPotentialComponent>())
+			{
+				CurrentEntityHandle = SpringComponent->NextEntity;
 			}
 			else
 			{
@@ -49,7 +53,6 @@ namespace HamiltonEngine::Physics
 		Eigen::Vector3f& OutGradPotentialEnergy)
 	{
 		entt::const_handle CurrentEntityHandle = PotentialEnergyEntity;
-		const entt::registry& Reigstry = HamiltonEngine::Globals::Registry;
 		while (CurrentEntityHandle.valid())
 		{
 			//You need to add to this list whenever a new type of potential is added to the engine/game
@@ -59,6 +62,10 @@ namespace HamiltonEngine::Physics
 			{
 				ComputeGradConstantGravityPotentialParticle(Mass, OutGradPotentialEnergy);
 				CurrentEntityHandle = GravityComponent->NextEntity;
+			}
+			else if (const SpringPotentialComponent* SpringComponent = CurrentEntityHandle.try_get<SpringPotentialComponent>())
+			{
+				CurrentEntityHandle = SpringComponent->NextEntity;
 			}
 			else
 			{
@@ -88,7 +95,6 @@ namespace HamiltonEngine::Physics
 		const Eigen::Matrix3f Orientation = Transform.rotation();
 		
 		entt::const_handle CurrentEntityHandle = PotentialEnergyEntity;
-		const entt::registry& Reigstry = HamiltonEngine::Globals::Registry;
 		while(CurrentEntityHandle.valid())
 		{
 			//You need to add to this list whenever a new type of potential is added to the engine/game
@@ -96,17 +102,15 @@ namespace HamiltonEngine::Physics
 			
 			if (const RigidBodyGravityComponent* GravityComponent = CurrentEntityHandle.try_get<RigidBodyGravityComponent>())
 			{
-				const Eigen::Vector3f BodyPointOfApplication = Eigen::Vector3f::Zero();
-				ComputeGradConstantGravityPotentialRigidBody(Transform,
-					BodyPointOfApplication,
-					Mass,
-					InertiaTensor,
-					OutGradLinearPotentialEnergy,
-					OutGradAngularPotentialEnergy);
+				ComputeGradConstantGravityPotentialRigidBody(Mass, OutGradLinearPotentialEnergy);
 				
 				CurrentEntityHandle = GravityComponent->NextEntity;
 			}
-			else 
+			else if (const SpringPotentialComponent* SpringComponent = CurrentEntityHandle.try_get<SpringPotentialComponent>())
+			{
+				CurrentEntityHandle = SpringComponent->NextEntity;
+			}
+			else
 			{
 				const auto EntityId = ENTIY_HADNLE_TO_UNDERLYING_TYPE(CurrentEntityHandle);
 				const auto EntityVersion = ENTIY_HADNLE_TO_VERSION(CurrentEntityHandle);

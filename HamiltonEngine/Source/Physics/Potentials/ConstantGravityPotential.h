@@ -18,16 +18,11 @@ namespace HamiltonEngine::Physics
 	float ComputeConstantGravityPotentialRigidBody(
 		const Eigen::Affine3f& BodyToWorldTransform,
 		Eigen::Vector3f BodyPosition,
-		float Mass,
-		const Eigen::Diagonal3f& InertiaTensor);
+		float Mass);
 
 	void ComputeGradConstantGravityPotentialRigidBody(
-		const Eigen::Affine3f& BodyToWorldTransform,
-		Eigen::Vector3f BodyPosition,
 		float Mass,
-		const Eigen::Diagonal3f& InertiaTensor,
-		Eigen::Vector3f& OutGradLinearPotentialEnergy,
-		Eigen::Vector3f& OutGradAngularPotentialEnergy);
+		Eigen::Vector3f& OutGradLinearPotentialEnergy);
 
 	struct ParticleGravityComponent
 	{
