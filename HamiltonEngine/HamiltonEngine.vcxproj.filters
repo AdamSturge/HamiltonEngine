@@ -22,9 +22,6 @@
     <ClCompile Include="Source\PrecompiledHeader\Pch.cpp">
       <Filter>Source\PrecompiledHeader</Filter>
     </ClCompile>
-    <ClCompile Include="ConfigurationVariableBase.cpp">
-      <Filter>Source\Configuration</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Configuration\Globals.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
@@ -81,6 +78,10 @@
     </ClCompile>
     <ClCompile Include="Source\Logging\Logging.cpp">
       <Filter>Source\Logging</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp" />
+    <ClCompile Include="Source\Physics\Potentials\SpringPotential.cpp">
+      <Filter>Source\Physics\Potentials</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="Source\ECS\EntityToUnderlyingType.h">
       <Filter>Source\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Physics\Potentials\SpringPotential.h">
+      <Filter>Source\Physics\Potentials</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

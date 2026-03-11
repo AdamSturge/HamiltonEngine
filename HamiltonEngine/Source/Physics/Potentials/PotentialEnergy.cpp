@@ -23,7 +23,7 @@ namespace HamiltonEngine::Physics
 
 			if (const ParticleGravityComponent* GravityComponent = CurrentEntityHandle.try_get<ParticleGravityComponent>())
 			{
-				PotentialEnergy += ComputeConstantGravityPotential(Position, Mass);
+				PotentialEnergy += ComputeConstantGravityPotentialParticle(Position, Mass);
 				CurrentEntityHandle = GravityComponent->NextEntity;
 			}
 			else
@@ -57,7 +57,7 @@ namespace HamiltonEngine::Physics
 
 			if (const ParticleGravityComponent* GravityComponent = CurrentEntityHandle.try_get<ParticleGravityComponent>())
 			{
-				ComputeGradConstantGravityPotential(Mass, OutGradPotentialEnergy);
+				ComputeGradConstantGravityPotentialParticle(Mass, OutGradPotentialEnergy);
 				CurrentEntityHandle = GravityComponent->NextEntity;
 			}
 			else
