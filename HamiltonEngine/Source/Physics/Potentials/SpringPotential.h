@@ -9,11 +9,15 @@ namespace Eigen
 
 namespace HamiltonEngine::Physics
 {
-	float ComputeSpringPotentialParticle(const Eigen::Vector3f& Position,
+	float ComputeSpringPotentialParticle(const Eigen::Vector3f& ParticlePosition,
+		const Eigen::Vector3f& OtherEndOfSpringPosition,
 		float SpringConstant,
 		float RestLength);
 
-	void ComputeGradSpringPotentialParticle(float SpringConstant,
+	void ComputeGradSpringPotentialParticle(const Eigen::Vector3f& Position,
+		const Eigen::Vector3f& OtherEndOfSpringPosition,
+		float SpringConstant,
+		float RestLength,
 		Eigen::Vector3f& OutGradPotentialEnergy);
 
 	float ComputeSpringPotentialRigidBody(
@@ -45,6 +49,7 @@ namespace HamiltonEngine::Physics
 		float L; //Rest length
 
 		Eigen::Vector3f AnchorPointBody; //Body coordinates of point spring is anchored to on this entity
+		
 		entt::const_handle OtherEntity; //Entity on other end of the spring
 	};
 	

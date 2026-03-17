@@ -36,7 +36,7 @@ namespace HamiltonEngine::Physics
 				const auto EntityVersion = ENTIY_HADNLE_TO_VERSION(CurrentEntityHandle);
 				HAMILTON_LOG(Physics,
 					Warning,
-					"Computing particle potential energy and encountered unknown energy type. Ending iteration on entity %d:%d", 
+					"Entity %d:%d. Computing particle potential energy and encountered unknown energy type. Ending iteration", 
 					EntityId,
 					EntityVersion)
 
@@ -61,10 +61,61 @@ namespace HamiltonEngine::Physics
 			if (const ParticleGravityComponent* GravityComponent = CurrentEntityHandle.try_get<ParticleGravityComponent>())
 			{
 				ComputeGradConstantGravityPotentialParticle(Mass, OutGradPotentialEnergy);
+				
 				CurrentEntityHandle = GravityComponent->NextEntity;
 			}
 			else if (const SpringPotentialComponent* SpringComponent = CurrentEntityHandle.try_get<SpringPotentialComponent>())
 			{
+				if (const SpringPotentialComponent* OtherSpringComponent = SpringComponent->OtherEntity.try_get<SpringPotentialComponent>()) 
+				{
+					Eigen::Vector3f OtherEndOfSpringPosition = Eigen::Vector3f::Zero();
+					
+					if (const ParticleStateComponent* ParticleState = SpringComponent->OtherEntity.try_get<ParticleStateComponent>()) 
+					{
+						OtherEndOfSpringPosition = ParticleState->Position;
+						ComputeGradSpringPotentialParticle(Position, OtherEndOfSpringPosition, SpringComponent->K,
+							SpringComponent->L, OutGradPotentialEnergy);
+					}
+					else if (const RigidBodyStateComponent* RigidBodyState = SpringComponent->OtherEntity.try_get<RigidBodyStateComponent>())
+					{
+						OtherEndOfSpringPosition = RigidBodyState->Transform * OtherSpringComponent->AnchorPointBody;
+						ComputeGradSpringPotentialParticle(Position, OtherEndOfSpringPosition, SpringComponent->K,
+							SpringComponent->L, OutGradPotentialEnergy);
+					}
+					else 
+					{
+						const auto EntityId = ENTIY_HADNLE_TO_UNDERLYING_TYPE(CurrentEntityHandle);
+						const auto EntityVersion = ENTIY_HADNLE_TO_VERSION(CurrentEntityHandle);
+						const auto OtherEntityId = ENTIY_HADNLE_TO_UNDERLYING_TYPE(SpringComponent->OtherEntity);
+						const auto OtherEntityVersion = ENTIY_HADNLE_TO_VERSION(SpringComponent->OtherEntity);
+
+						HAMILTON_LOG(Physics,
+							Error,
+							"Entity %d:%d. Computing particle potential energy gradient for spring and could not determine position of other end of spring",
+							EntityId,
+							EntityVersion,
+							OtherEntityId,
+							OtherEntityVersion)
+					}
+					
+				}
+				else 
+				{
+					const auto EntityId = ENTIY_HADNLE_TO_UNDERLYING_TYPE(CurrentEntityHandle);
+					const auto EntityVersion = ENTIY_HADNLE_TO_VERSION(CurrentEntityHandle);
+					const auto OtherEntityId = ENTIY_HADNLE_TO_UNDERLYING_TYPE(SpringComponent->OtherEntity);
+					const auto OtherEntityVersion = ENTIY_HADNLE_TO_VERSION(SpringComponent->OtherEntity);
+					
+					HAMILTON_LOG(Physics,
+						Warning,
+						"Entity %d:%d. Computing particle potential energy gradient for spring and entity %d:%d on other end does not have a spring component",
+						EntityId,
+						EntityVersion,
+						OtherEntityId,
+						OtherEntityVersion)
+				}
+				
+				
 				CurrentEntityHandle = SpringComponent->NextEntity;
 			}
 			else
@@ -73,7 +124,7 @@ namespace HamiltonEngine::Physics
 				const auto EntityVersion = ENTIY_HADNLE_TO_VERSION(CurrentEntityHandle);
 				HAMILTON_LOG(Physics,
 					Warning,
-					"Computing particle potential energy gradient and encountered unknown energy type. Ending iteration on entity %d:%d", 
+					"Entity %d:%d. Computing particle potential energy gradient and encountered unknown energy type. Ending iteration", 
 					EntityId, 
 					EntityVersion)
 					
@@ -116,7 +167,7 @@ namespace HamiltonEngine::Physics
 				const auto EntityVersion = ENTIY_HADNLE_TO_VERSION(CurrentEntityHandle);
 				HAMILTON_LOG(Physics,
 					Warning,
-					"Computing rigid body potential energy gradient and encountered unknown energy type. Ending iteration on entity %d:%d",
+					"Entity %d:%d. Computing rigid body potential energy gradient and encountered unknown energy type. Ending iteration",
 					EntityId,
 					EntityVersion)
 

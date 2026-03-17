@@ -4,16 +4,25 @@
 
 namespace HamiltonEngine::Physics
 {
-	float ComputeSpringPotentialParticle(const Eigen::Vector3f& Position, 
+	float ComputeSpringPotentialParticle(const Eigen::Vector3f& Position,
+		const Eigen::Vector3f& OtherEndOfSpringPosition,
 		float SpringConstant,
 		float RestLength)
 	{
-		
-		return 0.0f;
+		const Eigen::Vector3f Diff =  OtherEndOfSpringPosition - Position;
+		return 0.5f * SpringConstant * std::pow(Diff.norm() - RestLength, 2);
 	}
 
-	void ComputeGradSpringPotentialParticle(float SpringConstant, Eigen::Vector3f& OutGradPotentialEnergy)
+	void ComputeGradSpringPotentialParticle(const Eigen::Vector3f& Position,
+		const Eigen::Vector3f& OtherEndOfSpringPosition,
+		float SpringConstant,
+		float RestLength,
+		Eigen::Vector3f& OutGradPotentialEnergy)
 	{
+		Eigen::Vector3f Direction = OtherEndOfSpringPosition - Position;
+		const float Magnitude = Direction.norm() - RestLength;
+		Direction.normalize();
+		OutGradPotentialEnergy += SpringConstant * Magnitude * Direction;
 	}
 
 	float ComputeSpringPotentialRigidBody(const Eigen::Affine3f& BodyToWorldTransform, Eigen::Vector3f BodyPosition, float SpringConstant, const Eigen::Diagonal3f& InertiaTensor)
