@@ -7,6 +7,7 @@
 #include "Physics/State/RigidBodyState.h"
 #include "Physics/Integrators/RigidBodyB.h"
 #include "Physics/Potentials/ConstantGravityPotential.h"
+#include "Physics/Potentials/SpringPotential.h"
 
 namespace HamiltonEngine::Physics
 {
@@ -37,12 +38,52 @@ namespace HamiltonEngine::Physics
 
 
 			entt::entity GravityEntity = Globals::Registry.create();
-			Globals::Registry.emplace<RigidBodyGravityComponent>(GravityEntity,
+			RigidBodyGravityComponent& GravityComponent = Globals::Registry.emplace<RigidBodyGravityComponent>(GravityEntity,
 				RigidBodyGravityComponent{
 					entt::const_handle(Globals::Registry,RigidBodyEntity) //Rigid body parent
 				});
 
 			RigidBodyState.PotentialEnergyListHead = entt::const_handle(Globals::Registry, GravityEntity);
+		}
+
+		{
+			//Add spring between rigid body 0 and rigid body 1
+			auto RigidBodyView = Globals::Registry.view<Physics::RigidBodyStateComponent>();
+			if (RigidBodyView.size() >= 2) 
+			{
+				const entt::entity RigidBody0 = *RigidBodyView.begin();
+				const entt::entity RigidBody1 = *RigidBodyView.begin()++;
+
+				const RigidBodyStateComponent& State0 = Globals::Registry.get<RigidBodyStateComponent>(RigidBody0);
+				const RigidBodyStateComponent& State1 = Globals::Registry.get<RigidBodyStateComponent>(RigidBody1);
+			
+				entt::entity SpringEntity0 = Globals::Registry.create();
+				Globals::Registry.emplace<Physics::SpringPotentialComponent>(SpringEntity0,
+					SpringPotentialComponent
+					{
+						entt::const_handle(Globals::Registry,RigidBody0), // Rigid body parent
+						1.0f, // Spring constant
+						0.0f, // Rest length 
+						Eigen::Vector3f(0.0f,0.0f,0.0f) //Anchor point in body coordiantes
+					});
+
+				entt::entity SpringEntity1 = Globals::Registry.create();
+				Globals::Registry.emplace<Physics::SpringPotentialComponent>(SpringEntity1,
+					SpringPotentialComponent
+					{
+						entt::const_handle(Globals::Registry,RigidBody1), // Rigid body parent
+						1.0f, // Spring constant
+						0.0f, // Rest length 
+						Eigen::Vector3f(0.0f,0.0f,0.0f) //Anchor point in body coordiantes
+					});
+
+				RigidBodyGravityComponent& Gravity0 = Globals::Registry.get<RigidBodyGravityComponent>(State0.PotentialEnergyListHead);
+				RigidBodyGravityComponent& Gravity1 = Globals::Registry.get<RigidBodyGravityComponent>(State1.PotentialEnergyListHead);
+
+				Gravity0.NextEntity = entt::const_handle(Globals::Registry,SpringEntity0);
+				Gravity1.NextEntity = entt::const_handle(Globals::Registry, SpringEntity1);
+			}
+			
 		}
 
 	}

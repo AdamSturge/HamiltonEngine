@@ -23,13 +23,17 @@ namespace HamiltonEngine::Physics
 	float ComputeSpringPotentialRigidBody(
 		const Eigen::Affine3f& BodyToWorldTransform,
 		Eigen::Vector3f BodyPosition,
+		const Eigen::Vector3f& OtherEndOfSpringPosition,
 		float SpringConstant,
+		float RestLength,
 		const Eigen::Diagonal3f& InertiaTensor);
 
 	void ComputeGradSpringPotentialRigidBody(
 		const Eigen::Affine3f& BodyToWorldTransform,
 		Eigen::Vector3f BodyPosition,
+		const Eigen::Vector3f& OtherEndOfSpringPosition,
 		float SpringConstant,
+		float RestLength,
 		const Eigen::Diagonal3f& InertiaTensor,
 		Eigen::Vector3f& OutGradLinearPotentialEnergy,
 		Eigen::Vector3f& OutGradAngularPotentialEnergy);
