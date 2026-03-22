@@ -20,6 +20,12 @@ namespace HamiltonEngine::Physics
 			return;
 		}
 
+		std::vector< Eigen::Affine3f> Transforms(NumRigidBodies, Eigen::Affine3f::Identity());
+		for (int EntityIndex = 0; EntityIndex < NumRigidBodies; ++EntityIndex) 
+		{
+			Transforms[EntityIndex].translate(Eigen::Vector3f(0.0f, EntityIndex * 2.0f, 0.0f));
+		}
+
 		//A rigid body is a particle with orientation, inertia tensor, and angular momentum
 		for (int EntityIndex = 0; EntityIndex < NumRigidBodies; ++EntityIndex)
 		{
@@ -29,7 +35,7 @@ namespace HamiltonEngine::Physics
 				Globals::Registry.emplace<Physics::RigidBodyStateComponent>(RigidBodyEntity,
 					RigidBodyStateComponent
 					{
-						Eigen::Affine3f::Identity(), //transform
+						Transforms[EntityIndex], //transform
 						1.0f, // mass
 						Eigen::Vector3f(0.0f,0.0f,0.0f), // linear momentum
 						Eigen::Diagonal3f(1.0f, 1.0f, 1.0f), // inertial tensor
@@ -51,14 +57,14 @@ namespace HamiltonEngine::Physics
 			auto RigidBodyView = Globals::Registry.view<Physics::RigidBodyStateComponent>();
 			if (RigidBodyView.size() >= 2) 
 			{
-				const entt::entity RigidBody0 = *RigidBodyView.begin();
-				const entt::entity RigidBody1 = *RigidBodyView.begin()++;
+				const entt::entity RigidBody0 = RigidBodyView.front();
+				const entt::entity RigidBody1 = RigidBodyView.back();
 
 				const RigidBodyStateComponent& State0 = Globals::Registry.get<RigidBodyStateComponent>(RigidBody0);
 				const RigidBodyStateComponent& State1 = Globals::Registry.get<RigidBodyStateComponent>(RigidBody1);
 			
 				entt::entity SpringEntity0 = Globals::Registry.create();
-				Globals::Registry.emplace<Physics::SpringPotentialComponent>(SpringEntity0,
+				Physics::SpringPotentialComponent& SpringComponent0 = Globals::Registry.emplace<Physics::SpringPotentialComponent>(SpringEntity0,
 					SpringPotentialComponent
 					{
 						entt::const_handle(Globals::Registry,RigidBody0), // Rigid body parent
@@ -68,7 +74,7 @@ namespace HamiltonEngine::Physics
 					});
 
 				entt::entity SpringEntity1 = Globals::Registry.create();
-				Globals::Registry.emplace<Physics::SpringPotentialComponent>(SpringEntity1,
+				Physics::SpringPotentialComponent& SpringComponent1 = Globals::Registry.emplace<Physics::SpringPotentialComponent>(SpringEntity1,
 					SpringPotentialComponent
 					{
 						entt::const_handle(Globals::Registry,RigidBody1), // Rigid body parent
@@ -76,6 +82,9 @@ namespace HamiltonEngine::Physics
 						0.0f, // Rest length 
 						Eigen::Vector3f(0.0f,0.0f,0.0f) //Anchor point in body coordiantes
 					});
+
+				SpringComponent0.OtherEntity = entt::const_handle(Globals::Registry, SpringEntity1);
+				SpringComponent1.OtherEntity = entt::const_handle(Globals::Registry, SpringEntity0);
 
 				RigidBodyGravityComponent& Gravity0 = Globals::Registry.get<RigidBodyGravityComponent>(State0.PotentialEnergyListHead);
 				RigidBodyGravityComponent& Gravity1 = Globals::Registry.get<RigidBodyGravityComponent>(State1.PotentialEnergyListHead);

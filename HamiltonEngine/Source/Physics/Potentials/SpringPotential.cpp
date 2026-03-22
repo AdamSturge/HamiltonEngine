@@ -40,7 +40,9 @@ namespace HamiltonEngine::Physics
 		Eigen::Vector3f Direction = OtherEndOfSpringPosition - WorldPosition;
 		const float Magnitude = Direction.norm() - RestLength;
 		Direction.normalize();
-		OutGradLinearPotentialEnergy += SpringConstant * Magnitude * Direction;
+
+		//TODO There's a negative here that I don't understand
+		OutGradLinearPotentialEnergy -= SpringConstant * Magnitude * Direction;
 
 		//TODO angular potential should change
 	}

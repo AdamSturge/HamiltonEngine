@@ -172,7 +172,7 @@ int main(int argc, char** argv)
 		
 		if (RenderDefaultCubes)
 		{
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				Model = Eigen::Affine3f::Identity();
 				Model.translate(cubePositions[i]);
@@ -193,7 +193,6 @@ int main(int argc, char** argv)
 
 		for (auto [Entity, StateC] : RigidBodyView.each())
 		{
-			
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, StateC.Transform.data());
 
 			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
