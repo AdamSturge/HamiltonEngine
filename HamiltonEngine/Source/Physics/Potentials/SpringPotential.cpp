@@ -9,7 +9,7 @@ namespace HamiltonEngine::Physics
 		float SpringConstant,
 		float RestLength)
 	{
-		const Eigen::Vector3f Diff =  OtherEndOfSpringPosition - Position;
+		const Eigen::Vector3f Diff = Position - OtherEndOfSpringPosition;
 		return 0.5f * SpringConstant * std::pow(Diff.norm() - RestLength, 2);
 	}
 
@@ -19,7 +19,7 @@ namespace HamiltonEngine::Physics
 		float RestLength,
 		Eigen::Vector3f& OutGradPotentialEnergy)
 	{
-		Eigen::Vector3f Direction = OtherEndOfSpringPosition - Position;
+		Eigen::Vector3f Direction = Position - OtherEndOfSpringPosition;
 		const float Magnitude = Direction.norm() - RestLength;
 		Direction.normalize();
 		OutGradPotentialEnergy += SpringConstant * Magnitude * Direction;
@@ -29,7 +29,7 @@ namespace HamiltonEngine::Physics
 		const Eigen::Vector3f& OtherEndOfSpringPosition, float SpringConstant, float RestLength, const Eigen::Diagonal3f& InertiaTensor)
 	{
 		const Eigen::Vector3f WorldPosition = BodyToWorldTransform * BodyPosition;
-		const Eigen::Vector3f Diff = OtherEndOfSpringPosition - WorldPosition;
+		const Eigen::Vector3f Diff =  WorldPosition - OtherEndOfSpringPosition;
 		return 0.5f * SpringConstant * std::pow(Diff.norm() - RestLength, 2);
 	}
 
@@ -37,12 +37,11 @@ namespace HamiltonEngine::Physics
 		,float SpringConstant, float RestLength, const Eigen::Diagonal3f& InertiaTensor, Eigen::Vector3f& OutGradLinearPotentialEnergy, Eigen::Vector3f& OutGradAngularPotentialEnergy)
 	{
 		const Eigen::Vector3f WorldPosition = BodyToWorldTransform * BodyPosition;
-		Eigen::Vector3f Direction = OtherEndOfSpringPosition - WorldPosition;
+		Eigen::Vector3f Direction = WorldPosition - OtherEndOfSpringPosition;
 		const float Magnitude = Direction.norm() - RestLength;
 		Direction.normalize();
 
-		//TODO There's a negative here that I don't understand
-		OutGradLinearPotentialEnergy -= SpringConstant * Magnitude * Direction;
+		OutGradLinearPotentialEnergy += SpringConstant * Magnitude * Direction;
 
 		//TODO angular potential should change
 	}
