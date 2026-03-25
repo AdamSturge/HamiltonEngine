@@ -232,4 +232,28 @@
       </Expand>
   </Type>
 
+	<!-- Do row major as well? -->
+	<Type Name="Eigen::Transform&lt;float,3,2,0&gt;">
+		<Expand>
+			<Synthetic Name="[Translation]" Condition="!(Flags%2)"> <!-- column major layout -->
+				<DisplayString>({m_matrix.m_storage.m_data.array[12]}, {m_matrix.m_storage.m_data.array[13]}, {m_matrix.m_storage.m_data.array[14]})</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[Scale]" Condition="!(Flags%2)"> <!-- column major layout -->
+				<DisplayString>({m_matrix.m_storage.m_data.array[0]}, {m_matrix.m_storage.m_data.array[5]}, {m_matrix.m_storage.m_data.array[10]})</DisplayString>
+			</Synthetic>
+			<Synthetic Name="[Rotation (Axis)]" Condition="!(Flags%2)"> <!-- column major layout -->
+				<DisplayString>({m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9]}, {m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[2]}, {m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4]})</DisplayString>
+			</Synthetic>
+			<!--Note I need a sqrt here on the norm-->
+			<Synthetic Name="[Rotation (Sin Angle)]" Condition="!(Flags%2)">
+				<DisplayString>
+					({
+					  0.5f*((m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9])*(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9])
+					+ (m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[2])*(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[2])
+					+ (m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4])*(m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4]))
+					})</DisplayString>
+			</Synthetic>
+		</Expand>
+	</Type>
+
 </AutoVisualizer>
