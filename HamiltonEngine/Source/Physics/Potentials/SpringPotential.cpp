@@ -43,7 +43,7 @@ namespace HamiltonEngine::Physics
 
 		OutGradLinearPotentialEnergy += SpringConstant * Magnitude * Direction;
 
-		//TODO angular potential should change
+		OutGradAngularPotentialEnergy -= WorldPosition.cross(OutGradLinearPotentialEnergy);
 	}
 
 	SpringPotentialComponent::SpringPotentialComponent(entt::const_handle Parent, float SpringConstant,
