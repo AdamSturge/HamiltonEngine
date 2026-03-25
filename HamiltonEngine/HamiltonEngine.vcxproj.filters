@@ -79,9 +79,11 @@
     <ClCompile Include="Source\Logging\Logging.cpp">
       <Filter>Source\Logging</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp" />
     <ClCompile Include="Source\Physics\Potentials\SpringPotential.cpp">
       <Filter>Source\Physics\Potentials</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp">
+      <Filter>Source\Configuration</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
