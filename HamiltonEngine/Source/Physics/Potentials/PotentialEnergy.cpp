@@ -198,6 +198,12 @@ namespace HamiltonEngine::Physics
 			}
 			else if (const SpringPotentialComponent* SpringComponent = CurrentEntityHandle.try_get<SpringPotentialComponent>())
 			{
+				if (!SpringComponent->Enabled) 
+				{
+					CurrentEntityHandle = SpringComponent->NextEntity;
+					continue;
+				}
+				
 				if (!SpringComponent->OtherEntity.valid()) 
 				{
 					CurrentEntityHandle = SpringComponent->NextEntity;

@@ -24,9 +24,8 @@ namespace  HamiltonEngine::Physics
 			PotentialEnergyLinearGrad, 
 			PotentialEnergyAngularGrad);
 	
-		AngularMomentum -= PotentialEnergyAngularGrad * Dt;
-
 		LinearMomentum -= Dt * PotentialEnergyLinearGrad;
+		AngularMomentum += Dt * PotentialEnergyAngularGrad;
 	}
 
 	/*

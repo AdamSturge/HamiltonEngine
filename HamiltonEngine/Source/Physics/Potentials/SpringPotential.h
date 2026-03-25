@@ -42,6 +42,9 @@ namespace HamiltonEngine::Physics
 	struct SpringPotentialComponent
 	{
 		SpringPotentialComponent(entt::const_handle Parent, float SpringConstant,
+			float RestLength, const Eigen::Vector3f& BAnchorPoint, bool IsEnabled);
+
+		SpringPotentialComponent(entt::const_handle Parent, float SpringConstant,
 			float RestLength, const Eigen::Vector3f& BAnchorPoint);
 
 		//This is a linked list that connects to entities that are designed to compute 
@@ -55,6 +58,8 @@ namespace HamiltonEngine::Physics
 		Eigen::Vector3f AnchorPointBody; //Body coordinates of point spring is anchored to on this entity
 		
 		entt::const_handle OtherEntity; //Entity on other end of the spring
+
+		bool Enabled; //If this end of the spring is enabled
 	};
 	
 	//struct SpringComponent

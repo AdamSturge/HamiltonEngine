@@ -43,15 +43,26 @@ namespace HamiltonEngine::Physics
 
 		OutGradLinearPotentialEnergy += SpringConstant * Magnitude * Direction;
 
-		OutGradAngularPotentialEnergy -= WorldPosition.cross(OutGradLinearPotentialEnergy);
+		//Angular quantities are in body coordinates
+		const auto InvRotation = BodyToWorldTransform.rotation().transpose();
+		//Minus sign due to F = -GradV
+		OutGradAngularPotentialEnergy -= BodyPosition.cross(InvRotation * OutGradLinearPotentialEnergy);
+	}
+
+	SpringPotentialComponent::SpringPotentialComponent(entt::const_handle Parent, float SpringConstant,
+		float RestLength, const Eigen::Vector3f& BAnchorPoint, bool IsEnabled)
+		: ParentEntity{ Parent }
+		, K{ SpringConstant }
+		, L{ RestLength }
+		, AnchorPointBody{ BAnchorPoint }
+		, Enabled{ IsEnabled }
+	{
 	}
 
 	SpringPotentialComponent::SpringPotentialComponent(entt::const_handle Parent, float SpringConstant,
 		float RestLength, const Eigen::Vector3f& BAnchorPoint)
-		: ParentEntity{Parent}
-		, K{SpringConstant}
-		, L{RestLength}
-		, AnchorPointBody{BAnchorPoint}
+		: SpringPotentialComponent(Parent, SpringConstant, RestLength, BAnchorPoint, true)
+
 	{
 	}
 }
