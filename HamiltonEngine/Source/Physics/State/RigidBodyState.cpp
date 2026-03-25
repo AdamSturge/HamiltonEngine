@@ -17,9 +17,4 @@ namespace HamiltonEngine::Physics
         , AngularMomentum{AngMom}
     {
     }
-
-    RigidBodyPotentialEnergyListComponent::RigidBodyPotentialEnergyListComponent(entt::const_handle Parent) : RigidBodyEntity{Parent}
-    {
-    }
-
 }

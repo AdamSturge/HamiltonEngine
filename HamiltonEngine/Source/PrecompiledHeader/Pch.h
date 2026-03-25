@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <algorithm>
 #define _USE_MATH_DEFINES
 #include <math.h>
 

@@ -30,15 +30,4 @@ namespace HamiltonEngine::Physics
 		//Potential Energy
 		entt::const_handle PotentialEnergyListHead;
 	};
-
-	struct RigidBodyPotentialEnergyListComponent 
-	{
-		RigidBodyPotentialEnergyListComponent(entt::const_handle Parent);
-		
-		//This is a linked list that connects to entities that are designed to compute 
-		//potential energies acting on a given rigid body
-		entt::const_handle NextEntity;
-		entt::const_handle RigidBodyEntity; //back pointer to rigid body
-	};
-
 }
