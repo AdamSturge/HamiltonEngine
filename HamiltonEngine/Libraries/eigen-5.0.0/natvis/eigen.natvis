@@ -235,24 +235,48 @@
 	<!-- Do row major as well? -->
 	<Type Name="Eigen::Transform&lt;float,3,2,0&gt;">
 		<Expand>
-			<Synthetic Name="[Translation]" Condition="!(Flags%2)"> <!-- column major layout -->
+			<Synthetic Name="[Translation]" Condition="!(Flags%2)">
 				<DisplayString>({m_matrix.m_storage.m_data.array[12]}, {m_matrix.m_storage.m_data.array[13]}, {m_matrix.m_storage.m_data.array[14]})</DisplayString>
 			</Synthetic>
-			<Synthetic Name="[Scale]" Condition="!(Flags%2)"> <!-- column major layout -->
+			<Synthetic Name="[Scale]" Condition="!(Flags%2)">
 				<DisplayString>({m_matrix.m_storage.m_data.array[0]}, {m_matrix.m_storage.m_data.array[5]}, {m_matrix.m_storage.m_data.array[10]})</DisplayString>
 			</Synthetic>
-			<Synthetic Name="[Rotation (Axis)]" Condition="!(Flags%2)"> <!-- column major layout -->
-				<DisplayString>({m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9]}, {m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[2]}, {m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4]})</DisplayString>
-			</Synthetic>
-			<!--Note I need a sqrt here on the norm-->
-			<Synthetic Name="[Rotation (Sin Angle)]" Condition="!(Flags%2)">
-				<DisplayString>
-					({
-					  0.5f*((m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9])*(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9])
-					+ (m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[2])*(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[2])
-					+ (m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4])*(m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4]))
-					})</DisplayString>
-			</Synthetic>
+			<CustomListItems Condition="!(Flags%2)">
+				<!-- Axis of rotation Variables-->
+				<Variable Name="AxisX" InitialValue="m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9]"/>
+				<Variable Name="AxisY" InitialValue="m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[2]"/>
+				<Variable Name="AxisZ" InitialValue="m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4]"/>
+				
+				<!--Axis of rotation norm fast inverse sqrt-->
+				<Variable Name="NormSq" InitialValue="(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9])*(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9]) 
+						  + (m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[2])*(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[2])
+						  + (m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4])*(m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4])"/>
+				<Variable Name="x2" InitialValue="NormSq/2"/>
+				<Variable Name="InvNorm" InitialValue="NormSq"/>
+				<Variable Name="i" InitialValue="*(long*)&amp;InvNorm"/>
+				<If Condition="NormSq != 0">
+					<Exec>i =  0x5f3759df - ( i &gt;&gt; 1 )</Exec>
+					<Exec>InvNorm  = *(float*)&amp;i</Exec>
+					<Exec>InvNorm  = InvNorm * ( 1.5f - ( x2 * InvNorm * InvNorm ) )</Exec>
+					
+					<Exec>AxisX = AxisX * InvNorm</Exec>
+					<Exec>AxisY = AxisY * InvNorm</Exec>
+					<Exec>AxisZ = AxisZ * InvNorm</Exec>
+					
+					<Item Name="[Rotation Axis X]">AxisX</Item>
+					<Item Name="[Rotation Axis Y]">AxisY</Item>
+					<Item Name="[Rotation Axis Z]">AxisZ</Item>
+					
+					<Item Name="[Rotation Sin(Angle)]">0.5f*(1.0f/InvNorm)</Item>
+				</If>
+				<If Condition="NormSq == 0">
+					<Item Name="[Rotation Axis X]">0.0</Item>
+					<Item Name="[Rotation Axis Y]">0.0</Item>
+					<Item Name="[Rotation Axis Z]">0.0</Item>
+					
+					<Item Name="[Rotation Sin(Angle)]">0.0</Item>
+				</If>
+			</CustomListItems>
 		</Expand>
 	</Type>
 
