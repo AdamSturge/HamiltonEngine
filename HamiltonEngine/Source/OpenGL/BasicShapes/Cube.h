@@ -1,7 +1,7 @@
 #pragma once
-#include <PrecompiledHeader/Pch.h>
+#include <OpenGL/OpenGL.h>
 
-namespace HamiltonEngine::OpenGL::BasicShapes {
+namespace HamiltonEngine::OpenGL {
 	const float UNIT_CUBE_VERTS[] =
 	{
 			-0.5f, -0.5f, -0.5f,
@@ -92,7 +92,6 @@ namespace HamiltonEngine::OpenGL::BasicShapes {
 		0.0f, 1.0f
 	};
 
-
 	const float UNIT_CUBE_VERTS_AND_TEX_COORDS[] = {
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -137,17 +136,16 @@ namespace HamiltonEngine::OpenGL::BasicShapes {
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 
+	struct OpenGLBufferIDs 
+	{
+		GLuint VAO;
+		GLuint VBO;
+	};
 
+
+	entt::entity CreateCube(TransformComponent Trans);
 	void CreateUnitCube(GLuint* VAO, GLuint* VBO);
-
-
-	struct PositionComponent
-	{
-		Eigen::Vector3f position;
-	};
-	struct RotationComponent
-	{
-		float degrees;
-		Eigen::Vector3f axis;
-	};
+	void CreateCube(float SideLength, OpenGLBufferIDs* o_BuffIDs);
+	void CreateCubeEntities(int count);
+	void TestCubes(int num);
 }

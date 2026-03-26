@@ -8,7 +8,7 @@ out vec2 TexCoord;
 
 uniform float TIME; 
 
-uniform mat4 model;
+uniform mat4 model; //transform
 uniform mat4 view;
 uniform mat4 projection;
 

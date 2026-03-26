@@ -7,7 +7,7 @@
 namespace HamiltonEngine::OpenGL
 {
 	// CAMERA DEFAULTS
-	const Eigen::Vector3f DEFAULT_CAMERA_POSITION(-10.0f, 0.0f, 0.0f);
+	const Eigen::Vector3f DEFAULT_CAMERA_POSITION(-25.0f, 0.0f, 0.0f);
 	const Eigen::Vector3f DEFAULT_CAMERA_FRONT(1.0f, 0.0f, 0.0f);
 	const Eigen::Vector3f DEFAULT_CAMERA_UP(0.0f, 0.0f, 1.0f); // Up is +Z
 	const float DEFAULT_CAMERA_YAW = 0.0f;

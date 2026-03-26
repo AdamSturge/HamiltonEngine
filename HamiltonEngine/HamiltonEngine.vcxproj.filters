@@ -83,6 +83,12 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="Source\OpenGL\OpenGL.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\BasicShapes\Shapes.cpp">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -230,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\RigidBodyB.h">
       <Filter>Source\Physics\Integrators</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\BasicShapes\Shapes.h">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
