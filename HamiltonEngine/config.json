@@ -9,5 +9,7 @@
 	"MovementSpeed": 10.5,
 	"NearClipPlane": 0.01,
 	"FarClipPlane": 2000.0,
-	"RenderDefaultCubes":  true
+	"RenderDefaultCubes":  false,
+	"CameraStartPosition": [ -50.0, 0.0, 10.0 ],
+	"GravitationalAcceleration": 9.8,	
 }
