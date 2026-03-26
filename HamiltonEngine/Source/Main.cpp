@@ -9,6 +9,7 @@
 #include "Physics/Systems/ParticleSystem.h"
 #include "Physics/Systems/RigidBodySystem.h"
 #include "Physics/State/RigidBodyState.h"
+#include "Physics/Potentials/SpringPotential.h"
 
 #include <OpenGl/OpenGL.h>
 #include <OpenGL/Window.h>
@@ -52,7 +53,7 @@ int main(int argc, char** argv)
 	GLuint cube_VAO, cube_VBO;
 	glGenVertexArrays(1, &cube_VAO);
 	glBindVertexArray(cube_VAO);
-
+	
 	glCreateBuffers(1, &cube_VBO);	
 
 	glBindBuffer(GL_ARRAY_BUFFER, cube_VBO);
@@ -89,8 +90,15 @@ int main(int argc, char** argv)
 	simpleShader.setInt("texture2", 1);
 	
 	// Setup and use the Camera
+
+	// This conversion is kind of gross due to the Camera Vectors being stored as Eigen::Vector3f and no direct conversion
+	std::vector<float> CameraStartPositionVec = HamiltonEngine::ConfigurationVariable<std::vector<float>>("CameraStartPosition", { HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.x(), 
+																																   HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.y(), 
+																																   HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.z()});
+	Eigen::Vector3f CameraStartPosition = Eigen::Vector3f(CameraStartPositionVec.data());
+
 	HamiltonEngine::OpenGL::Camera NewCamera{
-			HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION, // Some where in space
+			CameraStartPosition, // Some where in space
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, // Camera is looking at this direction
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP, // Camera can change, but is +Z
 			Eigen::Vector3f(0, 1.0f, 0.0f), // Right is +Y
@@ -141,12 +149,12 @@ int main(int argc, char** argv)
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture1c.ID);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture2c.ID);
+		//glActiveTexture(GL_TEXTURE1);
+		//glBindTexture(GL_TEXTURE_2D, texture2c.ID);
 
 
-		simpleShader.setFloat("TIME", CurTime);
-		simpleShader.setFloat("mixRatio", sin(CurTime));
+		//simpleShader.setFloat("TIME", CurTime);
+		//simpleShader.setFloat("mixRatio", sin(CurTime));
 		simpleShader.use();
 
 		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
@@ -190,7 +198,7 @@ int main(int argc, char** argv)
 		}
 
 
-
+		// Render RigidBody cubes
 		for (auto [Entity, StateC] : RigidBodyView.each())
 		{
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, StateC.Transform.data());
@@ -198,6 +206,30 @@ int main(int argc, char** argv)
 			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
 
 		}
+
+		auto Springs = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::SpringPotentialComponent>();
+
+		// Use a different texture for the sping ends
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture2c.ID);
+
+
+		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(0.5f, 0.5f, 0.5f);
+
+		for (auto [Entity, SpringComp] : Springs.each())
+		{
+			auto Parent = HamiltonEngine::Globals::Registry.get<HamiltonEngine::Physics::RigidBodyStateComponent>(SpringComp.ParentEntity);
+
+			Eigen::Affine3f SpringWorldTransform = Parent.Transform.translate(SpringComp.AnchorPointBody)
+																	.scale(SpringModelScale);
+			
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, SpringWorldTransform.data());
+
+			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
+
+		}
+
+
 
 		// swap buffers and call events
 		glfwSwapBuffers(window);
