@@ -17,8 +17,10 @@
 #include "Configuration/Config.h"
 
 //Libraries
+#include <cereal/archives/json.hpp>
 #include <nlohmann/json.hpp>
 #include <entt/entt.hpp>
+#include <entt/meta/meta.hpp>
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include <glad/glad.h>

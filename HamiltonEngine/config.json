@@ -11,5 +11,5 @@
 	"FarClipPlane": 2000.0,
 	"RenderDefaultCubes":  false,
 	"CameraStartPosition": [ -50.0, 0.0, 10.0 ],
-	"GravitationalAcceleration": 9.8,	
+	"GravitationalAcceleration": 9.8
 }

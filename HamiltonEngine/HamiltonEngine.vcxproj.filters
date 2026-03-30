@@ -85,6 +85,9 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Serialization\JsonSerialization.cpp">
+      <Filter>Source\Serialization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -134,6 +137,9 @@
     </Filter>
     <Filter Include="Source\ECS">
       <UniqueIdentifier>{838b8f36-e06c-402a-a88b-9ff71d7f2472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Serialization">
+      <UniqueIdentifier>{b0119e59-39c9-49ec-88c1-fed3c4fefbd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\Potentials\SpringPotential.h">
       <Filter>Source\Physics\Potentials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Serialization\JsonSerialization.h">
+      <Filter>Source\Serialization</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

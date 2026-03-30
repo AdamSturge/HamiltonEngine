@@ -18,6 +18,7 @@ namespace HamiltonEngine::Logging
         Physics,
         Graphics,
         Configuration,
+        Serialization,
         Count
     };
 
