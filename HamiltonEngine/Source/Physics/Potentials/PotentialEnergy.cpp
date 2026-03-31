@@ -181,6 +181,10 @@ namespace HamiltonEngine::Physics
 		Eigen::Vector3f& OutGradLinearPotentialEnergy,
 		Eigen::Vector3f& OutGradAngularPotentialEnergy)
 	{	
+
+		Eigen::Matrix3f RotationMatrix = Transform.rotation();
+		Eigen::AngleAxisf AxisAngle = Eigen::AngleAxisf(RotationMatrix);
+		
 		const Eigen::Vector3f WorldPosition = Transform.translation();
 		const Eigen::Matrix3f Orientation = Transform.rotation();
 		
