@@ -17,6 +17,12 @@
 #include "Configuration/Config.h"
 
 //Libraries
+#include <cereal/cereal.hpp>
+#include <cereal/version.hpp>
+#include <cereal/macros.hpp>
+#include <cereal/access.hpp>
+#include <cereal/specialize.hpp>
+#include <cereal/details/helpers.hpp>
 #include <cereal/archives/json.hpp>
 #include <nlohmann/json.hpp>
 #include <entt/entt.hpp>

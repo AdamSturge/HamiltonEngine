@@ -29,29 +29,9 @@ namespace HamiltonEngine::Serialization
 			.template func<&EnttLoad<T>>("EnttLoad"_hs);
 	};
 
-	template<class Archive>
-	void Save(Archive& Record, entt::registry const& Registry)
-	{
-		using namespace entt::literals; // For "_hs" literal
+	void Save(cereal::JSONInputArchive& Record, entt::registry const& Registry);
 
-		for (auto&& Storage : Registry.storage()) 
-		{
-			auto Type = entt::resolve(Storage.first);
-			Type.invoke("EnttSave"_hs, {}, entt::forward_as_meta(Record), entt::forward_as_meta(Registry));
-		}
-	}
-
-	template<class Archive>
-	void Load(Archive& Record, entt::registry& Registry)
-	{
-		using namespace entt::literals; // For "_hs" literal
-
-		for (auto&& Storage : Registry.storage())
-		{
-			auto Type = entt::resolve(Storage.first);
-			Type.invoke("EnttLoad"_hs, {}, entt::forward_as_meta(Record), entt::forward_as_meta(Registry));
-		}
-	}
+	void Load(cereal::JSONInputArchive& Record, entt::registry& Registry);
 
 	//Call to register all components for save/load
 	void RegisterComponents();

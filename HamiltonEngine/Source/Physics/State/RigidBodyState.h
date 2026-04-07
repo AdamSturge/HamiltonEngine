@@ -11,6 +11,8 @@ namespace HamiltonEngine::Physics
 {
 	struct RigidBodyStateComponent 
 	{
+		RigidBodyStateComponent() = default;
+		
 		RigidBodyStateComponent(const Eigen::Affine3f& Trans,
 			float M,
 			const Eigen::Vector3f& LinearMomentum,
@@ -30,4 +32,12 @@ namespace HamiltonEngine::Physics
 		//Potential Energy
 		entt::const_handle PotentialEnergyListHead;
 	};
+	
+	//TODO you can rename the Ceral save/load functions
+	void save(cereal::JSONInputArchive& Record, const RigidBodyStateComponent& Component, const std::uint32_t Version);
+
+	void load(cereal::JSONInputArchive& Record, RigidBodyStateComponent& Component, const std::uint32_t Version);
 }
+
+CEREAL_CLASS_VERSION(HamiltonEngine::Physics::RigidBodyStateComponent, 1);
+

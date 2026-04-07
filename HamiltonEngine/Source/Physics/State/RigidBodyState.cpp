@@ -17,4 +17,15 @@ namespace HamiltonEngine::Physics
         , AngularMomentum{AngMom}
     {
     }
+
+    void save(cereal::JSONInputArchive& Record, const RigidBodyStateComponent& Component, const std::uint32_t Version)
+    {
+        Record(Component.Mass);
+    }
+
+    void load(cereal::JSONInputArchive& Record, RigidBodyStateComponent& Component, const std::uint32_t Version)
+    {
+        Record(Component.Mass);
+        //Record(m.x, m.y, m.z);
+    }
 }
