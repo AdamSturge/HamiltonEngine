@@ -10,7 +10,7 @@ namespace HamiltonEngine::Physics
 		float RestLength)
 	{
 		const Eigen::Vector3f Diff = Position - OtherEndOfSpringPosition;
-		return 0.5f * SpringConstant * std::pow(Diff.norm() - RestLength, 2);
+		return 0.5f * SpringConstant * std::powf(Diff.norm() - RestLength, 2);
 	}
 
 	void ComputeGradSpringPotentialParticle(const Eigen::Vector3f& Position,
@@ -30,7 +30,7 @@ namespace HamiltonEngine::Physics
 	{
 		const Eigen::Vector3f WorldPosition = BodyToWorldTransform * BodyPosition;
 		const Eigen::Vector3f Diff =  WorldPosition - OtherEndOfSpringPosition;
-		return 0.5f * SpringConstant * std::pow(Diff.norm() - RestLength, 2);
+		return 0.5f * SpringConstant * std::powf(Diff.norm() - RestLength, 2);
 	}
 
 	void ComputeGradSpringPotentialRigidBody(const Eigen::Affine3f& BodyToWorldTransform, Eigen::Vector3f BodyPosition, const Eigen::Vector3f& OtherEndOfSpringPosition

@@ -20,6 +20,7 @@
 #include <OpenGL/Utils.h>
 #include "OpenGL/Camera.h"
 #include "Configuration/Globals.h"
+#include "Serialization/JsonSerialization.h"
 
 // TODO: Create an easy way to instantiate boxes 
 // TODO: Make a sphere
@@ -239,5 +240,9 @@ int main(int argc, char** argv)
 	std::cout << "There were " << HamiltonEngine::Globals::FrameCount << " frames rendered." << std::endl;
 	std::cout << "The average frame time " << glfwGetTime() / HamiltonEngine::Globals::FrameCount << std::endl;
 	glfwTerminate();
+
+	constexpr bool OverwriteLevelFile = true;
+	HamiltonEngine::Serialization::SerializeEnttRegistryAsJson(HamiltonEngine::Globals::Registry, 
+		"TestLevel.json", OverwriteLevelFile);
 	return 0;
 }

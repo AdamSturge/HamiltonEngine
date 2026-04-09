@@ -18,14 +18,14 @@ namespace HamiltonEngine::Physics
     {
     }
 
-    void save(cereal::JSONInputArchive& Record, const RigidBodyStateComponent& Component, const std::uint32_t Version)
+    void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version)
     {
-        Record(Component.Mass);
+        Record(cereal::make_nvp("Translation", Component.Transform.translation()));
+        Record(cereal::make_nvp("Mass",Component.Mass));
     }
 
-    void load(cereal::JSONInputArchive& Record, RigidBodyStateComponent& Component, const std::uint32_t Version)
+    void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version)
     {
         Record(Component.Mass);
-        //Record(m.x, m.y, m.z);
     }
 }

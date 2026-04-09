@@ -5,31 +5,54 @@
 
 namespace HamiltonEngine::Serialization
 {
-	void Save(cereal::JSONInputArchive& Record, entt::registry const& Registry)
+	bool SerializeEnttRegistryAsJson(const entt::registry& Registry,
+		const char* Filename,
+		bool Overwrite)
 	{
-		using namespace entt::literals; // For "_hs" literal
-
-		for (auto&& Storage : Registry.storage())
+		std::ofstream Filestream;
+		try
 		{
-			auto Type = entt::resolve(Storage.first);
-			Type.invoke("EnttSave"_hs, {}, entt::forward_as_meta(Record), entt::forward_as_meta(Registry));
+			if (std::filesystem::exists(Filename))
+			{
+				if (!Overwrite) 
+				{
+					HAMILTON_LOG(Serialization,
+						Warning,
+						"Attempted to save %s but file already exists",
+						Filename);
+				
+					return false;
+				}
+				
+				//it exists so we erase the file contents
+				Filestream.open(Filename, std::ofstream::out | std::ofstream::trunc);
+			}
+			else 
+			{
+				//Will create new file if it doesn't exist
+				Filestream.open(Filename, std::ofstream::out);
+			}
+
 		}
-	}
-
-	void Load(cereal::JSONInputArchive& Record, entt::registry& Registry)
-	{
-		using namespace entt::literals; // For "_hs" literal
-
-		for (auto&& Storage : Registry.storage())
+		catch (std::filesystem::filesystem_error e)
 		{
-			auto Type = entt::resolve(Storage.first);
-			Type.invoke("EnttLoad"_hs, {}, entt::forward_as_meta(Record), entt::forward_as_meta(Registry));
+			HAMILTON_LOG(Serialization,
+				Warning,
+				"Attempting to open file %s but failed with exception: %s",
+				Filename,
+				e.what())
+				return false;
 		}
-	}
-	
-	void RegisterComponents()
-	{
-		//Place components here
-		RegisterComponentForSerialization<Physics::RigidBodyStateComponent>("RigidBodyStateComponent");
+		
+		{
+			cereal::JSONOutputArchive output{ Filestream };
+
+			//TODO maybe someday we automatically detect the things that go into this list
+			entt::snapshot{ Registry }
+				.get<entt::entity>(output)
+				.get<Physics::RigidBodyStateComponent>(output);
+		}
+
+		Filestream.close();
 	}
 }

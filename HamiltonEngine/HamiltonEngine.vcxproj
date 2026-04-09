@@ -167,6 +167,7 @@
     <ClInclude Include="Source\Physics\Systems\ParticleSystem.h" />
     <ClInclude Include="Source\Physics\Systems\RigidBodySystem.h" />
     <ClInclude Include="Source\PrecompiledHeader\Pch.h" />
+    <ClInclude Include="Source\Serialization\EigenSerialization.h" />
     <ClInclude Include="Source\Serialization\JsonSerialization.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
@@ -205,6 +206,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Source\Serialization\EigenSerialization.cpp" />
     <ClCompile Include="Source\Serialization\JsonSerialization.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -34,9 +34,8 @@ namespace HamiltonEngine::Physics
 	};
 	
 	//TODO you can rename the Ceral save/load functions
-	void save(cereal::JSONInputArchive& Record, const RigidBodyStateComponent& Component, const std::uint32_t Version);
-
-	void load(cereal::JSONInputArchive& Record, RigidBodyStateComponent& Component, const std::uint32_t Version);
+	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version);
+	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version);
 }
 
 CEREAL_CLASS_VERSION(HamiltonEngine::Physics::RigidBodyStateComponent, 1);

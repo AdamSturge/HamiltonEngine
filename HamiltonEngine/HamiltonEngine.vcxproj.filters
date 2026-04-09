@@ -88,6 +88,9 @@
     <ClCompile Include="Source\Serialization\JsonSerialization.cpp">
       <Filter>Source\Serialization</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Serialization\EigenSerialization.cpp">
+      <Filter>Source\Serialization</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -243,6 +246,9 @@
       <Filter>Source\Physics\Potentials</Filter>
     </ClInclude>
     <ClInclude Include="Source\Serialization\JsonSerialization.h">
+      <Filter>Source\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Serialization\EigenSerialization.h">
       <Filter>Source\Serialization</Filter>
     </ClInclude>
   </ItemGroup>
