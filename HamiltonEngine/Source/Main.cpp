@@ -133,7 +133,16 @@ int main(int argc, char** argv)
 		glBindVertexArray(HamiltonEngine::Globals::PrimativesBuffers["cube"].VAO);
 		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
 
+		for (auto [Entity, StateC] : RigidBodyView.each())
+		{
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, StateC.Transform.data());
 
+			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
+
+		}
+
+
+		auto Springs = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::SpringPotentialComponent>();
 		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(0.5f, 0.5f, 0.5f);
 
 		for (auto [Entity, SpringComp] : Springs.each())
