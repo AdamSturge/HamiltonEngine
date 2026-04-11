@@ -1,6 +1,7 @@
 #pragma once
 #include <Configuration/ConfigurationVariable.h>
 #include <OpenGL/Camera.h>
+#include <OpenGL/OpenGL.h>
 
 
 namespace HamiltonEngine::Globals
@@ -13,6 +14,7 @@ namespace HamiltonEngine::Globals
 
 	// Rendering + OpenGL stuff
 	extern GLuint FrameCount;
+	extern std::map < std::string, HamiltonEngine::OpenGL::OpenGLBuffersComponent>  PrimativesBuffers;
 
 	//EnTT
 	extern entt::registry Registry;

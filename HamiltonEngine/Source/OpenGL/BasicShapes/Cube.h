@@ -144,6 +144,7 @@ namespace HamiltonEngine::OpenGL {
 
 
 	entt::entity CreateCube(TransformComponent Trans);
+	entt::entity CreateCube();
 	void CreateUnitCube(GLuint* VAO, GLuint* VBO);
 	void CreateCube(float SideLength, OpenGLBufferIDs* o_BuffIDs);
 	void CreateCubeEntities(int count);

@@ -22,8 +22,6 @@ namespace HamiltonEngine::OpenGL
 		GLuint Type;
 		bool FlipVertically;
 		std::string Name;
-
-
 	};
 
 	struct ShaderComponent

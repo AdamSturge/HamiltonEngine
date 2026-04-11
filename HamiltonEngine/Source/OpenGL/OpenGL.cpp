@@ -65,10 +65,9 @@ namespace HamiltonEngine::OpenGL
 
 	OpenGLBuffersComponent CreateOpenGLBuffersComponent(bool CreateEBO)
 	{
-		glGetError();
 		OpenGLBuffersComponent buffs;
 
-		glGenBuffers(1, &buffs.VAO);
+		glGenVertexArrays(1, &buffs.VAO);
 		glGenBuffers(1, &buffs.VBO);
 		if (CreateEBO)
 		{
@@ -78,14 +77,13 @@ namespace HamiltonEngine::OpenGL
 		{
 			buffs.EBO = -1;
 		}
-		std::cout << "Creating buffs: " << glGetError() << std::endl;
 		return buffs;
 
 	}
 
-
 	void CreateBasicTextures()
  	{
+
 		entt::registry& Reg = HamiltonEngine::Globals::Registry;
 		auto ent = Reg.create();
 
@@ -93,10 +91,10 @@ namespace HamiltonEngine::OpenGL
 
 		TextureComponent tex1 = CreateTextureComponent(Tex1Path, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, false);
 		glBindTexture(GL_TEXTURE_2D, tex1.ID);
-		glSamplerParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glSamplerParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-		glSamplerParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glSamplerParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		Reg.emplace<TextureComponent>(ent, tex1);
 	
@@ -105,10 +103,10 @@ namespace HamiltonEngine::OpenGL
 		std::string Tex2Path  = "Assets\\Textures\\awesomeface.png";
 		TextureComponent tex2 = CreateTextureComponent(Tex2Path,  GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false);
 		glBindTexture(GL_TEXTURE_2D, tex2.ID);
-		glSamplerParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glSamplerParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glSamplerParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glSamplerParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		Reg.emplace<TextureComponent>(ent, tex2);
 
@@ -122,6 +120,7 @@ namespace HamiltonEngine::OpenGL
 		{
 			//std::cout << entt::to_integral(Ent) << std::endl;
 			RenderBuffer(Buffs, Trans, modelLoc);
+
 		}
 
 	}
@@ -133,7 +132,7 @@ namespace HamiltonEngine::OpenGL
 
 		glBindVertexArray(Buffs.VAO);
 
-		// This bit should move into the shader(s)
+		// This should be an Eigen::Affine3f Matrix but this is less brain work to think about right now
 		Model.translate(Trans.Position);
 		Model.rotate(Eigen::AngleAxisf(
 			DegToRad(Trans.RotationAngle),

@@ -28,6 +28,7 @@
 
 int main(int argc, char** argv)
 {
+	std::srand(std::time(0));
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
 	HamiltonEngine::ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
@@ -50,34 +51,25 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	// TODO: Move into using the ECS Systems
-	GLuint cube_VAO, cube_VBO;
-	
-	HamiltonEngine::OpenGL::CreateUnitCube(&cube_VAO, &cube_VBO);
+
 	HamiltonEngine::OpenGL::CreateBasicTextures();
-
-
-	HamiltonEngine::OpenGL::Shader simpleShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\vertexShader.vs", 
-																						 "Source\\Shaders\\fragmentShader.fs");
-
+	HamiltonEngine::OpenGL::Shader simpleShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\vertexShader.vs",
+		"Source\\Shaders\\fragmentShader.fs");
 	simpleShader.use();
 	simpleShader.setInt("texture1", 0); // This is the texture channel, FragShader.uniformName -> Texture Channel
 	simpleShader.setInt("texture2", 1);
 
 	// Setup and use the Camera
-	HamiltonEngine::OpenGL::Camera NewCamera{
-			HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION, // Some where in space
+	HamiltonEngine::Globals::ActiveCamera = HamiltonEngine::OpenGL::Camera{
+		HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION, // Some where in space
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, // Camera is looking at this direction
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP, // Camera can change, but is +Z
 			Eigen::Vector3f(0, 1.0f, 0.0f), // Right is +Y
 			Eigen::Vector3f(0.0f, 0.0f, 1.0f), // Up is +Z
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW,
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH,
-			HamiltonEngine::OpenGL::DEFAULT_FOV};
-
-	HamiltonEngine::Globals::ActiveCamera = NewCamera;
+			HamiltonEngine::OpenGL::DEFAULT_FOV };
 	HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
-
 
 	std::vector<float> WindowBackgroundColour = HamiltonEngine::ConfigurationVariable<std::vector<float>>("BackgroundColorRGB", { 0.2f, 0.3f, 0.3f });
 	float WindowBackgroundRed = WindowBackgroundColour[0];
@@ -90,34 +82,12 @@ int main(int argc, char** argv)
 	float DeltaTime = 0.0f;
 	float NearClip = HamiltonEngine::ConfigurationVariable("NearClipPlane", HamiltonEngine::OpenGL::DEFAULT_NEAR_CLIP);
 	float FarClip = HamiltonEngine::ConfigurationVariable("FarClipPlane", HamiltonEngine::OpenGL::DEFAULT_FAR_CLIP);
-	bool RenderDefaultCubes = false; // HamiltonEngine::ConfigurationVariable<bool>("RenderDefaultCubes", false);
 
 	Eigen::Affine3f Model = Eigen::Affine3f::Identity();
 	Eigen::Matrix4f View;
 	Eigen::Matrix4f Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov, (float)WindowHeight / WindowWidth, NearClip, FarClip);
 
-	
-	//HamiltonEngine::OpenGL::TestTetras(5);
-	//HamiltonEngine::OpenGL::TestCubes(5);
-
-	GLuint tetra_VAO, tetra_VBO;
-	
-	HamiltonEngine::OpenGL::CreateTetra(&tetra_VAO, &tetra_VBO);
-
-	HamiltonEngine::OpenGL::OpenGLBuffersComponent testBuffs;
-	HamiltonEngine::OpenGL::TransformComponent testTrans;
-	entt::entity testEnt = HamiltonEngine::OpenGL::CreateCube(RandomTransformComponent());
-
-	testBuffs = HamiltonEngine::Globals::Registry.get<HamiltonEngine::OpenGL::OpenGLBuffersComponent>(testEnt);
-	testTrans = HamiltonEngine::Globals::Registry.get<HamiltonEngine::OpenGL::TransformComponent>(testEnt);
-
-	testTrans.Position = Eigen::Vector3f(0.0f, 0.0f, 0.0f);
-
-	PrintOpenGLBufferComponentData(testBuffs);
-	PrintTransformComponent(testTrans);
-
-
-	glGetError(); // clear errors before we start
+	createTestObjects();
 
 	while (!glfwWindowShouldClose(window)) {
 		++HamiltonEngine::Globals::FrameCount;
@@ -142,10 +112,7 @@ int main(int argc, char** argv)
 		glBindTexture(GL_TEXTURE_2D, 1);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, 2);
-		std::cout << glGetError() << std::endl;
 
-//		simpleShader.setFloat("TIME", CurTime);
-//		simpleShader.setFloat("mixRatio", sin(CurTime));
 		simpleShader.use();
 
 		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
@@ -157,11 +124,10 @@ int main(int argc, char** argv)
 		GLint projLoc = glGetUniformLocation(simpleShader.ID, "projection");
 
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, Projection.data());
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
 
-		glBindVertexArray(cube_VAO);
+		glBindVertexArray(HamiltonEngine::Globals::PrimativesBuffers["cube"].VAO);
 		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
-		std::cout << glGetError() << std::endl;
 
 		for (auto [Entity, StateC] : RigidBodyView.each())
 		{
@@ -172,38 +138,8 @@ int main(int argc, char** argv)
 
 		}
 
-		//HamiltonEngine::OpenGL::Render(modelLoc);
-
-		//glBindVertexArray(testBuffs.VAO);
-
-		// This bit should move into the shader(s)
-		//Model.translate(testTrans.Position);
-		//Model.rotate(Eigen::AngleAxisf(
-		//	DegToRad(testTrans.RotationAngle),
-		//	testTrans.RotationAxis.normalized())
-		//);
-		//Model.scale(testTrans.Scale);
-		glBindVertexArray(testBuffs.VAO);
-
-
-		//glBindVertexArray(tetra_VAO);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
-
-		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, testBuffs.EBO);
-		//glDrawElements(testBuffs.DrawMode, testBuffs.count, GL_UNSIGNED_INT, (void*)testBuffs.start);
-		//glDrawElements(testBuffs.DrawMode, testBuffs.count, GL_UNSIGNED_INT, (void*) testBuffs.start);
-
-
-		if (testBuffs.EBO == -1)
-		{
-			glDrawArrays(testBuffs.DrawMode, testBuffs.start, testBuffs.count);
-		}
-		else
-		{
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, testBuffs.EBO);
-			glDrawElements(testBuffs.DrawMode, testBuffs.count, GL_UNSIGNED_INT, (void*)testBuffs.start);
-		}
-
+		// Will Render anything with a TransformComponent and a OpenGLBuffersComponent
+		HamiltonEngine::OpenGL::Render(modelLoc);
 
 		// swap buffers and call events
 		glfwSwapBuffers(window);
