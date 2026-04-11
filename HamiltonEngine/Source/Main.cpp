@@ -3,18 +3,20 @@
 #include "Configuration/ConfigurationSystem.h"
 #include "Configuration/ConfigurationVariable.h"
 #include "Configuration/Globals.h"
+
+#include "Logging/Logging.h"
+
 #include "Physics/Systems/ParticleSystem.h"
 #include "Physics/Systems/RigidBodySystem.h"
 #include "Physics/State/RigidBodyState.h"
+#include "Physics/Potentials/SpringPotential.h"
 
 #include <OpenGL/OpenGL.h>
 #include <OpenGL/Window.h>
 #include <OpenGL/Shader.h>
+#include "OpenGL/Texture.h"
 
 #include <iostream>
-
-#define _USE_MATH_DEFINES
-#include <math.h>
 
 #include <OpenGL/SimpleShapes.h>
 #include <OpenGL/Utils.h>
@@ -113,6 +115,8 @@ int main(int argc, char** argv)
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, 2);
 
+		//simpleShader.setFloat("TIME", CurTime);
+		//simpleShader.setFloat("mixRatio", sin(CurTime));
 		simpleShader.use();
 
 		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
@@ -129,10 +133,17 @@ int main(int argc, char** argv)
 		glBindVertexArray(HamiltonEngine::Globals::PrimativesBuffers["cube"].VAO);
 		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
 
-		for (auto [Entity, StateC] : RigidBodyView.each())
+
+		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(0.5f, 0.5f, 0.5f);
+
+		for (auto [Entity, SpringComp] : Springs.each())
 		{
+			auto Parent = HamiltonEngine::Globals::Registry.get<HamiltonEngine::Physics::RigidBodyStateComponent>(SpringComp.ParentEntity);
+
+			Eigen::Affine3f SpringWorldTransform = Parent.Transform.translate(SpringComp.AnchorPointBody)
+																	.scale(SpringModelScale);
 			
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, StateC.Transform.data());
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, SpringWorldTransform.data());
 
 			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
 

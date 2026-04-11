@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream> //TODO replace with final logging library. Used for json exceptions
-
 //from nlohmann json
  #define JSON_TRY_USER if constexpr (true)
  #define JSON_CATCH_USER(exception) if constexpr (false)

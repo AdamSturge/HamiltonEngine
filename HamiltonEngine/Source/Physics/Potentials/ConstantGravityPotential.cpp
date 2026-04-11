@@ -8,14 +8,14 @@ namespace HamiltonEngine::Physics
 {
 	ConfigurationVariable<float> GravitationalAcceleration("GravitationalAcceleration", 9.8f);
 	
-	float ComputeConstantGravityPotential(const Eigen::Vector3f& Position,
+	float ComputeConstantGravityPotentialParticle(const Eigen::Vector3f& Position,
 		float Mass)
 	{
 		const float Height = Position.z();
 		return Mass * GravitationalAcceleration * Height;
 	}
 
-	void ComputeGradConstantGravityPotential(float Mass,
+	void ComputeGradConstantGravityPotentialParticle(float Mass,
 		Eigen::Vector3f& OutGradPotentialEnergy)
 	{
 		OutGradPotentialEnergy += Mass * GravitationalAcceleration * Eigen::Vector3f(0.0f, 0.0f, 1.0f);
@@ -23,32 +23,27 @@ namespace HamiltonEngine::Physics
 
 	float ComputeConstantGravityPotentialRigidBody(const Eigen::Affine3f& BodyToWorldTransform, 
 		Eigen::Vector3f BodyPosition,
-		float Mass,
-		const Eigen::Diagonal3f& InertiaTensor)
+		float Mass)
 	{
 		const Eigen::Vector3f WorldPosition = BodyToWorldTransform * BodyPosition;
 		const float Height = WorldPosition.z();
 		return Mass * GravitationalAcceleration * Height;
 	}
 
-	void ComputeGradConstantGravityPotentialRigidBody(const Eigen::Affine3f& BodyToWorldTransform, 
-		Eigen::Vector3f BodyPosition, 
-		float Mass,
-		const Eigen::Diagonal3f& InertiaTensor, 
-		Eigen::Vector3f& OutGradLinearPotentialEnergy, 
-		Eigen::Vector3f& OutGradAngularPotentialEnergy)
+	void ComputeGradConstantGravityPotentialRigidBody(float Mass,
+		Eigen::Vector3f& OutGradLinearPotentialEnergy)
 	{
 		OutGradLinearPotentialEnergy += Mass * GravitationalAcceleration * Eigen::Vector3f(0.0f, 0.0f, 1.0f);
 	}
 
 	ParticleGravityComponent::ParticleGravityComponent(entt::const_handle Parent)
-		: ParticlePotentialEnergyListComponent(Parent)
+		: ParticleEntity{ Parent }
 		, Gravity{ GravitationalAcceleration }
 	{
 	}
 
 	RigidBodyGravityComponent::RigidBodyGravityComponent(entt::const_handle Parent) 
-		: RigidBodyPotentialEnergyListComponent(Parent)
+		: RigidBodyEntity{ Parent }
 		, Gravity{ GravitationalAcceleration }
 	{
 

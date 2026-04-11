@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Source;$(ProjectDir)Libraries\entt-main\src;$(ProjectDir)Libraries\eigen-5.0.0;$(ProjectDir)Libraries;$(ProjectDir)Libraries\glfw\include;$(ProjectDir)Libraries\glad;$(ProjectDir)Libraries\KHR;$(ProjectDir)Libraries\\json-3.11.3\include;$(ProjectDir)Libraries\stbi;$(ProjectDir)Libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Source;$(ProjectDir)Libraries\entt-main\src;$(ProjectDir)Libraries\eigen-5.0.0;$(ProjectDir)Libraries;$(ProjectDir)Libraries\glfw\include;$(ProjectDir)Libraries\glad;$(ProjectDir)Libraries\KHR;$(ProjectDir)Libraries\json-3.11.3\include;$(ProjectDir)Libraries\spdlog-1.17.0\include;$(ProjectDir)Libraries\stbi;$(ProjectDir)Libraries\glm;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Libraries\glfw\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -104,7 +104,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -141,6 +141,8 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariable.h" />
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
     <ClInclude Include="Source\Configuration\Globals.h" />
+    <ClInclude Include="Source\ECS\EntityToUnderlyingType.h" />
+    <ClInclude Include="Source\Logging\Logging.h" />
     <ClInclude Include="Source\OpenGL\BasicShapes\Cube.h" />
     <ClInclude Include="Source\OpenGL\BasicShapes\Shapes.h" />
     <ClInclude Include="Source\OpenGL\Camera.h" />
@@ -161,6 +163,7 @@
     <ClInclude Include="Source\Physics\Integrators\StormerVerlet.h" />
     <ClInclude Include="Source\Physics\Potentials\ConstantGravityPotential.h" />
     <ClInclude Include="Source\Physics\Potentials\PotentialEnergy.h" />
+    <ClInclude Include="Source\Physics\Potentials\SpringPotential.h" />
     <ClInclude Include="Source\Physics\State\ParticleState.h" />
     <ClInclude Include="Source\Physics\State\RigidBodyState.h" />
     <ClInclude Include="Source\Physics\Systems\ParticleSystem.h" />
@@ -176,6 +179,7 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp" />
     <ClCompile Include="Source\Configuration\Globals.cpp" />
+    <ClCompile Include="Source\Logging\Logging.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\OpenGL\BasicShapes\Cube.cpp" />
     <ClCompile Include="Source\OpenGL\BasicShapes\Shapes.cpp" />
@@ -195,6 +199,7 @@
     <ClCompile Include="Source\Physics\Integrators\StormerVerlet.cpp" />
     <ClCompile Include="Source\Physics\Potentials\ConstantGravityPotential.cpp" />
     <ClCompile Include="Source\Physics\Potentials\PotentialEnergy.cpp" />
+    <ClCompile Include="Source\Physics\Potentials\SpringPotential.cpp" />
     <ClCompile Include="Source\Physics\State\ParticleState.cpp" />
     <ClCompile Include="Source\Physics\State\RigidBodyState.cpp" />
     <ClCompile Include="Source\Physics\Systems\ParticleSystem.cpp" />

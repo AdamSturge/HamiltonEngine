@@ -13,8 +13,4 @@ namespace HamiltonEngine::Physics
 		, LinearMomentum{ LinearMomentum }
 	{
 	}
-
-	ParticlePotentialEnergyListComponent::ParticlePotentialEnergyListComponent(entt::const_handle Parent) : ParticleEntity{ Parent }
-	{
-	}
 }
