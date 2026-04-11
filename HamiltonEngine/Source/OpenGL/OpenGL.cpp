@@ -155,4 +155,23 @@ namespace HamiltonEngine::OpenGL
 
 	}
 
+	void RenderBuffer(OpenGLBuffersComponent Buffs, Eigen::Affine3f Trans, GLint ModelLoc)
+	{
+
+		glBindVertexArray(Buffs.VAO);
+
+		glUniformMatrix4fv(ModelLoc, 1, GL_FALSE, Trans.data());
+
+		if (Buffs.EBO == UNSET)
+		{
+			glDrawArrays(Buffs.DrawMode, Buffs.start, Buffs.count);
+		}
+		else
+		{
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Buffs.EBO);
+			glDrawElements(Buffs.DrawMode, Buffs.count, GL_UNSIGNED_INT, (void*)Buffs.start);
+		}
+
+	}
+
 }

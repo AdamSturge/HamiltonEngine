@@ -62,8 +62,16 @@ int main(int argc, char** argv)
 	simpleShader.setInt("texture2", 1);
 
 	// Setup and use the Camera
+
+	// This conversion is kind of gross due to the Camera Vectors being stored as Eigen::Vector3f and no direct conversion
+	std::vector<float> CameraStartPositionVec = HamiltonEngine::ConfigurationVariable<std::vector<float>>("CameraStartPosition", { HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.x(),
+																																   HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.y(),
+																																   HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.z() });
+	Eigen::Vector3f CameraStartPosition = Eigen::Vector3f(CameraStartPositionVec.data());
+
+	// Setup and use the Camera
 	HamiltonEngine::Globals::ActiveCamera = HamiltonEngine::OpenGL::Camera{
-		HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION, // Some where in space
+			CameraStartPosition, // Some where in space
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, // Camera is looking at this direction
 			HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP, // Camera can change, but is +Z
 			Eigen::Vector3f(0, 1.0f, 0.0f), // Right is +Y
@@ -118,7 +126,7 @@ int main(int argc, char** argv)
 		//simpleShader.setFloat("TIME", CurTime);
 		//simpleShader.setFloat("mixRatio", sin(CurTime));
 		simpleShader.use();
-
+		
 		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
 		
 		GLint viewLoc = glGetUniformLocation(simpleShader.ID, "view");
@@ -140,11 +148,17 @@ int main(int argc, char** argv)
 			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
 
 		}
-
+		
+		//printf("%d", glGetError());
+		glBindVertexArray(HamiltonEngine::Globals::PrimativesBuffers["sphere"].VAO);
+		
+		// Use a different texture for the sping ends
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 2);
 
 		auto Springs = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::SpringPotentialComponent>();
 		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(0.5f, 0.5f, 0.5f);
-
+		
 		for (auto [Entity, SpringComp] : Springs.each())
 		{
 			auto Parent = HamiltonEngine::Globals::Registry.get<HamiltonEngine::Physics::RigidBodyStateComponent>(SpringComp.ParentEntity);
@@ -152,18 +166,22 @@ int main(int argc, char** argv)
 			Eigen::Affine3f SpringWorldTransform = Parent.Transform.translate(SpringComp.AnchorPointBody)
 																	.scale(SpringModelScale);
 			
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, SpringWorldTransform.data());
+			HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"], SpringWorldTransform, modelLoc);
 
-			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
+			//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, SpringWorldTransform.data());
+
+			//glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
 
 		}
-
+		//printf("%d", glGetError());
 		// Will Render anything with a TransformComponent and a OpenGLBuffersComponent
-		HamiltonEngine::OpenGL::Render(modelLoc);
+		//HamiltonEngine::OpenGL::Render(modelLoc);
 
 		// swap buffers and call events
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+		int a = 0;
 
 
 	}

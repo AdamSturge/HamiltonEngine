@@ -52,5 +52,6 @@ namespace HamiltonEngine::OpenGL
 
 	void Render(GLint modelLoc);
 	void RenderBuffer(OpenGLBuffersComponent Buffs, TransformComponent Trans, GLint ModelLoc);
+	void RenderBuffer(OpenGLBuffersComponent Buffs, Eigen::Affine3f Trans, GLint ModelLoc);
 	
 }
