@@ -85,6 +85,21 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp">
+      <Filter>Source\Configuration</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\OpenGL.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\Primatives\Cube.cpp">
+      <Filter>Source\OpenGL\Primatives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\Primatives\Sphere.cpp">
+      <Filter>Source\OpenGL\Primatives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\Primatives\Tetra.cpp">
+      <Filter>Source\OpenGL\Primatives</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -134,6 +149,9 @@
     </Filter>
     <Filter Include="Source\ECS">
       <UniqueIdentifier>{838b8f36-e06c-402a-a88b-9ff71d7f2472}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\OpenGL\Primatives">
+      <UniqueIdentifier>{d380e7e8-1c5d-46f2-a68f-4f8a04b65991}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -218,6 +236,9 @@
     <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
+    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
+    </ClInclude>
     <ClInclude Include="Source\OpenGL\OpenGL.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
@@ -235,6 +256,15 @@
     </ClInclude>
     <ClInclude Include="Source\Physics\Potentials\SpringPotential.h">
       <Filter>Source\Physics\Potentials</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\Primatives\Cube.h">
+      <Filter>Source\OpenGL\Primatives</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\Primatives\Sphere.h">
+      <Filter>Source\OpenGL\Primatives</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\Primatives\Tetra.h">
+      <Filter>Source\OpenGL\Primatives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

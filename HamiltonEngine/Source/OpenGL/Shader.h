@@ -1,5 +1,5 @@
 #pragma once
-#include "OpenGL.h"
+#include <PrecompiledHeader/Pch.h>
 
 namespace HamiltonEngine::OpenGL {
 

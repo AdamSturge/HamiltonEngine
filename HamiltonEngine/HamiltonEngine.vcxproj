@@ -145,6 +145,9 @@
     <ClInclude Include="Source\Logging\Logging.h" />
     <ClInclude Include="Source\OpenGL\Camera.h" />
     <ClInclude Include="Source\OpenGL\OpenGL.h" />
+    <ClInclude Include="Source\OpenGL\Primatives\Cube.h" />
+    <ClInclude Include="Source\OpenGL\Primatives\Sphere.h" />
+    <ClInclude Include="Source\OpenGL\Primatives\Tetra.h" />
     <ClInclude Include="Source\OpenGL\Shader.h" />
     <ClInclude Include="Source\OpenGL\SimpleShapes.h" />
     <ClInclude Include="Source\OpenGL\Texture.h" />
@@ -180,6 +183,10 @@
     <ClCompile Include="Source\Logging\Logging.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />
+    <ClCompile Include="Source\OpenGL\OpenGL.cpp" />
+    <ClCompile Include="Source\OpenGL\Primatives\Cube.cpp" />
+    <ClCompile Include="Source\OpenGL\Primatives\Sphere.cpp" />
+    <ClCompile Include="Source\OpenGL\Primatives\Tetra.cpp" />
     <ClCompile Include="Source\OpenGL\Shader.cpp" />
     <ClCompile Include="Source\OpenGL\Texture.cpp" />
     <ClCompile Include="Source\OpenGL\Utils.cpp" />
