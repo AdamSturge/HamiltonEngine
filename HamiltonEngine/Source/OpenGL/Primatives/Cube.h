@@ -136,17 +136,10 @@ namespace HamiltonEngine::OpenGL {
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 
-	struct OpenGLBufferIDs 
-	{
-		GLuint VAO;
-		GLuint VBO;
-	};
 
-
-	entt::entity CreateCube(TransformComponent Trans);
-	entt::entity CreateCube();
-	void CreateUnitCube(GLuint* VAO, GLuint* VBO);
-	void CreateCube(float SideLength, OpenGLBufferIDs* o_BuffIDs);
+	HamiltonEngine::OpenGL::OpenGLBuffersComponent CreateCubeBuffers();
+	entt::entity CreateCubeEntity(TransformComponent Trans);
+	entt::entity CreateCubeEntity();
 	void CreateCubeEntities(int count);
 	void TestCubes(int num);
 }

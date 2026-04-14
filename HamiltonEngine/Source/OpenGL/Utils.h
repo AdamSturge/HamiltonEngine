@@ -11,4 +11,5 @@ unsigned RandomRange(unsigned range);
 HamiltonEngine::OpenGL::TransformComponent RandomTransformComponent();
 void PrintOpenGLBufferComponentData(HamiltonEngine::OpenGL::OpenGLBuffersComponent buff);
 void PrintTransformComponent(HamiltonEngine::OpenGL::TransformComponent Trans);
-void createTestObjects();
+void PopulatePrimativeMap();
+void CreateTestObjects();

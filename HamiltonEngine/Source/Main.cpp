@@ -21,9 +21,8 @@
 #include <OpenGL/SimpleShapes.h>
 #include <OpenGL/Utils.h>
 #include "OpenGL/Camera.h"
-#include <OpenGL/BasicShapes/Cube.h>
-#include "OpenGL/BasicShapes/Shapes.h"
-#include "OpenGL/BasicShapes/Shapes.h"
+//#include <OpenGL/Primatives/Cube.h>
+
 
 // TODO: Make a sphere
 // TODO: LIGHTING!
@@ -53,8 +52,9 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-
 	HamiltonEngine::OpenGL::CreateBasicTextures();
+	PopulatePrimativeMap();
+
 	HamiltonEngine::OpenGL::Shader simpleShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\vertexShader.vs",
 		"Source\\Shaders\\fragmentShader.fs");
 	simpleShader.use();
@@ -62,7 +62,6 @@ int main(int argc, char** argv)
 	simpleShader.setInt("texture2", 1);
 
 	// Setup and use the Camera
-
 	// This conversion is kind of gross due to the Camera Vectors being stored as Eigen::Vector3f and no direct conversion
 	std::vector<float> CameraStartPositionVec = HamiltonEngine::ConfigurationVariable<std::vector<float>>("CameraStartPosition", { HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.x(),
 																																   HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.y(),
@@ -97,8 +96,13 @@ int main(int argc, char** argv)
 	Eigen::Matrix4f View;
 	Eigen::Matrix4f Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov, (float)WindowHeight / WindowWidth, NearClip, FarClip);
 
-	createTestObjects();
+	
 
+	if (HamiltonEngine::ConfigurationVariable<int>("CreateTestObjects", false))
+	{
+		CreateTestObjects();
+	}
+	
 	while (!glfwWindowShouldClose(window)) {
 		++HamiltonEngine::Globals::FrameCount;
 
@@ -128,37 +132,39 @@ int main(int argc, char** argv)
 		simpleShader.use();
 		
 		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
-		
 		GLint viewLoc = glGetUniformLocation(simpleShader.ID, "view");
 		View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition, Camera.CameraPosition + Camera.CameraFront, Camera.WorldUp);
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());
-
 		GLint projLoc = glGetUniformLocation(simpleShader.ID, "projection");
 
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, Projection.data());
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
 
-		glBindVertexArray(HamiltonEngine::Globals::PrimativesBuffers["cube"].VAO);
+		// Will Render anything with a TransformComponent and a OpenGLBuffersComponent
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 1);
+		HamiltonEngine::OpenGL::Render(modelLoc);
+
+		//glBindVertexArray(HamiltonEngine::Globals::PrimativesBuffers["cube"].VAO);
 		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
 
 		for (auto [Entity, StateC] : RigidBodyView.each())
 		{
+
+			HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"], StateC.Transform, modelLoc);
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, StateC.Transform.data());
 
 			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
 
 		}
-		
-		//printf("%d", glGetError());
-		glBindVertexArray(HamiltonEngine::Globals::PrimativesBuffers["sphere"].VAO);
-		
+
 		// Use a different texture for the sping ends
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 2);
 
 		auto Springs = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::SpringPotentialComponent>();
-		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(0.5f, 0.5f, 0.5f);
-		
+		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(1.0f, 1.0f, 1.0f);
+		int a = 0;
 		for (auto [Entity, SpringComp] : Springs.each())
 		{
 			auto Parent = HamiltonEngine::Globals::Registry.get<HamiltonEngine::Physics::RigidBodyStateComponent>(SpringComp.ParentEntity);
@@ -166,24 +172,14 @@ int main(int argc, char** argv)
 			Eigen::Affine3f SpringWorldTransform = Parent.Transform.translate(SpringComp.AnchorPointBody)
 																	.scale(SpringModelScale);
 			
-			HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"], SpringWorldTransform, modelLoc);
-
-			//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, SpringWorldTransform.data());
-
-			//glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
-
+			HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"], SpringWorldTransform, modelLoc);
 		}
-		//printf("%d", glGetError());
-		// Will Render anything with a TransformComponent and a OpenGLBuffersComponent
-		//HamiltonEngine::OpenGL::Render(modelLoc);
 
 		// swap buffers and call events
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
-		int a = 0;
-
-
+		printf("%d\n", glGetError());
 	}
 	
 	std::cout << "There were " << HamiltonEngine::Globals::FrameCount << " frames rendered." << std::endl;

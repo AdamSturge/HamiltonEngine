@@ -2,13 +2,13 @@
 
 namespace HamiltonEngine::OpenGL
 {
-	const float UNIT_TETRA_VERTS[] =
-	{
+    const float UNIT_TETRA_VERTS[] =
+    {
         0.0f, 0.0f, 0.0f,
         -2.0f, 0.0f, -2.0f,
         0.0f, -2.0f, -2.0f,
         -2.0f, -2.0f, 0.0f
-	};
+    };
 
     const float UNIT_TETRA_TEXTURE_COORD[] =
     {
@@ -28,10 +28,8 @@ namespace HamiltonEngine::OpenGL
 
     };
 
-    void CreateTetra(GLuint* VAO, GLuint* VBO);
-    entt::entity CreateTetra(TransformComponent trans);
-    entt::entity CreateSphere(TransformComponent trans, int Radius, int StackCount, int SectorCount);
-
+    OpenGLBuffersComponent CreateTetraBuffers();
+    entt::entity CreateTetraEntity(TransformComponent trans);
 
     void TestTetras(int num);
 }

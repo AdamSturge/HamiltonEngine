@@ -112,6 +112,17 @@ namespace HamiltonEngine::OpenGL
 
 	}
 
+	entt::entity CreateRenderableEntity(OpenGLBuffersComponent Buffs, TransformComponent Trans)
+	{
+		entt::registry& reg = HamiltonEngine::Globals::Registry;
+		const auto ent = reg.create();
+
+		reg.emplace<OpenGLBuffersComponent>(ent, Buffs);
+		reg.emplace<TransformComponent>(ent, Trans);
+
+		return ent;
+	}
+
 	void Render(GLint modelLoc)
 	{
 		 auto RenderablesView = HamiltonEngine::Globals::Registry.view<const OpenGLBuffersComponent, const TransformComponent>();
@@ -161,6 +172,9 @@ namespace HamiltonEngine::OpenGL
 		glBindVertexArray(Buffs.VAO);
 
 		glUniformMatrix4fv(ModelLoc, 1, GL_FALSE, Trans.data());
+
+		// TODO: Get this working with glGetIntegerv(GL_ARRAY_BUFFER_BINDING ...); 
+		// Initial try didn't work.
 
 		if (Buffs.EBO == UNSET)
 		{

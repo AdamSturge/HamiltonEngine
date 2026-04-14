@@ -49,6 +49,7 @@ namespace HamiltonEngine::OpenGL
 	OpenGLBuffersComponent CreateOpenGLBuffersComponent(bool CreateEBO);
 
 	void CreateBasicTextures(); // This is mainly for testing purposes
+	entt::entity CreateRenderableEntity(OpenGLBuffersComponent Buffs, TransformComponent Trans);
 
 	void Render(GLint modelLoc);
 	void RenderBuffer(OpenGLBuffersComponent Buffs, TransformComponent Trans, GLint ModelLoc);

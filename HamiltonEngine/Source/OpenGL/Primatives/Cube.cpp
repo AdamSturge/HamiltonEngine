@@ -6,23 +6,20 @@
 
 namespace HamiltonEngine::OpenGL
 {
-	entt::entity CreateCube(TransformComponent Trans)
+	HamiltonEngine::OpenGL::OpenGLBuffersComponent CreateCubeBuffers()
 	{
-		entt::registry& reg = HamiltonEngine::Globals::Registry;
-		const auto ent = reg.create();
-
 		OpenGLBuffersComponent Buffs;
 		Buffs = CreateOpenGLBuffersComponent(false);
 
 		glBindVertexArray(Buffs.VAO);
-		
+
 		glBindBuffer(GL_ARRAY_BUFFER, Buffs.VBO);
-		
+
 		// Need to know the size of the buffer to create
 		glBufferData(GL_ARRAY_BUFFER, sizeof(UNIT_CUBE_VERTS) + sizeof(UNIT_CUBE_TEXTURE_COORD), NULL, GL_STATIC_DRAW);
 
-		glBufferSubData(GL_ARRAY_BUFFER, 0,								  sizeof(UNIT_CUBE_VERTS),		    &UNIT_CUBE_VERTS);
-		glBufferSubData(GL_ARRAY_BUFFER, sizeof(UNIT_CUBE_VERTS), sizeof(UNIT_CUBE_TEXTURE_COORD),			&UNIT_CUBE_TEXTURE_COORD);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(UNIT_CUBE_VERTS), &UNIT_CUBE_VERTS);
+		glBufferSubData(GL_ARRAY_BUFFER, sizeof(UNIT_CUBE_VERTS), sizeof(UNIT_CUBE_TEXTURE_COORD), &UNIT_CUBE_TEXTURE_COORD);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(sizeof(UNIT_CUBE_VERTS)));
@@ -33,13 +30,23 @@ namespace HamiltonEngine::OpenGL
 		Buffs.start = 0;
 		Buffs.count = (sizeof(UNIT_CUBE_VERTS) / sizeof(float)) / 3; // length of array / 3points / triangle
 
+		return Buffs;
+	}
+
+	entt::entity CreateCubeEntity(TransformComponent Trans)
+	{
+		entt::registry& reg = HamiltonEngine::Globals::Registry;
+		const auto ent = reg.create();
+
+		OpenGLBuffersComponent Buffs = CreateCubeBuffers();
+
 		reg.emplace<OpenGLBuffersComponent>(ent, Buffs);
 		reg.emplace<TransformComponent>(ent, Trans);
 
 		return ent;
 	}
 
-	entt::entity CreateCube()
+	entt::entity CreateCubeEntity()
 	{
 		TransformComponent trans;
 		trans.Position = Eigen::Vector3f(0.0f, 0.0f, 0.0f);
@@ -47,7 +54,7 @@ namespace HamiltonEngine::OpenGL
 		trans.RotationAxis = Eigen::Vector3f(0.0f, 0.0f, 0.0f);
 		trans.Scale = Eigen::Vector3f(1.0f, 1.0f, 1.0f);
 
-		return CreateCube(trans);
+		return CreateCubeEntity(trans);
 	}
 
 	void TestCubes(int num)
@@ -57,7 +64,7 @@ namespace HamiltonEngine::OpenGL
 			TransformComponent Trans;
 			Trans = RandomTransformComponent();
 
-			CreateCube(Trans);
+			CreateCubeEntity(Trans);
 		}
 	}
 };
