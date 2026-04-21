@@ -142,6 +142,7 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
     <ClInclude Include="Source\Configuration\Globals.h" />
     <ClInclude Include="Source\ECS\EntityToUnderlyingType.h" />
+    <ClInclude Include="Source\Eigen\EulerAngles.h" />
     <ClInclude Include="Source\Logging\Logging.h" />
     <ClInclude Include="Source\OpenGL\Camera.h" />
     <ClInclude Include="Source\OpenGL\OpenGL.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp" />
     <ClCompile Include="Source\Configuration\Globals.cpp" />
+    <ClCompile Include="Source\Eigen\EulerAngles.cpp" />
     <ClCompile Include="Source\Logging\Logging.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\OpenGL\Camera.cpp" />

@@ -91,6 +91,9 @@
     <ClCompile Include="Source\Serialization\EigenSerialization.cpp">
       <Filter>Source\Serialization</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Eigen\EulerAngles.cpp">
+      <Filter>Source\Eigen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
@@ -143,6 +146,9 @@
     </Filter>
     <Filter Include="Source\Serialization">
       <UniqueIdentifier>{b0119e59-39c9-49ec-88c1-fed3c4fefbd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Eigen">
+      <UniqueIdentifier>{483eb066-a166-47ce-9459-34e9f42de063}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +256,9 @@
     </ClInclude>
     <ClInclude Include="Source\Serialization\EigenSerialization.h">
       <Filter>Source\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Eigen\EulerAngles.h">
+      <Filter>Source\Eigen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

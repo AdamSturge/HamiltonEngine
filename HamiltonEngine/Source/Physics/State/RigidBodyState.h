@@ -9,7 +9,7 @@ namespace Eigen
 
 namespace HamiltonEngine::Physics
 {
-	struct RigidBodyStateComponent 
+	struct RigidBodyStateComponent
 	{
 		RigidBodyStateComponent() = default;
 		
@@ -33,7 +33,6 @@ namespace HamiltonEngine::Physics
 		entt::const_handle PotentialEnergyListHead;
 	};
 	
-	//TODO you can rename the Ceral save/load functions
 	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version);
 	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version);
 }
