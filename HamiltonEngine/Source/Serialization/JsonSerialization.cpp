@@ -41,6 +41,7 @@ namespace HamiltonEngine::Serialization
 				"Attempting to open file %s but failed with exception: %s",
 				Filename,
 				e.what())
+
 				return false;
 		}
 		
@@ -54,5 +55,48 @@ namespace HamiltonEngine::Serialization
 		}
 
 		Filestream.close();
+	}
+
+	bool DeserializeEnttRegistryFromJson(entt::registry& Registry, const char* Filename)
+	{
+		std::ifstream Filestream;
+		try
+		{
+			if (std::filesystem::exists(Filename))
+			{
+				Filestream.open(Filename, std::ifstream::in);
+			}
+			else
+			{
+				HAMILTON_LOG(Serialization,
+					Warning,
+					"Attempting to open file but it does not exist %s",
+					Filename)
+
+					return false;
+			}
+
+		}
+		catch (std::filesystem::filesystem_error e)
+		{
+			HAMILTON_LOG(Serialization,
+				Warning,
+				"Attempting to open file %s but failed with exception: %s",
+				Filename,
+				e.what())
+				return false;
+		}
+		
+		{
+			cereal::JSONInputArchive input{ Filestream };
+		
+			entt::snapshot_loader{ Registry }
+				.get<entt::entity>(input)
+				.get<Physics::RigidBodyStateComponent>(input);
+		}
+
+		Filestream.close();
+		
+		return false;
 	}
 }

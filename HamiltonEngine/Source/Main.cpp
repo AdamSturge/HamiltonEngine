@@ -30,12 +30,14 @@ int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
+	HamiltonEngine::Serialization::DeserializeEnttRegistryFromJson(HamiltonEngine::Globals::Registry, "TestLevel.json");
+	
 	HamiltonEngine::ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
 	HamiltonEngine::ConfigurationVariable<int> WindowWidth("WindowWidth", 600);
 	HamiltonEngine::ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
 
-	HamiltonEngine::Physics::CreateParticleEntities();
-	HamiltonEngine::Physics::CreateRigidBodyEntities();
+	//HamiltonEngine::Physics::CreateParticleEntities();
+	//HamiltonEngine::Physics::CreateRigidBodyEntities();
 
 	glfwInit(); // Initialize OpenGL
 	
@@ -241,8 +243,8 @@ int main(int argc, char** argv)
 	std::cout << "The average frame time " << glfwGetTime() / HamiltonEngine::Globals::FrameCount << std::endl;
 	glfwTerminate();
 
-	constexpr bool OverwriteLevelFile = true;
-	HamiltonEngine::Serialization::SerializeEnttRegistryAsJson(HamiltonEngine::Globals::Registry, 
-		"TestLevel.json", OverwriteLevelFile);
+	//constexpr bool OverwriteLevelFile = true;
+	//HamiltonEngine::Serialization::SerializeEnttRegistryAsJson(HamiltonEngine::Globals::Registry, 
+	//	"TestLevel.json", OverwriteLevelFile);
 	return 0;
 }

@@ -29,6 +29,18 @@ namespace Eigen
 
     void Load(cereal::JSONInputArchive& Record, Affine3f& Transform)
     {
+        Eigen::Vector3f Translation(0.0f,0.0f,0.0f);
+        Record(cereal::make_nvp("Translation", Translation));
+        
+        HamiltonEngine::EulerAngles Angles;
+        Record(cereal::make_nvp("Rotation", Angles));
+        Eigen::Matrix3f Rotation;
+        Rotation.setIdentity();
+        HamiltonEngine::EulerAnglesToRotation(Angles.Pitch, Angles.Yaw, Angles.Roll, Rotation);
+        
+        //The rotation part doesn't seem to be working
+        Transform = Transform.prerotate(Rotation).pretranslate(Translation);
 
+        std::cout << Transform.matrix() << std::endl << std::endl;
     }
 }

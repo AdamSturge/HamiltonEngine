@@ -15,13 +15,13 @@
         "cereal_class_version": 1,
         "Transform": {
             "Translation": {
-                "X": 0.0,
-                "Y": 0.0027597856242209675,
-                "Z": 0.001370085752569139
+                "X": 14.0,
+                "Y": 0.0,
+                "Z": 0.0
             },
             "Rotation": {
                 "cereal_class_version": 1,
-                "Pitch": 0.0,
+                "Pitch": 23.0,
                 "Yaw": 0.0,
                 "Roll": 0.0
             }
@@ -32,13 +32,13 @@
     "value14": {
         "Transform": {
             "Translation": {
-                "X": 0.0,
-                "Y": 2.0,
-                "Z": 0.0
+                "X": 2.0,
+                "Y": 0.0,
+                "Z": 43.0
             },
             "Rotation": {
                 "Pitch": 0.0,
-                "Yaw": 0.0,
+                "Yaw": 60.0,
                 "Roll": 0.0
             }
         },

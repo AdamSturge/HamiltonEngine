@@ -12,6 +12,9 @@ namespace HamiltonEngine
 
 	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::EulerAngles& Angles, const std::uint32_t Version)
 	{
+		Record(cereal::make_nvp("Pitch", Angles.Pitch));
+		Record(cereal::make_nvp("Yaw", Angles.Yaw));
+		Record(cereal::make_nvp("Roll", Angles.Roll));
 	}
 
 	void RotationToEulerAngles(const Eigen::Matrix3f& Rotation, EulerAngles& EulerAngles)
@@ -37,7 +40,7 @@ namespace HamiltonEngine
 		Roll = Angles[0];
 	}
 
-	void EulerAnglesToRotation(const float Pitch, const float Yaw, const float& Roll, Eigen::Matrix3f& Rotation)
+	void EulerAnglesToRotation(const float Pitch, const float Yaw, const float Roll, Eigen::Matrix3f& Rotation)
 	{
 		Eigen::AngleAxisf PitchAngle(Pitch, Eigen::Vector3f::UnitX());
 		Eigen::AngleAxisf YawAngle(Yaw, Eigen::Vector3f::UnitY());

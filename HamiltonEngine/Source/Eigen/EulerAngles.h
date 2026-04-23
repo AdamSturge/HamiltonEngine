@@ -15,7 +15,7 @@ namespace HamiltonEngine
 	void RotationToEulerAngles(const Eigen::Matrix3f& Rotation, EulerAngles& EulerAngles);
 	void RotationToEulerAngles(const Eigen::Matrix3f& Rotation, float& Pitch, float& Yaw, float& Roll);
 	void RotationToEulerAngles(const Eigen::Matrix3f& Rotation, float Angles[3]);
-	void EulerAnglesToRotation(const float Pitch, const float Yaw, const float& Roll, Eigen::Matrix3f& Rotation);
+	void EulerAnglesToRotation(const float Pitch, const float Yaw, const float Roll, Eigen::Matrix3f& Rotation);
 }
 
 CEREAL_CLASS_VERSION(HamiltonEngine::EulerAngles, 1);
