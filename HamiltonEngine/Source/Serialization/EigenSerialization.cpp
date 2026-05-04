@@ -38,9 +38,7 @@ namespace Eigen
         Rotation.setIdentity();
         HamiltonEngine::EulerAnglesToRotation(Angles.Pitch, Angles.Yaw, Angles.Roll, Rotation);
         
-        //The rotation part doesn't seem to be working
-        Transform = Transform.prerotate(Rotation).pretranslate(Translation);
-
-        std::cout << Transform.matrix() << std::endl << std::endl;
+        const Eigen::Vector3f Scale{ 1.0f, 1.0f, 1.0f };
+        Transform = Transform.fromPositionOrientationScale(Translation, Rotation, Scale);
     }
 }
