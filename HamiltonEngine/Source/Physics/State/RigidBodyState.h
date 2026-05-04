@@ -11,7 +11,7 @@ namespace HamiltonEngine::Physics
 {
 	struct RigidBodyStateComponent
 	{
-		RigidBodyStateComponent() = default;
+		RigidBodyStateComponent();
 		
 		RigidBodyStateComponent(const Eigen::Affine3f& Trans,
 			float M,

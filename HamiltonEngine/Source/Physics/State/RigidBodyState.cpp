@@ -4,6 +4,14 @@
 
 namespace HamiltonEngine::Physics 
 {
+    RigidBodyStateComponent::RigidBodyStateComponent()
+    {
+        Transform.setIdentity();
+        LinearMomentum.setZero();
+        AngularMomentum.setZero();
+        InertiaTensor.setIdentity();
+    }
+
     RigidBodyStateComponent::RigidBodyStateComponent(
         const Eigen::Affine3f& Trans,
         float M,
