@@ -9,6 +9,7 @@ namespace HamiltonEngine::Globals
 	ConfigurationVariable<bool> PhysicsSimEnabled = ConfigurationVariable<bool>("PhysicsSimEnabled", true);
 	ConfigurationVariable<float> Epsilon = ConfigurationVariable<float>("Epsilon", 1e-4f);
 
+	extern ConfigurationVariable<std::string> StartingLevel("StartingLevel", "Levels/TestLevel.json");
 
 	// Rendering + OpenGL stuff
 	GLuint FrameCount = 0;

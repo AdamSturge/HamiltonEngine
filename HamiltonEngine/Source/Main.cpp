@@ -30,7 +30,8 @@ int main(int argc, char** argv)
 {
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
-	HamiltonEngine::Serialization::DeserializeEnttRegistryFromJson(HamiltonEngine::Globals::Registry, "TestLevel.json");
+	const char* StartingLevel = HamiltonEngine::Globals::StartingLevel.Get().c_str();
+	HamiltonEngine::Serialization::DeserializeEnttRegistryFromJson(HamiltonEngine::Globals::Registry, StartingLevel);
 	
 	HamiltonEngine::ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
 	HamiltonEngine::ConfigurationVariable<int> WindowWidth("WindowWidth", 600);

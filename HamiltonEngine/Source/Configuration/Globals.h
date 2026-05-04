@@ -11,6 +11,8 @@ namespace HamiltonEngine::Globals
 	// small number. Useful for comparison to near 0
 	extern ConfigurationVariable<float> Epsilon;
 
+	extern ConfigurationVariable<std::string> StartingLevel;
+
 	// Rendering + OpenGL stuff
 	extern GLuint FrameCount;
 
