@@ -85,9 +85,15 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp">
-      <Filter>Source\Configuration</Filter>
+    <ClCompile Include="Source\Serialization\JsonSerialization.cpp">
+      <Filter>Source\Serialization</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Serialization\EigenSerialization.cpp">
+      <Filter>Source\Serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Eigen\EulerAngles.cpp">
+      <Filter>Source\Eigen</Filter>
+	 </ClCompile> 
     <ClCompile Include="Source\OpenGL\OpenGL.cpp">
       <Filter>Source\OpenGL</Filter>
     </ClCompile>
@@ -150,6 +156,12 @@
     <Filter Include="Source\ECS">
       <UniqueIdentifier>{838b8f36-e06c-402a-a88b-9ff71d7f2472}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Serialization">
+      <UniqueIdentifier>{b0119e59-39c9-49ec-88c1-fed3c4fefbd5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Eigen">
+      <UniqueIdentifier>{483eb066-a166-47ce-9459-34e9f42de063}</UniqueIdentifier>
+	</Filter>
     <Filter Include="Source\OpenGL\Primatives">
       <UniqueIdentifier>{d380e7e8-1c5d-46f2-a68f-4f8a04b65991}</UniqueIdentifier>
     </Filter>
@@ -257,6 +269,15 @@
     <ClInclude Include="Source\Physics\Potentials\SpringPotential.h">
       <Filter>Source\Physics\Potentials</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Serialization\JsonSerialization.h">
+      <Filter>Source\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Serialization\EigenSerialization.h">
+      <Filter>Source\Serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Eigen\EulerAngles.h">
+      <Filter>Source\Eigen</Filter>
+	</ClInclude>
     <ClInclude Include="Source\OpenGL\Primatives\Cube.h">
       <Filter>Source\OpenGL\Primatives</Filter>
     </ClInclude>

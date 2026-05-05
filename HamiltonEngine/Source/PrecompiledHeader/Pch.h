@@ -17,8 +17,21 @@
 #include "Configuration/Config.h"
 
 //Libraries
+#include <cereal/cereal.hpp>
+#include <cereal/version.hpp>
+#include <cereal/macros.hpp>
+#include <cereal/access.hpp>
+#include <cereal/specialize.hpp>
+#include <cereal/types/variant.hpp>
+#include <cereal/details/helpers.hpp>
+#include <cereal/archives/json.hpp>
 #include <nlohmann/json.hpp>
 #include <entt/entt.hpp>
+#include <entt/meta/meta.hpp>
+#include <entt/core/hashed_string.hpp>
+#include <entt/core/type_traits.hpp>
+#include <entt/entity/registry.hpp>
+#include <entt/entity/snapshot.hpp>
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include <glad/glad.h>
@@ -30,4 +43,5 @@
 //Our code. Add stuff that doesn't change often
 #include "Logging/Logging.h"
 #include "ECS/EntityToUnderlyingType.h"
+#include "Serialization/EigenSerialization.h"
 

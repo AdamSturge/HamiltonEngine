@@ -1,0 +1,47 @@
+{
+    "value0": 8,
+    "value1": 8,
+    "value2": 0,
+    "value3": 1,
+    "value4": 2,
+    "value5": 3,
+    "value6": 4,
+    "value7": 5,
+    "value8": 6,
+    "value9": 7,
+    "value10": 2,
+    "value11": 2,
+    "value12": {
+        "cereal_class_version": 1,
+        "Transform": {
+            "Translation": {
+                "X": -10.0,
+                "Y": 0.0,
+                "Z": 0.0
+            },
+            "Rotation": {
+                "cereal_class_version": 1,
+                "Pitch": 0.0,
+                "Yaw": 0.0,
+                "Roll": 0.0
+            }
+        },
+        "Mass": 4.0
+    },
+    "value13": 4,
+    "value14": {
+        "Transform": {
+            "Translation": {
+                "X": 2.0,
+                "Y": 0.0,
+                "Z": 0.0
+            },
+            "Rotation": {
+                "Pitch": 34.0,
+                "Yaw": 10.0,
+                "Roll": 0.0
+            }
+        },
+        "Mass": 1.0
+    }
+}

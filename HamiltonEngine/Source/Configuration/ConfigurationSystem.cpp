@@ -46,7 +46,7 @@ namespace HamiltonEngine
 			{
 				HAMILTON_LOG(Configuration,
 					Warning,
-					"Attempting to open file %s but file does not exist: %s",
+					"Attempting to open file %s but file does not exist",
 					Filename)
 				return false;
 			}
@@ -58,6 +58,7 @@ namespace HamiltonEngine
 			HAMILTON_LOG(Configuration,
 				Warning,
 				"Attempting to open file %s but failed with exception: %s",
+				Filename,
 				e.what())
 			return false;
 		}
