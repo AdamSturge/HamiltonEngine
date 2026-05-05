@@ -93,6 +93,18 @@
     </ClCompile>
     <ClCompile Include="Source\Eigen\EulerAngles.cpp">
       <Filter>Source\Eigen</Filter>
+	 </ClCompile> 
+    <ClCompile Include="Source\OpenGL\OpenGL.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\Primatives\Cube.cpp">
+      <Filter>Source\OpenGL\Primatives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\Primatives\Sphere.cpp">
+      <Filter>Source\OpenGL\Primatives</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OpenGL\Primatives\Tetra.cpp">
+      <Filter>Source\OpenGL\Primatives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -149,6 +161,9 @@
     </Filter>
     <Filter Include="Source\Eigen">
       <UniqueIdentifier>{483eb066-a166-47ce-9459-34e9f42de063}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="Source\OpenGL\Primatives">
+      <UniqueIdentifier>{d380e7e8-1c5d-46f2-a68f-4f8a04b65991}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +248,9 @@
     <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
+    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
+      <Filter>Source\OpenGL\BasicShapes</Filter>
+    </ClInclude>
     <ClInclude Include="Source\OpenGL\OpenGL.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
@@ -259,6 +277,15 @@
     </ClInclude>
     <ClInclude Include="Source\Eigen\EulerAngles.h">
       <Filter>Source\Eigen</Filter>
+	</ClInclude>
+    <ClInclude Include="Source\OpenGL\Primatives\Cube.h">
+      <Filter>Source\OpenGL\Primatives</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\Primatives\Sphere.h">
+      <Filter>Source\OpenGL\Primatives</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OpenGL\Primatives\Tetra.h">
+      <Filter>Source\OpenGL\Primatives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
