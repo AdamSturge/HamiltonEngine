@@ -213,11 +213,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Shaders\fragmentShader.fs" />
-    <None Include="Source\Shaders\vertexShader.vs" />
+    <Natvis Include="Libraries\eigen-5.0.0\natvis\eigen.natvis" />
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="Libraries\eigen-5.0.0\natvis\eigen.natvis" />
+    <None Include="Source\Shaders\BasicShader\fragmentShader.fs" />
+    <None Include="Source\Shaders\BasicShader\vertexShader.vs" />
+    <None Include="Source\Shaders\LightShader\fragmentShader.fs" />
+    <None Include="Source\Shaders\LightShader\vertexShader.vs" />
+    <None Include="Source\Shaders\TextureOnlyShader\fragmentShader.fs" />
+    <None Include="Source\Shaders\TextureOnlyShader\vertexShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

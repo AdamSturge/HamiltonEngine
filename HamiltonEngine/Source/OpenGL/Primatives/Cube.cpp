@@ -16,15 +16,18 @@ namespace HamiltonEngine::OpenGL
 		glBindBuffer(GL_ARRAY_BUFFER, Buffs.VBO);
 
 		// Need to know the size of the buffer to create
-		glBufferData(GL_ARRAY_BUFFER, sizeof(UNIT_CUBE_VERTS) + sizeof(UNIT_CUBE_TEXTURE_COORD), NULL, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(UNIT_CUBE_VERTS) +sizeof(UNIT_CUBE_NORMALS) + sizeof(UNIT_CUBE_TEXTURE_COORD) , NULL, GL_STATIC_DRAW);
 
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(UNIT_CUBE_VERTS), &UNIT_CUBE_VERTS);
-		glBufferSubData(GL_ARRAY_BUFFER, sizeof(UNIT_CUBE_VERTS), sizeof(UNIT_CUBE_TEXTURE_COORD), &UNIT_CUBE_TEXTURE_COORD);
+		glBufferSubData(GL_ARRAY_BUFFER, sizeof(UNIT_CUBE_VERTS), sizeof(UNIT_CUBE_NORMALS), &UNIT_CUBE_NORMALS);
+		glBufferSubData(GL_ARRAY_BUFFER, sizeof(UNIT_CUBE_VERTS) + sizeof(UNIT_CUBE_NORMALS), sizeof(UNIT_CUBE_TEXTURE_COORD), &UNIT_CUBE_TEXTURE_COORD);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)(sizeof(UNIT_CUBE_VERTS)));
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT), (void*)(sizeof(UNIT_CUBE_VERTS)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GL_FLOAT), (void*)(sizeof(UNIT_CUBE_VERTS) + sizeof(UNIT_CUBE_NORMALS)));
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 
 		Buffs.DrawMode = GL_TRIANGLES;
 		Buffs.start = 0;

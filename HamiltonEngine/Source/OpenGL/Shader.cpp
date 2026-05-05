@@ -83,6 +83,11 @@ namespace HamiltonEngine::OpenGL
 		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 	}
 
+	void Shader::setVec3(const std::string& name, float x, float y, float z) const
+	{
+		glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
+	}
+
 	void Shader::checkCompileErrors(unsigned int shader, std::string type)
 	{
 		int success;

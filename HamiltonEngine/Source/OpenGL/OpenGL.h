@@ -29,7 +29,9 @@ namespace HamiltonEngine::OpenGL
 		GLuint ID;
 		std::string VertexShaderPath;
 		std::string FragmentShaderPath;
-		// TODO: UniformMap: Name -> Location ?
+		std::map<int, std::string> EnabledAttributes;
+		// UniformMap: Name -> Location ?
+		std::map<std::string, int> UniformMap;
 	};
 
 	struct OpenGLBuffersComponent
@@ -41,6 +43,11 @@ namespace HamiltonEngine::OpenGL
 		GLenum DrawMode;
 		GLint start;
 		GLsizei count;
+	};
+
+	struct AssignedShader
+	{
+		entt::entity EntityID;
 	};
 
 	TextureComponent CreateTextureComponent(std::string Path, GLuint InternalFormat, GLuint Format, GLuint Type, bool FlipVertically);

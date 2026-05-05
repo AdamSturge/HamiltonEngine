@@ -153,6 +153,15 @@
     <Filter Include="Source\OpenGL\Primatives">
       <UniqueIdentifier>{d380e7e8-1c5d-46f2-a68f-4f8a04b65991}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Shaders\BasicShader">
+      <UniqueIdentifier>{667fd759-0f45-4e42-a206-b6dc11635d11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shaders\LightShader">
+      <UniqueIdentifier>{6b94e430-28cb-4758-9930-b384f2e961f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shaders\TextureOnlyShader">
+      <UniqueIdentifier>{91b585d2-cb3b-4465-8ab3-8ba39486887f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
@@ -268,16 +277,28 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Shaders\fragmentShader.fs">
-      <Filter>Source\Shaders</Filter>
-    </None>
-    <None Include="Source\Shaders\vertexShader.vs">
-      <Filter>Source\Shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Natvis Include="Libraries\eigen-5.0.0\natvis\eigen.natvis">
       <Filter>Libraries\Eigen</Filter>
     </Natvis>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Shaders\BasicShader\fragmentShader.fs">
+      <Filter>Source\Shaders\BasicShader</Filter>
+    </None>
+    <None Include="Source\Shaders\BasicShader\vertexShader.vs">
+      <Filter>Source\Shaders\BasicShader</Filter>
+    </None>
+    <None Include="Source\Shaders\LightShader\fragmentShader.fs">
+      <Filter>Source\Shaders\LightShader</Filter>
+    </None>
+    <None Include="Source\Shaders\LightShader\vertexShader.vs">
+      <Filter>Source\Shaders\LightShader</Filter>
+    </None>
+    <None Include="Source\Shaders\TextureOnlyShader\fragmentShader.fs">
+      <Filter>Source\Shaders\TextureOnlyShader</Filter>
+    </None>
+    <None Include="Source\Shaders\TextureOnlyShader\vertexShader.vs">
+      <Filter>Source\Shaders\TextureOnlyShader</Filter>
+    </None>
   </ItemGroup>
 </Project>

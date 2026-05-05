@@ -21,11 +21,6 @@
 #include <OpenGL/SimpleShapes.h>
 #include <OpenGL/Utils.h>
 #include "OpenGL/Camera.h"
-//#include <OpenGL/Primatives/Cube.h>
-
-
-// TODO: Make a sphere
-// TODO: LIGHTING!
 
 int main(int argc, char** argv)
 {
@@ -55,11 +50,11 @@ int main(int argc, char** argv)
 	HamiltonEngine::OpenGL::CreateBasicTextures();
 	PopulatePrimativeMap();
 
-	HamiltonEngine::OpenGL::Shader simpleShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\vertexShader.vs",
-		"Source\\Shaders\\fragmentShader.fs");
+	HamiltonEngine::OpenGL::Shader simpleShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\LightShader\\vertexShader.vs",
+		"Source\\Shaders\\LightShader\\fragmentShader.fs");
 	simpleShader.use();
-	simpleShader.setInt("texture1", 0); // This is the texture channel, FragShader.uniformName -> Texture Channel
-	simpleShader.setInt("texture2", 1);
+	simpleShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+	simpleShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
 	// Setup and use the Camera
 	// This conversion is kind of gross due to the Camera Vectors being stored as Eigen::Vector3f and no direct conversion
@@ -96,8 +91,6 @@ int main(int argc, char** argv)
 	Eigen::Matrix4f View;
 	Eigen::Matrix4f Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov, (float)WindowHeight / WindowWidth, NearClip, FarClip);
 
-	
-
 	if (HamiltonEngine::ConfigurationVariable<int>("CreateTestObjects", false))
 	{
 		CreateTestObjects();
@@ -127,8 +120,6 @@ int main(int argc, char** argv)
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, 2);
 
-		//simpleShader.setFloat("TIME", CurTime);
-		//simpleShader.setFloat("mixRatio", sin(CurTime));
 		simpleShader.use();
 		
 		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
@@ -145,41 +136,10 @@ int main(int argc, char** argv)
 		glBindTexture(GL_TEXTURE_2D, 1);
 		HamiltonEngine::OpenGL::Render(modelLoc);
 
-		//glBindVertexArray(HamiltonEngine::Globals::PrimativesBuffers["cube"].VAO);
-		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
-
-		for (auto [Entity, StateC] : RigidBodyView.each())
-		{
-
-			HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"], StateC.Transform, modelLoc);
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, StateC.Transform.data());
-
-			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
-
-		}
-
-		// Use a different texture for the sping ends
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 2);
-
-		auto Springs = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::SpringPotentialComponent>();
-		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(1.0f, 1.0f, 1.0f);
-		int a = 0;
-		for (auto [Entity, SpringComp] : Springs.each())
-		{
-			auto Parent = HamiltonEngine::Globals::Registry.get<HamiltonEngine::Physics::RigidBodyStateComponent>(SpringComp.ParentEntity);
-
-			Eigen::Affine3f SpringWorldTransform = Parent.Transform.translate(SpringComp.AnchorPointBody)
-																	.scale(SpringModelScale);
-			
-			HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"], SpringWorldTransform, modelLoc);
-		}
 
 		// swap buffers and call events
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-
-		printf("%d\n", glGetError());
 	}
 	
 	std::cout << "There were " << HamiltonEngine::Globals::FrameCount << " frames rendered." << std::endl;
