@@ -218,6 +218,8 @@
   <ItemGroup>
     <None Include="Source\Shaders\BasicShader\fragmentShader.fs" />
     <None Include="Source\Shaders\BasicShader\vertexShader.vs" />
+    <None Include="Source\Shaders\LightingShader\fragmentShader.fs" />
+    <None Include="Source\Shaders\LightingShader\vertexShader.vs" />
     <None Include="Source\Shaders\LightShader\fragmentShader.fs" />
     <None Include="Source\Shaders\LightShader\vertexShader.vs" />
     <None Include="Source\Shaders\TextureOnlyShader\fragmentShader.fs" />

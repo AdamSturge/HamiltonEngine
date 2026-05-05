@@ -50,11 +50,14 @@ int main(int argc, char** argv)
 	HamiltonEngine::OpenGL::CreateBasicTextures();
 	PopulatePrimativeMap();
 
-	HamiltonEngine::OpenGL::Shader simpleShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\LightShader\\vertexShader.vs",
-		"Source\\Shaders\\LightShader\\fragmentShader.fs");
-	simpleShader.use();
-	simpleShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-	simpleShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+	HamiltonEngine::OpenGL::Shader lightingShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\LightingShader\\vertexShader.vs",
+		"Source\\Shaders\\LightingShader\\fragmentShader.fs");
+	lightingShader.use();
+	lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
+	lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
+
+	HamiltonEngine::OpenGL::Shader lightShader = HamiltonEngine::OpenGL::Shader::Shader("source\\shaders\\LightShader\\vertexshader.vs",
+			"source\\shaders\\LightShader\\fragmentshader.fs");
 
 	// Setup and use the Camera
 	// This conversion is kind of gross due to the Camera Vectors being stored as Eigen::Vector3f and no direct conversion
@@ -95,6 +98,24 @@ int main(int argc, char** argv)
 	{
 		CreateTestObjects();
 	}
+
+	HamiltonEngine::OpenGL::TransformComponent TestObj {
+		Eigen::Vector3f(0.0f, 0.0f, 0.0f),
+			0.0f,
+			Eigen::Vector3f(0.0f, 0.0f, 0.0f),
+			Eigen::Vector3f(1.0f, 1.0f, 1.0f)
+	};
+
+	HamiltonEngine::OpenGL::TransformComponent LightObj {
+		Eigen::Vector3f(3.0f, 0.0f, 3.0f),
+			0.0f,
+			Eigen::Vector3f(0.0f, 0.0f, 0.0f),
+			Eigen::Vector3f(1.0f, 1.0f, 1.0f)
+	};
+
+
+
+
 	
 	while (!glfwWindowShouldClose(window)) {
 		++HamiltonEngine::Globals::FrameCount;
@@ -120,13 +141,13 @@ int main(int argc, char** argv)
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, 2);
 
-		simpleShader.use();
+		lightingShader.use();
 		
-		GLint modelLoc = glGetUniformLocation(simpleShader.ID, "model");		
-		GLint viewLoc = glGetUniformLocation(simpleShader.ID, "view");
+		GLint modelLoc = glGetUniformLocation(lightingShader.ID, "model");
+		GLint viewLoc = glGetUniformLocation(lightingShader.ID, "view");
 		View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition, Camera.CameraPosition + Camera.CameraFront, Camera.WorldUp);
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());
-		GLint projLoc = glGetUniformLocation(simpleShader.ID, "projection");
+		GLint projLoc = glGetUniformLocation(lightingShader.ID, "projection");
 
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, Projection.data());
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
@@ -134,7 +155,29 @@ int main(int argc, char** argv)
 		// Will Render anything with a TransformComponent and a OpenGLBuffersComponent
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 1);
-		HamiltonEngine::OpenGL::Render(modelLoc);
+		//HamiltonEngine::OpenGL::Render(modelLoc);
+
+		// Create a test cube
+		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
+			TestObj, modelLoc);
+
+
+		// light
+		lightShader.use();
+		View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition, Camera.CameraPosition + Camera.CameraFront, Camera.WorldUp);
+		modelLoc = glGetUniformLocation(lightShader.ID, "model");
+		viewLoc = glGetUniformLocation(lightShader.ID, "view");
+		projLoc = glGetUniformLocation(lightShader.ID, "projection");
+
+		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());
+		glUniformMatrix4fv(projLoc, 1, GL_FALSE, Projection.data());
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
+
+		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
+			LightObj, modelLoc);
+
+
+
 
 
 		// swap buffers and call events

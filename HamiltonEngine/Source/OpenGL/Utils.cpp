@@ -83,4 +83,6 @@ void PopulatePrimativeMap()
 	HamiltonEngine::Globals::PrimativesBuffers["sphere"] = HamiltonEngine::OpenGL::CreateSphereBuffers(0.5, 36, 36);
 	HamiltonEngine::Globals::PrimativesBuffers["tetra"] = HamiltonEngine::OpenGL::CreateTetraBuffers();
 }
+
+
 	
