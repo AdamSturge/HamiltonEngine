@@ -41,4 +41,16 @@ namespace Eigen
         const Eigen::Vector3f Scale{ 1.0f, 1.0f, 1.0f };
         Transform = Transform.fromPositionOrientationScale(Translation, Rotation, Scale);
     }
+
+    void Save(cereal::JSONOutputArchive& Record, const Diagonal3f& Matrix)
+    {
+        Record(cereal::make_nvp("Diagonal",Matrix.diagonal()));
+    }
+
+    void Load(cereal::JSONInputArchive& Record, Diagonal3f& Matrix)
+    {
+        Eigen::Vector3f Diagonal{ 0.0f,0.0f,0.0f };
+        Record(cereal::make_nvp("Diagonal", Diagonal));
+        Matrix.diagonal() << Diagonal;
+    }
 }

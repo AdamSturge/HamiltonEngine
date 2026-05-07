@@ -10,14 +10,14 @@
     "value8": 6,
     "value9": 7,
     "value10": 2,
-    "value11": 2,
+    "value11": 0,
     "value12": {
         "cereal_class_version": 1,
         "Transform": {
             "Translation": {
-                "X": -10.0,
-                "Y": 0.0,
-                "Z": 0.0
+                "X": 0.0,
+                "Y": 0.0027597856242209675,
+                "Z": 0.001370085752569139
             },
             "Rotation": {
                 "cereal_class_version": 1,
@@ -26,22 +26,56 @@
                 "Roll": 0.0
             }
         },
-        "Mass": 4.0
+        "Mass": 1.0,
+        "LinearMomentum": {
+            "X": 0.0,
+            "Y": 0.10399993509054184,
+            "Z": 0.05197662487626076
+        },
+        "InertiaTensor": {
+            "Diagonal": {
+                "X": 1.0,
+                "Y": 1.0,
+                "Z": 1.0
+            }
+        },
+        "AngularMomentum": {
+            "X": 0.10395307838916779,
+            "Y": 0.0,
+            "Z": 0.0
+        }
     },
-    "value13": 4,
+    "value13": 2,
     "value14": {
         "Transform": {
             "Translation": {
-                "X": 2.0,
-                "Y": 0.0,
+                "X": 0.0,
+                "Y": 2.0,
                 "Z": 0.0
             },
             "Rotation": {
-                "Pitch": 34.0,
-                "Yaw": 10.0,
+                "Pitch": 0.0,
+                "Yaw": 0.0,
                 "Roll": 0.0
             }
         },
-        "Mass": 1.0
+        "Mass": 1.0,
+        "LinearMomentum": {
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+        },
+        "InertiaTensor": {
+            "Diagonal": {
+                "X": 1.0,
+                "Y": 1.0,
+                "Z": 1.0
+            }
+        },
+        "AngularMomentum": {
+            "X": 0.0,
+            "Y": 0.0,
+            "Z": 0.0
+        }
     }
 }

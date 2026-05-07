@@ -30,11 +30,17 @@ namespace HamiltonEngine::Physics
     {
         Record(cereal::make_nvp("Transform", Component.Transform));
         Record(cereal::make_nvp("Mass",Component.Mass));
+        Record(cereal::make_nvp("LinearMomentum",Component.LinearMomentum));
+        Record(cereal::make_nvp("InertiaTensor",Component.InertiaTensor));
+        Record(cereal::make_nvp("AngularMomentum",Component.AngularMomentum));
     }
 
     void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version)
     {
         Record(Component.Transform);
         Record(Component.Mass);
+        Record(Component.LinearMomentum);
+        Record(Component.InertiaTensor);
+        Record(Component.AngularMomentum);
     }
 }

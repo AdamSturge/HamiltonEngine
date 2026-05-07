@@ -191,8 +191,8 @@ int main(int argc, char** argv)
 	std::cout << "The average frame time " << glfwGetTime() / HamiltonEngine::Globals::FrameCount << std::endl;
 	glfwTerminate();
 
-	//constexpr bool OverwriteLevelFile = true;
-	//HamiltonEngine::Serialization::SerializeEnttRegistryAsJson(HamiltonEngine::Globals::Registry, 
-	//	"TestLevel.json", OverwriteLevelFile);
+	/*constexpr bool OverwriteLevelFile = true;
+	HamiltonEngine::Serialization::SerializeEnttRegistryAsJson(HamiltonEngine::Globals::Registry, 
+		StartingLevel, OverwriteLevelFile);*/
 	return 0;
 }
