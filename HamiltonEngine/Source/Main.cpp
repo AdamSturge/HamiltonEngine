@@ -122,6 +122,8 @@ int main(int argc, char** argv)
 
 	int LightOrbitRadius = 3.0f;
 
+	Eigen::Vector3f LightColor = Eigen::Vector3f(0.5f, 0.5f, 0.5f);
+
 	while (!glfwWindowShouldClose(window)) {
 		++HamiltonEngine::Globals::FrameCount;
 
@@ -162,10 +164,29 @@ int main(int argc, char** argv)
 		glBindTexture(GL_TEXTURE_2D, 1);
 		//HamiltonEngine::OpenGL::Render(modelLoc);
 
-		// Create a test cube
+		LightColor = Eigen::Vector3f(sin(CurTime/2), sin(CurTime/3), sin(CurTime/4));
 
+		// Create a test cube
 		lightingShader.setVec3("lightPos", LightObj.Position);
 		lightingShader.setVec3("viewPos", Camera.CameraPosition);
+
+		lightingShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
+		lightingShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+		lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+		lightingShader.setFloat("material.shininess", 32.0f);
+
+		//lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
+		//lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
+		//lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
+
+		//lightingShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
+		//lightingShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+		//lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+		//lightingShader.setFloat("material.shininess", 32.0f);
+		
+		lightingShader.setVec3("light.ambient", LightColor);
+		lightingShader.setVec3("light.diffuse", LightColor);
+		lightingShader.setVec3("light.specular", LightColor);
 
 		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"],
 			TestObj, modelLoc);
@@ -181,6 +202,7 @@ int main(int argc, char** argv)
 		viewLoc = glGetUniformLocation(lightShader.ID, "view");
 		projLoc = glGetUniformLocation(lightShader.ID, "projection");
 
+		lightShader.setVec3("LightColor", LightColor);
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, Projection.data());
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
