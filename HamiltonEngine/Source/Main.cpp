@@ -107,16 +107,14 @@ int main(int argc, char** argv)
 	};
 
 	HamiltonEngine::OpenGL::TransformComponent LightObj {
-		Eigen::Vector3f(3.0f, 0.0f, 3.0f),
+		Eigen::Vector3f(3.0f, 0.0f, 1.5f),
 			0.0f,
 			Eigen::Vector3f(0.0f, 0.0f, 0.0f),
-			Eigen::Vector3f(1.0f, 1.0f, 1.0f)
+			Eigen::Vector3f(0.5f, 0.5f, 0.5f)
 	};
 
+	int LightOrbitRadius = 3.0f;
 
-
-
-	
 	while (!glfwWindowShouldClose(window)) {
 		++HamiltonEngine::Globals::FrameCount;
 
@@ -158,7 +156,11 @@ int main(int argc, char** argv)
 		//HamiltonEngine::OpenGL::Render(modelLoc);
 
 		// Create a test cube
-		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
+
+		lightingShader.setVec3("lightPos", LightObj.Position);
+		lightingShader.setVec3("viewPos", Camera.CameraPosition);
+
+		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"],
 			TestObj, modelLoc);
 
 
@@ -172,6 +174,8 @@ int main(int argc, char** argv)
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, Projection.data());
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
+
+		//LightObj.Position = Eigen::Vector3f(3 *sin(CurTime),3 * cos(CurTime), LightObj.Position.z());;
 
 		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
 			LightObj, modelLoc);

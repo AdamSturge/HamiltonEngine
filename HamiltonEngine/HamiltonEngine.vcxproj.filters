@@ -162,6 +162,9 @@
     <Filter Include="Source\Shaders\TextureOnlyShader">
       <UniqueIdentifier>{91b585d2-cb3b-4465-8ab3-8ba39486887f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Shaders\LightingShader">
+      <UniqueIdentifier>{850a259e-3c69-49d4-98cf-031ba7fda9b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
@@ -299,6 +302,12 @@
     </None>
     <None Include="Source\Shaders\TextureOnlyShader\vertexShader.vs">
       <Filter>Source\Shaders\TextureOnlyShader</Filter>
+    </None>
+    <None Include="Source\Shaders\LightingShader\fragmentShader.fs">
+      <Filter>Source\Shaders\LightingShader</Filter>
+    </None>
+    <None Include="Source\Shaders\LightingShader\vertexShader.vs">
+      <Filter>Source\Shaders\LightingShader</Filter>
     </None>
   </ItemGroup>
 </Project>
