@@ -32,6 +32,6 @@ void main()
 
 
 	vec3 result = (ambient + diffuse + specular) * objectColor;
-	//vec3 result = objectColor * norm;
+	//vec3 result =  norm;
 	FragColor = vec4(result, 1.0);
 } 

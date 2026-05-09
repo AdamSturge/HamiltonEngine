@@ -123,7 +123,7 @@ namespace HamiltonEngine::OpenGL
 		unsigned int InterleavedVerticiesSize = InterleavedVerts.size() * sizeof(GLfloat);
 		unsigned int InterleavedTextCoordsSize = InterleavedTextCoords.size() * sizeof(GLfloat);
 
-		unsigned int TotalBufferSize = VertBufferSize + TextCoordBufferSize; // TODO: Add Normals once I do lightning
+		unsigned int TotalBufferSize = VertBufferSize + NormalsBufferSize + TextCoordBufferSize; // TODO: Add Normals once I do lightning
 
 		glBindVertexArray(buffs.VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, buffs.VBO);
@@ -142,8 +142,8 @@ namespace HamiltonEngine::OpenGL
 		buffs.count = InterleavedVerts.size();
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)(InterleavedVerticiesSize));
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)(InterleavedVerticiesSize + NormalsBufferSize));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)(VertBufferSize));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)(VertBufferSize + NormalsBufferSize));
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 

@@ -106,6 +106,13 @@ int main(int argc, char** argv)
 			Eigen::Vector3f(1.0f, 1.0f, 1.0f)
 	};
 
+	HamiltonEngine::OpenGL::TransformComponent TestObj2 {
+		Eigen::Vector3f(0.0f, -3.0f, 0.0f),
+			0.0f,
+			Eigen::Vector3f(0.0f, 0.0f, 0.0f),
+			Eigen::Vector3f(1.0f, 1.0f, 1.0f)
+	};
+
 	HamiltonEngine::OpenGL::TransformComponent LightObj {
 		Eigen::Vector3f(3.0f, 0.0f, 1.5f),
 			0.0f,
@@ -163,6 +170,9 @@ int main(int argc, char** argv)
 		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"],
 			TestObj, modelLoc);
 
+		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
+			TestObj2, modelLoc);
+
 
 		// light
 		lightShader.use();
@@ -175,7 +185,7 @@ int main(int argc, char** argv)
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, Projection.data());
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
 
-		//LightObj.Position = Eigen::Vector3f(3 *sin(CurTime),3 * cos(CurTime), LightObj.Position.z());;
+		LightObj.Position = Eigen::Vector3f(LightOrbitRadius *sin(CurTime), LightOrbitRadius * cos(CurTime), LightObj.Position.z());;
 
 		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
 			LightObj, modelLoc);
