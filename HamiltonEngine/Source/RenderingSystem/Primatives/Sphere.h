@@ -1,6 +1,6 @@
 #pragma once
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
 	OpenGLBuffersComponent CreateSphereBuffers(float Radius, int StackCount, int SectorCount);
 	entt::entity CreateSphereEntity(TransformComponent trans, float Radius, int StackCount, int SectorCount);

@@ -1,5 +1,4 @@
 #include "PrecompiledHeader/Pch.h"
-
 #include "Globals.h"
 
 
@@ -10,13 +9,13 @@ namespace HamiltonEngine::Globals
 	ConfigurationVariable<float> Epsilon = ConfigurationVariable<float>("Epsilon", 1e-4f);
 
 
-	// Rendering + OpenGL stuff
+	// Rendering + RenderingSystem stuff
 	GLuint FrameCount = 0;
-	std::map<std::string, HamiltonEngine::OpenGL::OpenGLBuffersComponent>  PrimativesBuffers = std::map<std::string,HamiltonEngine::OpenGL::OpenGLBuffersComponent>();
+	std::map<std::string, HamiltonEngine::RenderingSystem::OpenGLBuffersComponent>  PrimativesBuffers = std::map<std::string,HamiltonEngine::RenderingSystem::OpenGLBuffersComponent>();
 
 	//EnTT
 	entt::registry Registry = entt::registry();
 
 	// Control States
-	HamiltonEngine::OpenGL::Camera ActiveCamera;
+	HamiltonEngine::RenderingSystem::Camera ActiveCamera;
 }

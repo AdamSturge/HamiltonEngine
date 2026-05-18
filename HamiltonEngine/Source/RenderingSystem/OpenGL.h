@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
 	const int UNSET = -1;
 
@@ -50,12 +50,12 @@ namespace HamiltonEngine::OpenGL
 		entt::entity EntityID;
 	};
 
-	TextureComponent CreateTextureComponent(std::string Path, GLuint InternalFormat, GLuint Format, GLuint Type, bool FlipVertically);
+	bool SetupRenderingSystem();
+
 	TransformComponent CreateTransformComponent();
 	ShaderComponent CreateShaderComponent();
 	OpenGLBuffersComponent CreateOpenGLBuffersComponent(bool CreateEBO);
 
-	void CreateBasicTextures(); // This is mainly for testing purposes
 	entt::entity CreateRenderableEntity(OpenGLBuffersComponent Buffs, TransformComponent Trans);
 
 	void Render(GLint modelLoc);

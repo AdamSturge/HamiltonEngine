@@ -1,11 +1,11 @@
 #include <PrecompiledHeader/Pch.h>
 #include <Configuration/Globals.h>
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/Utils.h>
+#include <RenderingSystem/OpenGL.h>
+#include <RenderingSystem/Utils.h>
 #include "Tetra.h"
 #include <Eigen/Dense>
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
 	OpenGLBuffersComponent CreateTetraBuffers()
 	{

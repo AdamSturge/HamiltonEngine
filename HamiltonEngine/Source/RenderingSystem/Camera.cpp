@@ -4,7 +4,7 @@
 #include <Configuration/ConfigurationVariable.h>
 #include "Configuration/Globals.h"
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
 	// CAMERA DEFAULTS
 	const Eigen::Vector3f DEFAULT_CAMERA_POSITION(-25.0f, 0.0f, 0.0f);
@@ -59,7 +59,7 @@ namespace HamiltonEngine::OpenGL
 		return res;
 	}
 
-	Eigen::Matrix4f CameraLookAt(HamiltonEngine::OpenGL::Camera& Camera, Eigen::Vector3f Target)
+	Eigen::Matrix4f CameraLookAt(HamiltonEngine::RenderingSystem::Camera& Camera, Eigen::Vector3f Target)
 	{
 		Eigen::Vector3f f = (Target - Camera.CameraPosition).normalized();
 		Eigen::Vector3f u = Camera.WorldUp.normalized();
@@ -67,15 +67,15 @@ namespace HamiltonEngine::OpenGL
 		u = s.cross(f);
 
 		Eigen::Matrix4f res;
-		res << s.x(), s.y(), s.z(), -s.dot(Camera.CameraPosition),
-			   u.x(), u.y(), u.z(), -u.dot(Camera.CameraPosition),
+		res <<  s.x(),  s.y(),  s.z(), -s.dot(Camera.CameraPosition),
+			    u.x(),  u.y(),  u.z(), -u.dot(Camera.CameraPosition),
 			   -f.x(), -f.y(), -f.z(),  f.dot(Camera.CameraPosition),
 			   0,0,0,1;
 
 		return res;
 	}
 
-	void ProcessMouseMovement(HamiltonEngine::OpenGL::Camera& Camera, float DeltaX, float DeltaY)
+	void ProcessMouseMovement(HamiltonEngine::RenderingSystem::Camera& Camera, float DeltaX, float DeltaY)
 	{
 		float MouseSensitivity = HamiltonEngine::ConfigurationVariable<float>("MouseSensitivity", 0.1f);
 		DeltaX *= MouseSensitivity;
@@ -94,7 +94,7 @@ namespace HamiltonEngine::OpenGL
 
 	}
 
-	void ProcessKeyboardMovement(GLFWwindow* Window, HamiltonEngine::OpenGL::Camera& Camera, CameraDirection dir, float DeltaTime)
+	void ProcessKeyboardMovement(GLFWwindow* Window, HamiltonEngine::RenderingSystem::Camera& Camera, CameraDirection dir, float DeltaTime)
 	{
 
 		//HamiltonEngine::OpenGL::Camera& camera = HamiltonEngine::Globals::ActiveCamera;
@@ -120,7 +120,7 @@ namespace HamiltonEngine::OpenGL
 		}
 	}
 
-	void UpdateCameraVectors(HamiltonEngine::OpenGL::Camera& Camera)
+	void UpdateCameraVectors(HamiltonEngine::RenderingSystem::Camera& Camera)
 	{
 
 		Eigen::Vector3f NewFront;

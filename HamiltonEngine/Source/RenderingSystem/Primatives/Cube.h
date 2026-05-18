@@ -1,7 +1,7 @@
 #pragma once
-#include <OpenGL/OpenGL.h>
+#include <RenderingSystem/OpenGL.h>
 
-namespace HamiltonEngine::OpenGL {
+namespace HamiltonEngine::RenderingSystem {
 	const float UNIT_CUBE_VERTS[] =
 	{
 			-0.5f, -0.5f, -0.5f,
@@ -137,7 +137,7 @@ namespace HamiltonEngine::OpenGL {
 		0.0f, 1.0f
 	};
 
-	HamiltonEngine::OpenGL::OpenGLBuffersComponent CreateCubeBuffers();
+	HamiltonEngine::RenderingSystem::OpenGLBuffersComponent CreateCubeBuffers();
 	entt::entity CreateCubeEntity(TransformComponent Trans);
 	entt::entity CreateCubeEntity();
 	void CreateCubeEntities(int count);

@@ -1,52 +1,44 @@
 #include <PrecompiledHeader/Pch.h>
-#include "OpenGL.h"
 #include "Configuration/Globals.h"
-#include "OpenGL/Texture.h"
-#include <OpenGL/Utils.h>
+#include "OpenGL.h"
+#include "Window.h"
+#include <RenderingSystem/Utils.h>
+#include "RenderingSystem/Texture.h"
 
-#define STB_IMAGE_IMPLEMENTATION 
-#include "stb_image.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
-
-	TextureComponent CreateTextureComponent(std::string Path, GLuint InternalFormat, GLuint Format, GLuint Type, bool FlipVertically = false)
+	bool SetupRenderingSystem()
 	{
-		TextureComponent Tc;
+		HamiltonEngine::ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
+		HamiltonEngine::ConfigurationVariable<int> WindowWidth("WindowWidth", 600);
+		HamiltonEngine::ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
 
-		GLuint TexID;
-		glGenTextures(1, &TexID); // OpenGL Texture ID
-		glBindTexture(GL_TEXTURE_2D, TexID);
 
-		Tc.ID = TexID;
-		Tc.FilePath = Path;
-		Tc.InternalFormat = InternalFormat;
-		Tc.Format;
-		Tc.Type;
-		Tc.FlipVertically;
-
-		int Width = 0, Height = 0, NRChannels;
-
-		stbi_set_flip_vertically_on_load(FlipVertically);
-
-		unsigned char* data = stbi_load(Path.c_str(), &Width, &Height, &NRChannels, 0);
-
-		if (data)
+		if (!glfwInit()) // Initialize OpenGL
 		{
-			glTexImage2D(GL_TEXTURE_2D, 0, InternalFormat, Width, Height, 0, Format, Type, data);
-			glGenerateMipmap(GL_TEXTURE_2D);
+			HAMILTON_LOG(Graphics, Critical, "OpenGL failed to initialize. Exiting.")
+			return false;
 		}
-		else
+
+		GLFWwindow* window = HamiltonEngine::RenderingSystem::createWindow(WindowHeight, WindowWidth, ((std::string)WindowName).c_str());
+
+		glfwSetCursorPos(window, WindowHeight / 2, WindowWidth / 2);
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glEnable(GL_DEPTH_TEST);
+
+		if (window == NULL)
 		{
-			std::cout << "Failed to load textur at: " << Path << std::endl;
+			return false;
 		}
-		stbi_image_free(data);
 
-		glBindTexture(GL_TEXTURE_2D, 0); // unbind after creation; technically this is considered an antipattern
+		PopulatePrimativeMap();
 
-		return Tc;
 	}
-	
+
+
 	TransformComponent CreateTransformComponent()
 	{
 		TransformComponent trans;
@@ -78,37 +70,6 @@ namespace HamiltonEngine::OpenGL
 			buffs.EBO = -1;
 		}
 		return buffs;
-
-	}
-
-	void CreateBasicTextures()
- 	{
-
-		entt::registry& Reg = HamiltonEngine::Globals::Registry;
-		auto ent = Reg.create();
-
-		std::string Tex1Path = "Assets\\Textures\\container.jpg";
-
-		TextureComponent tex1 = CreateTextureComponent(Tex1Path, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE, false);
-		glBindTexture(GL_TEXTURE_2D, tex1.ID);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-		Reg.emplace<TextureComponent>(ent, tex1);
-	
-		ent = Reg.create();
-
-		std::string Tex2Path  = "Assets\\Textures\\awesomeface.png";
-		TextureComponent tex2 = CreateTextureComponent(Tex2Path,  GL_RGBA, GL_RGBA, GL_UNSIGNED_BYTE, false);
-		glBindTexture(GL_TEXTURE_2D, tex2.ID);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		Reg.emplace<TextureComponent>(ent, tex2);
 
 	}
 

@@ -6,6 +6,7 @@ struct Material {
 	vec3 diffuse;
 	vec3 specular;
 	float shininess;
+	sampler2D diffuseMap;
 };
 
 uniform Material material;
@@ -23,6 +24,7 @@ uniform Light light;
 // texture samplers - take the texture UNIT/channel as an int when passing in data
 uniform vec3 objectColor;
 uniform float mixRatio;
+in vec2 TexCoords;
 
 // Lighting
 in vec3 Normal;
@@ -34,14 +36,14 @@ uniform int specularPower;
 void main()
 {
 	// ambient
-	vec3 ambient = light.ambient * material.ambient;
-
+	vec3 ambient = light.ambient * vec3(texture(material.diffuseMap, TexCoords));
 
 	// diffuse
 	vec3 norm = normalize(Normal);
 	vec3 lightDir = normalize(lightPos - FragPos);
 	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = light.diffuse * (diff * material.diffuse);
+	//vec3 diffuse = light.diffuse * (diff * material.diffuse);
+	vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuseMap, TexCoords));
 
 	// specular
 	vec3 viewDir = normalize(viewPos - FragPos);

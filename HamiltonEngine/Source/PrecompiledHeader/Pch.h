@@ -30,4 +30,3 @@
 //Our code. Add stuff that doesn't change often
 #include "Logging/Logging.h"
 #include "ECS/EntityToUnderlyingType.h"
-

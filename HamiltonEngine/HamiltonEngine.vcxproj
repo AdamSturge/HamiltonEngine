@@ -143,15 +143,6 @@
     <ClInclude Include="Source\Configuration\Globals.h" />
     <ClInclude Include="Source\ECS\EntityToUnderlyingType.h" />
     <ClInclude Include="Source\Logging\Logging.h" />
-    <ClInclude Include="Source\OpenGL\Camera.h" />
-    <ClInclude Include="Source\OpenGL\OpenGL.h" />
-    <ClInclude Include="Source\OpenGL\Primatives\Cube.h" />
-    <ClInclude Include="Source\OpenGL\Primatives\Sphere.h" />
-    <ClInclude Include="Source\OpenGL\Primatives\Tetra.h" />
-    <ClInclude Include="Source\OpenGL\Shader.h" />
-    <ClInclude Include="Source\OpenGL\SimpleShapes.h" />
-    <ClInclude Include="Source\OpenGL\Texture.h" />
-    <ClInclude Include="Source\OpenGL\Window.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerA.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerB.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerFlowComposition.h" />
@@ -170,6 +161,17 @@
     <ClInclude Include="Source\Physics\Systems\ParticleSystem.h" />
     <ClInclude Include="Source\Physics\Systems\RigidBodySystem.h" />
     <ClInclude Include="Source\PrecompiledHeader\Pch.h" />
+    <ClInclude Include="Source\RenderingSystem\Camera.h" />
+    <ClInclude Include="Source\RenderingSystem\Light.h" />
+    <ClInclude Include="Source\RenderingSystem\OpenGL.h" />
+    <ClInclude Include="Source\RenderingSystem\Primatives\Cube.h" />
+    <ClInclude Include="Source\RenderingSystem\Primatives\Sphere.h" />
+    <ClInclude Include="Source\RenderingSystem\Primatives\Tetra.h" />
+    <ClInclude Include="Source\RenderingSystem\Shader.h" />
+    <ClInclude Include="Source\RenderingSystem\SimpleShapes.h" />
+    <ClInclude Include="Source\RenderingSystem\Texture.h" />
+    <ClInclude Include="Source\RenderingSystem\Utils.h" />
+    <ClInclude Include="Source\RenderingSystem\Window.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
@@ -182,15 +184,6 @@
     <ClCompile Include="Source\Configuration\Globals.cpp" />
     <ClCompile Include="Source\Logging\Logging.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\OpenGL\Camera.cpp" />
-    <ClCompile Include="Source\OpenGL\OpenGL.cpp" />
-    <ClCompile Include="Source\OpenGL\Primatives\Cube.cpp" />
-    <ClCompile Include="Source\OpenGL\Primatives\Sphere.cpp" />
-    <ClCompile Include="Source\OpenGL\Primatives\Tetra.cpp" />
-    <ClCompile Include="Source\OpenGL\Shader.cpp" />
-    <ClCompile Include="Source\OpenGL\Texture.cpp" />
-    <ClCompile Include="Source\OpenGL\Utils.cpp" />
-    <ClCompile Include="Source\OpenGL\Window.cpp" />
     <ClCompile Include="Source\Physics\Integrators\EulerA.cpp" />
     <ClCompile Include="Source\Physics\Integrators\EulerB.cpp" />
     <ClCompile Include="Source\Physics\Integrators\EulerSplitting.cpp" />
@@ -211,6 +204,16 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Camera.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Light.cpp" />
+    <ClCompile Include="Source\RenderingSystem\OpenGL.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Primatives\Cube.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Primatives\Sphere.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Primatives\Tetra.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Shader.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Texture.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Utils.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Libraries\eigen-5.0.0\natvis\eigen.natvis" />

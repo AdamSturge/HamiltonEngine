@@ -1,12 +1,12 @@
 #include <PrecompiledHeader/Pch.h>
 #include "Cube.h"
 #include "Configuration/Globals.h"
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/Utils.h>
+#include <RenderingSystem/OpenGL.h>
+#include <RenderingSystem/Utils.h>
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
-	HamiltonEngine::OpenGL::OpenGLBuffersComponent CreateCubeBuffers()
+	HamiltonEngine::RenderingSystem::OpenGLBuffersComponent CreateCubeBuffers()
 	{
 		OpenGLBuffersComponent Buffs;
 		Buffs = CreateOpenGLBuffersComponent(false);

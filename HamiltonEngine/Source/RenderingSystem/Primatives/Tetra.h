@@ -1,6 +1,6 @@
 #pragma once
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
     const float UNIT_TETRA_VERTS[] =
     {

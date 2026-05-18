@@ -2,7 +2,7 @@
 
 #include "Shader.h"
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
 	Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	{

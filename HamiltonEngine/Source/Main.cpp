@@ -11,16 +11,16 @@
 #include "Physics/State/RigidBodyState.h"
 #include "Physics/Potentials/SpringPotential.h"
 
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/Window.h>
-#include <OpenGL/Shader.h>
-#include "OpenGL/Texture.h"
+#include <RenderingSystem/OpenGL.h>
+#include <RenderingSystem/Window.h>
+#include <RenderingSystem/Shader.h>
+#include "RenderingSystem/Texture.h"
 
 #include <iostream>
 
-#include <OpenGL/SimpleShapes.h>
-#include <OpenGL/Utils.h>
-#include "OpenGL/Camera.h"
+#include <RenderingSystem/SimpleShapes.h>
+#include <RenderingSystem/Utils.h>
+#include "RenderingSystem/Camera.h"
 
 int main(int argc, char** argv)
 {
@@ -34,9 +34,13 @@ int main(int argc, char** argv)
 	HamiltonEngine::Physics::CreateParticleEntities();
 	HamiltonEngine::Physics::CreateRigidBodyEntities();
 
-	glfwInit(); // Initialize OpenGL
-	
-	GLFWwindow* window = HamiltonEngine::OpenGL::createWindow(WindowHeight, WindowWidth, ((std::string)WindowName).c_str());
+	if (!glfwInit()) // Initialize OpenGL
+	{
+		HAMILTON_LOG(Graphics, Critical, "OpenGL failed to initialize. Exiting.")
+		return -1;
+	} 
+
+	GLFWwindow* window = HamiltonEngine::RenderingSystem::createWindow(WindowHeight, WindowWidth, ((std::string)WindowName).c_str());
 
 	glfwSetCursorPos(window, WindowHeight / 2, WindowWidth / 2);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -47,36 +51,35 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	HamiltonEngine::OpenGL::CreateBasicTextures();
 	PopulatePrimativeMap();
 
-	HamiltonEngine::OpenGL::Shader lightingShader = HamiltonEngine::OpenGL::Shader::Shader("Source\\Shaders\\LightingShader\\vertexShader.vs",
+	HamiltonEngine::RenderingSystem::Shader lightingShader = HamiltonEngine::RenderingSystem::Shader::Shader("Source\\Shaders\\LightingShader\\vertexShader.vs",
 		"Source\\Shaders\\LightingShader\\fragmentShader.fs");
 	lightingShader.use();
 	lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
 	lightingShader.setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
-	HamiltonEngine::OpenGL::Shader lightShader = HamiltonEngine::OpenGL::Shader::Shader("source\\shaders\\LightShader\\vertexshader.vs",
+	HamiltonEngine::RenderingSystem::Shader lightShader = HamiltonEngine::RenderingSystem::Shader::Shader("source\\shaders\\LightShader\\vertexshader.vs",
 			"source\\shaders\\LightShader\\fragmentshader.fs");
 
 	// Setup and use the Camera
 	// This conversion is kind of gross due to the Camera Vectors being stored as Eigen::Vector3f and no direct conversion
-	std::vector<float> CameraStartPositionVec = HamiltonEngine::ConfigurationVariable<std::vector<float>>("CameraStartPosition", { HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.x(),
-																																   HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.y(),
-																																   HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION.z() });
+	std::vector<float> CameraStartPositionVec = HamiltonEngine::ConfigurationVariable<std::vector<float>>("CameraStartPosition", { HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_POSITION.x(),
+																																   HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_POSITION.y(),
+																																   HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_POSITION.z() });
 	Eigen::Vector3f CameraStartPosition = Eigen::Vector3f(CameraStartPositionVec.data());
 
 	// Setup and use the Camera
-	HamiltonEngine::Globals::ActiveCamera = HamiltonEngine::OpenGL::Camera{
+	HamiltonEngine::Globals::ActiveCamera = HamiltonEngine::RenderingSystem::Camera{
 			CameraStartPosition, // Some where in space
-			HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT, // Camera is looking at this direction
-			HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP, // Camera can change, but is +Z
+			HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_FRONT, // Camera is looking at this direction
+			HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_UP, // Camera can change, but is +Z
 			Eigen::Vector3f(0, 1.0f, 0.0f), // Right is +Y
 			Eigen::Vector3f(0.0f, 0.0f, 1.0f), // Up is +Z
-			HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW,
-			HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH,
-			HamiltonEngine::OpenGL::DEFAULT_FOV };
-	HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
+			HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_YAW,
+			HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_PITCH,
+			HamiltonEngine::RenderingSystem::DEFAULT_FOV };
+	HamiltonEngine::RenderingSystem::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 
 	std::vector<float> WindowBackgroundColour = HamiltonEngine::ConfigurationVariable<std::vector<float>>("BackgroundColorRGB", { 0.2f, 0.3f, 0.3f });
 	float WindowBackgroundRed = WindowBackgroundColour[0];
@@ -87,33 +90,33 @@ int main(int argc, char** argv)
 	float CurTime = 0.0f;
 	float OldTime = 0.0f;
 	float DeltaTime = 0.0f;
-	float NearClip = HamiltonEngine::ConfigurationVariable("NearClipPlane", HamiltonEngine::OpenGL::DEFAULT_NEAR_CLIP);
-	float FarClip = HamiltonEngine::ConfigurationVariable("FarClipPlane", HamiltonEngine::OpenGL::DEFAULT_FAR_CLIP);
+	float NearClip = HamiltonEngine::ConfigurationVariable("NearClipPlane", HamiltonEngine::RenderingSystem::DEFAULT_NEAR_CLIP);
+	float FarClip = HamiltonEngine::ConfigurationVariable("FarClipPlane", HamiltonEngine::RenderingSystem::DEFAULT_FAR_CLIP);
 
 	Eigen::Affine3f Model = Eigen::Affine3f::Identity();
 	Eigen::Matrix4f View;
-	Eigen::Matrix4f Projection = HamiltonEngine::OpenGL::MakeFrustum(Camera.fov, (float)WindowHeight / WindowWidth, NearClip, FarClip);
+	Eigen::Matrix4f Projection = HamiltonEngine::RenderingSystem::MakeFrustum(Camera.fov, (float)WindowHeight / WindowWidth, NearClip, FarClip);
 
 	if (HamiltonEngine::ConfigurationVariable<int>("CreateTestObjects", false))
 	{
 		CreateTestObjects();
 	}
 
-	HamiltonEngine::OpenGL::TransformComponent TestObj {
+	HamiltonEngine::RenderingSystem::TransformComponent TestObj {
 		Eigen::Vector3f(0.0f, 0.0f, 0.0f),
 			0.0f,
 			Eigen::Vector3f(0.0f, 0.0f, 0.0f),
 			Eigen::Vector3f(1.0f, 1.0f, 1.0f)
 	};
 
-	HamiltonEngine::OpenGL::TransformComponent TestObj2 {
+	HamiltonEngine::RenderingSystem::TransformComponent TestObj2 {
 		Eigen::Vector3f(0.0f, -3.0f, 0.0f),
 			0.0f,
 			Eigen::Vector3f(0.0f, 0.0f, 0.0f),
 			Eigen::Vector3f(1.0f, 1.0f, 1.0f)
 	};
 
-	HamiltonEngine::OpenGL::TransformComponent LightObj {
+	HamiltonEngine::RenderingSystem::TransformComponent LightObj {
 		Eigen::Vector3f(3.0f, 0.0f, 1.5f),
 			0.0f,
 			Eigen::Vector3f(0.0f, 0.0f, 0.0f),
@@ -124,6 +127,11 @@ int main(int argc, char** argv)
 
 	Eigen::Vector3f LightColor = Eigen::Vector3f(0.5f, 0.5f, 0.5f);
 
+	std::string DiffuseMapTexturePath = "Assets\\Textures\\container2.png";
+
+	entt::entity ent = HamiltonEngine::RenderingSystem::CreateTexture(DiffuseMapTexturePath);
+
+
 	while (!glfwWindowShouldClose(window)) {
 		++HamiltonEngine::Globals::FrameCount;
 
@@ -133,8 +141,8 @@ int main(int argc, char** argv)
 		DeltaTime = CurTime - OldTime;
 
 		// input
-		HamiltonEngine::OpenGL::processInput(window);
-		HamiltonEngine::OpenGL::ProcessMovement(window, DeltaTime);
+		HamiltonEngine::RenderingSystem::processInput(window);
+		HamiltonEngine::RenderingSystem::ProcessMovement(window, DeltaTime);
 
 		HamiltonEngine::Physics::ParticleSystem();
 		HamiltonEngine::Physics::RigidBodySystem();
@@ -152,7 +160,7 @@ int main(int argc, char** argv)
 		
 		GLint modelLoc = glGetUniformLocation(lightingShader.ID, "model");
 		GLint viewLoc = glGetUniformLocation(lightingShader.ID, "view");
-		View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition, Camera.CameraPosition + Camera.CameraFront, Camera.WorldUp);
+		View = HamiltonEngine::RenderingSystem::LookAt(Camera.CameraPosition, Camera.CameraPosition + Camera.CameraFront, Camera.WorldUp);
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());
 		GLint projLoc = glGetUniformLocation(lightingShader.ID, "projection");
 
@@ -167,13 +175,16 @@ int main(int argc, char** argv)
 		LightColor = Eigen::Vector3f(sin(CurTime/2), sin(CurTime/3), sin(CurTime/4));
 
 		// Create a test cube
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, HamiltonEngine::Globals::Registry.get<HamiltonEngine::RenderingSystem::TextureIDComponent>(ent).ID);
 		lightingShader.setVec3("lightPos", LightObj.Position);
 		lightingShader.setVec3("viewPos", Camera.CameraPosition);
 
 		lightingShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-		lightingShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+		//lightingShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
 		lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
 		lightingShader.setFloat("material.shininess", 32.0f);
+		lightingShader.setInt("material.diffuseMap", 0);
 
 		//lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
 		//lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
@@ -188,16 +199,16 @@ int main(int argc, char** argv)
 		lightingShader.setVec3("light.diffuse", LightColor);
 		lightingShader.setVec3("light.specular", LightColor);
 
-		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"],
+		HamiltonEngine::RenderingSystem::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"],
 			TestObj, modelLoc);
 
-		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
+		HamiltonEngine::RenderingSystem::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
 			TestObj2, modelLoc);
 
 
 		// light
 		lightShader.use();
-		View = HamiltonEngine::OpenGL::LookAt(Camera.CameraPosition, Camera.CameraPosition + Camera.CameraFront, Camera.WorldUp);
+		View = HamiltonEngine::RenderingSystem::LookAt(Camera.CameraPosition, Camera.CameraPosition + Camera.CameraFront, Camera.WorldUp);
 		modelLoc = glGetUniformLocation(lightShader.ID, "model");
 		viewLoc = glGetUniformLocation(lightShader.ID, "view");
 		projLoc = glGetUniformLocation(lightShader.ID, "projection");
@@ -209,7 +220,7 @@ int main(int argc, char** argv)
 
 		LightObj.Position = Eigen::Vector3f(LightOrbitRadius *sin(CurTime), LightOrbitRadius * cos(CurTime), LightObj.Position.z());;
 
-		HamiltonEngine::OpenGL::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
+		HamiltonEngine::RenderingSystem::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
 			LightObj, modelLoc);
 
 

@@ -11,7 +11,7 @@ namespace
 	float lastY;
 }
 
-namespace HamiltonEngine::OpenGL 
+namespace HamiltonEngine::RenderingSystem 
 {
 	GLFWwindow* createWindow(int width, int height, const char* title)
 	{
@@ -41,10 +41,10 @@ namespace HamiltonEngine::OpenGL
 			glViewport(0, 0, width, height);
 
 			// Register callback functions AFTER we create the window but BEFORE render loop is started
-			glfwSetFramebufferSizeCallback(window, HamiltonEngine::OpenGL::framebuffer_size_callback);
+			glfwSetFramebufferSizeCallback(window, HamiltonEngine::RenderingSystem::framebuffer_size_callback);
 
-			glfwSetCursorPosCallback(window, HamiltonEngine::OpenGL::mouse_callback);
-			glfwSetScrollCallback(window, HamiltonEngine::OpenGL::scroll_callback);
+			glfwSetCursorPosCallback(window, HamiltonEngine::RenderingSystem::mouse_callback);
+			glfwSetScrollCallback(window, HamiltonEngine::RenderingSystem::scroll_callback);
 
 			return window;
 		}
@@ -99,15 +99,15 @@ namespace HamiltonEngine::OpenGL
 		lastX = xpos;
 		lastY = ypos;
 
-		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
+		HamiltonEngine::RenderingSystem::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 		
-		HamiltonEngine::OpenGL::ProcessMouseMovement(Camera, xoffset, yoffset);
+		HamiltonEngine::RenderingSystem::ProcessMouseMovement(Camera, xoffset, yoffset);
 	}
 
 	void ProcessMovement(GLFWwindow* Window, float DeltaTime)
 	{
 
-		HamiltonEngine::OpenGL::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
+		HamiltonEngine::RenderingSystem::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 		const float CameraSpeed = HamiltonEngine::ConfigurationVariable<float>("MovementSpeed", 2.5) * DeltaTime;
 
 		// Release the Camera
@@ -128,30 +128,30 @@ namespace HamiltonEngine::OpenGL
 		// Reset to the default Camera Position
 		if (glfwGetKey(Window, GLFW_KEY_R) == GLFW_PRESS)
 		{
-			Camera.CameraPosition = HamiltonEngine::OpenGL::DEFAULT_CAMERA_POSITION;
-			Camera.CameraFront = HamiltonEngine::OpenGL::DEFAULT_CAMERA_FRONT;
-			Camera.CameraUp = HamiltonEngine::OpenGL::DEFAULT_CAMERA_UP;
-			Camera.yaw = HamiltonEngine::OpenGL::DEFAULT_CAMERA_YAW;
-			Camera.pitch = HamiltonEngine::OpenGL::DEFAULT_CAMERA_PITCH;
+			Camera.CameraPosition = HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_POSITION;
+			Camera.CameraFront = HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_FRONT;
+			Camera.CameraUp = HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_UP;
+			Camera.yaw = HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_YAW;
+			Camera.pitch = HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_PITCH;
 		}
 
 
 		if (glfwGetKey(Window, GLFW_KEY_W) == GLFW_PRESS)
 		{
-			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, FORWARD, DeltaTime);
+			HamiltonEngine::RenderingSystem::ProcessKeyboardMovement(Window, Camera, FORWARD, DeltaTime);
 		}
 		if (glfwGetKey(Window, GLFW_KEY_S) == GLFW_PRESS)
 		{
-			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, BACKWARD, DeltaTime);
+			HamiltonEngine::RenderingSystem::ProcessKeyboardMovement(Window, Camera, BACKWARD, DeltaTime);
 		}
 
 		if (glfwGetKey(Window, GLFW_KEY_A) == GLFW_PRESS)
 		{
-			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, LEFT, DeltaTime);
+			HamiltonEngine::RenderingSystem::ProcessKeyboardMovement(Window, Camera, LEFT, DeltaTime);
 		}
 		if (glfwGetKey(Window, GLFW_KEY_D) == GLFW_PRESS)
 		{
-			HamiltonEngine::OpenGL::ProcessKeyboardMovement(Window, Camera, RIGHT, DeltaTime);
+			HamiltonEngine::RenderingSystem::ProcessKeyboardMovement(Window, Camera, RIGHT, DeltaTime);
 		}
 
 		//if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS && CameraMoved)

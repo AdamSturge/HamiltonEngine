@@ -1,7 +1,7 @@
 #pragma once
 #include <PrecompiledHeader/Pch.h>
 
-namespace HamiltonEngine::OpenGL {
+namespace HamiltonEngine::RenderingSystem {
 
 	class Shader
 	{

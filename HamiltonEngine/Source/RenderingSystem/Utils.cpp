@@ -22,9 +22,9 @@ unsigned RandomRange(unsigned range)
 	}
 }
 
-HamiltonEngine::OpenGL::TransformComponent RandomTransformComponent()
+HamiltonEngine::RenderingSystem::TransformComponent RandomTransformComponent()
 {
-	HamiltonEngine::OpenGL::TransformComponent Trans;
+	HamiltonEngine::RenderingSystem::TransformComponent Trans;
 
 	float x, y, z, s;
 
@@ -42,14 +42,14 @@ HamiltonEngine::OpenGL::TransformComponent RandomTransformComponent()
 	return Trans;
 }
 
-void PrintOpenGLBufferComponentData(HamiltonEngine::OpenGL::OpenGLBuffersComponent buff)
+void PrintOpenGLBufferComponentData(HamiltonEngine::RenderingSystem::OpenGLBuffersComponent buff)
 {
 	printf("Buff Details:\nVAO ID: %d\nVBO ID: %d\nEBO: %d\nDraw Mode: %d\nStart: %d\nCount: %d\n", 
 		buff.VAO, buff.VBO, buff.EBO, buff.DrawMode, buff.start, buff.count);
 
 }
 
-void PrintTransformComponent(HamiltonEngine::OpenGL::TransformComponent Trans)
+void PrintTransformComponent(HamiltonEngine::RenderingSystem::TransformComponent Trans)
 {
 	printf("Transform Component:\n");
 	std::cout << "Position:\n" << Trans.Position << std::endl;
@@ -60,7 +60,7 @@ void PrintTransformComponent(HamiltonEngine::OpenGL::TransformComponent Trans)
 void CreateTestObjects()
 {
 	// This should be a Affine3f Matrix at some point in the future, but conceptually this makes it easier for Joel's brain to process
-	HamiltonEngine::OpenGL::TransformComponent SimpleTransform;
+	HamiltonEngine::RenderingSystem::TransformComponent SimpleTransform;
 	SimpleTransform.Scale = Eigen::Vector3f(1.0f, 1.0f, 1.0f);
 	SimpleTransform.Position = Eigen::Vector3f(0.0f, 0.0f, 0.0f);
 	SimpleTransform.RotationAxis = Eigen::Vector3f(1.0f, 0.0f, 0.0f).normalized();
@@ -79,9 +79,9 @@ void CreateTestObjects()
 
 void PopulatePrimativeMap()
 {
-	HamiltonEngine::Globals::PrimativesBuffers["cube"] = HamiltonEngine::OpenGL::CreateCubeBuffers();
-	HamiltonEngine::Globals::PrimativesBuffers["sphere"] = HamiltonEngine::OpenGL::CreateSphereBuffers(0.5, 36, 36);
-	HamiltonEngine::Globals::PrimativesBuffers["tetra"] = HamiltonEngine::OpenGL::CreateTetraBuffers();
+	HamiltonEngine::Globals::PrimativesBuffers["cube"] = HamiltonEngine::RenderingSystem::CreateCubeBuffers();
+	HamiltonEngine::Globals::PrimativesBuffers["sphere"] = HamiltonEngine::RenderingSystem::CreateSphereBuffers(0.5, 36, 36);
+	HamiltonEngine::Globals::PrimativesBuffers["tetra"] = HamiltonEngine::RenderingSystem::CreateTetraBuffers();
 }
 
 
