@@ -3,5 +3,5 @@
 
 namespace HamiltonEngine::RenderingSystem
 {
-	struct Light {};
+
 }

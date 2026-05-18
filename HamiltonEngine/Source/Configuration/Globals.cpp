@@ -12,7 +12,7 @@ namespace HamiltonEngine::Globals
 	// Rendering + RenderingSystem stuff
 	GLuint FrameCount = 0;
 	std::map<std::string, HamiltonEngine::RenderingSystem::OpenGLBuffersComponent>  PrimativesBuffers = std::map<std::string,HamiltonEngine::RenderingSystem::OpenGLBuffersComponent>();
-
+	GLFWwindow* MaindWindow;
 	//EnTT
 	entt::registry Registry = entt::registry();
 
