@@ -43,13 +43,13 @@ namespace HamiltonEngine::Physics
 					});
 
 
-			entt::entity GravityEntity = Globals::Registry.create();
-			RigidBodyGravityComponent& GravityComponent = Globals::Registry.emplace<RigidBodyGravityComponent>(GravityEntity,
-				RigidBodyGravityComponent{
-					entt::const_handle(Globals::Registry,RigidBodyEntity) //Rigid body parent
-				});
+			//entt::entity GravityEntity = Globals::Registry.create();
+			//RigidBodyGravityComponent& GravityComponent = Globals::Registry.emplace<RigidBodyGravityComponent>(GravityEntity,
+			//	RigidBodyGravityComponent{
+			//		entt::const_handle(Globals::Registry,RigidBodyEntity) //Rigid body parent
+			//	});
 
-			RigidBodyState.PotentialEnergyListHead = entt::const_handle(Globals::Registry, GravityEntity);
+			//RigidBodyState.PotentialEnergyListHead = entt::const_handle(Globals::Registry, GravityEntity);
 		}
 
 		{
@@ -71,7 +71,7 @@ namespace HamiltonEngine::Physics
 						1.0f, // Spring constant
 						0.0f, // Rest length 
 						Eigen::Vector3f(0.0f,0.0f,0.0f), //Anchor point in body coordiantes
-						false
+						true
 					});
 
 				entt::entity SpringEntity1 = Globals::Registry.create();
@@ -81,7 +81,7 @@ namespace HamiltonEngine::Physics
 						entt::const_handle(Globals::Registry,RigidBody1), // Rigid body parent
 						1.0f, // Spring constant
 						0.0f, // Rest length 
-						Eigen::Vector3f(0.0f,0.0f,-1.0f) //Anchor point in body coordiantes
+						Eigen::Vector3f(0.0f,0.0f,0.0f) //Anchor point in body coordiantes
 					});
 
 				SpringComponent0.OtherEntity = entt::const_handle(Globals::Registry, SpringEntity1);

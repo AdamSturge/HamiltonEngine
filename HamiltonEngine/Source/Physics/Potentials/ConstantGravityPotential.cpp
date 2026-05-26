@@ -36,13 +36,28 @@ namespace HamiltonEngine::Physics
 		OutGradLinearPotentialEnergy += Mass * GravitationalAcceleration * Eigen::Vector3f(0.0f, 0.0f, 1.0f);
 	}
 
+	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version)
+	{
+		Record(cereal::make_nvp("Gravity", Component.Gravity));
+	}
+
+	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version)
+	{
+		Record(Component.Gravity);
+	}
+
 	ParticleGravityComponent::ParticleGravityComponent(entt::const_handle Parent)
 		: ParticleEntity{ Parent }
 		, Gravity{ GravitationalAcceleration }
 	{
 	}
 
-	RigidBodyGravityComponent::RigidBodyGravityComponent(entt::const_handle Parent) 
+	RigidBodyGravityComponent::RigidBodyGravityComponent()
+	{
+		Gravity = 9.8f;
+	}
+
+	RigidBodyGravityComponent::RigidBodyGravityComponent(entt::const_handle Parent)
 		: RigidBodyEntity{ Parent }
 		, Gravity{ GravitationalAcceleration }
 	{

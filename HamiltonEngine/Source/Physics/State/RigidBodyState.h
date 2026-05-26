@@ -11,6 +11,7 @@ namespace HamiltonEngine::Physics
 {
 	struct RigidBodyStateComponent
 	{
+		//Needed for serialization
 		RigidBodyStateComponent();
 		
 		RigidBodyStateComponent(const Eigen::Affine3f& Trans,

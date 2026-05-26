@@ -49,6 +49,23 @@ namespace HamiltonEngine::Physics
 		OutGradAngularPotentialEnergy -= BodyPosition.cross(InvRotation * OutGradLinearPotentialEnergy);
 	}
 
+	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version)
+	{
+		Record(cereal::make_nvp("SpringConstant", Component.K));
+	}
+
+	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version)
+	{
+		Record(Component.K);
+	}
+
+	SpringPotentialComponent::SpringPotentialComponent()
+	{
+		K = 1.0f;
+		L = 0.0f;
+		Enabled = false;
+	}
+
 	SpringPotentialComponent::SpringPotentialComponent(entt::const_handle Parent, float SpringConstant,
 		float RestLength, const Eigen::Vector3f& BAnchorPoint, bool IsEnabled)
 		: ParentEntity{ Parent }

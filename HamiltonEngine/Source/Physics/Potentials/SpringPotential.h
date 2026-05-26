@@ -41,6 +41,9 @@ namespace HamiltonEngine::Physics
 
 	struct SpringPotentialComponent
 	{
+		//Needed for serialization
+		SpringPotentialComponent();
+		
 		SpringPotentialComponent(entt::const_handle Parent, float SpringConstant,
 			float RestLength, const Eigen::Vector3f& BAnchorPoint, bool IsEnabled);
 
@@ -61,15 +64,9 @@ namespace HamiltonEngine::Physics
 
 		bool Enabled; //If this end of the spring is enabled
 	};
-	
-	//struct SpringComponent
-	//{
-	//	entt::const_handle Entity1; //Entity on one end of the spring
-	//	entt::const_handle Entity2; //Entity on other end of the spring
-	//	Eigen::Vector3f AttachPoint1; //Attach point for entity 1 in world coordinates
-	//	Eigen::Vector3f AttachPoint2; //Attach point for entity 2 in world coordinates
-	//	float K; //Spring constant
-	//	float L; // Rest length
-	//};
 
+	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version);
+	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version);
 }
+
+CEREAL_CLASS_VERSION(HamiltonEngine::Physics::SpringPotentialComponent, 1);

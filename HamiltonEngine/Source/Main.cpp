@@ -35,14 +35,14 @@ int main(int argc, char** argv)
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
 	const char* StartingLevel = HamiltonEngine::Globals::StartingLevel.Get().c_str();
-	HamiltonEngine::Serialization::DeserializeEnttRegistryFromJson(HamiltonEngine::Globals::Registry, StartingLevel);
+	//HamiltonEngine::Serialization::DeserializeEnttRegistryFromJson(HamiltonEngine::Globals::Registry, StartingLevel);
 	
 	HamiltonEngine::ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
 	HamiltonEngine::ConfigurationVariable<int> WindowWidth("WindowWidth", 600);
 	HamiltonEngine::ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
 
 	//HamiltonEngine::Physics::CreateParticleEntities();
-	//HamiltonEngine::Physics::CreateRigidBodyEntities();
+	HamiltonEngine::Physics::CreateRigidBodyEntities();
 
 	glfwInit(); // Initialize OpenGL
 	
@@ -168,7 +168,7 @@ int main(int argc, char** argv)
 		glBindTexture(GL_TEXTURE_2D, 2);
 
 		auto Springs = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::SpringPotentialComponent>();
-		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(1.0f, 1.0f, 1.0f);
+		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(5.0f, 5.0f, 5.0f);
 		int a = 0;
 		for (auto [Entity, SpringComp] : Springs.each())
 		{
@@ -191,8 +191,8 @@ int main(int argc, char** argv)
 	std::cout << "The average frame time " << glfwGetTime() / HamiltonEngine::Globals::FrameCount << std::endl;
 	glfwTerminate();
 
-	/*constexpr bool OverwriteLevelFile = true;
+	constexpr bool OverwriteLevelFile = true;
 	HamiltonEngine::Serialization::SerializeEnttRegistryAsJson(HamiltonEngine::Globals::Registry, 
-		StartingLevel, OverwriteLevelFile);*/
+		StartingLevel, OverwriteLevelFile);
 	return 0;
 }

@@ -38,6 +38,8 @@ namespace HamiltonEngine::Physics
 
 	struct RigidBodyGravityComponent
 	{
+		//Needed for serialization
+		RigidBodyGravityComponent();
 		RigidBodyGravityComponent(entt::const_handle Parent);
 		
 		//This is a linked list that connects to entities that are designed to compute 
@@ -47,4 +49,9 @@ namespace HamiltonEngine::Physics
 		
 		float Gravity;
 	};
+
+	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version);
+	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version);
 }
+
+CEREAL_CLASS_VERSION(HamiltonEngine::Physics::RigidBodyGravityComponent, 1);
