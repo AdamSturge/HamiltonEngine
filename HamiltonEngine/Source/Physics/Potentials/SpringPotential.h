@@ -41,6 +41,8 @@ namespace HamiltonEngine::Physics
 
 	struct SpringPotentialComponent
 	{
+		SERIALIZATION_VERSION(SpringPotentialComponent, 1)
+		
 		//Needed for serialization
 		SpringPotentialComponent();
 		
@@ -68,5 +70,3 @@ namespace HamiltonEngine::Physics
 	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version);
 	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version);
 }
-
-CEREAL_CLASS_VERSION(HamiltonEngine::Physics::SpringPotentialComponent, 1);

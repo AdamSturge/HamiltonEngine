@@ -104,7 +104,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -173,6 +173,7 @@
     <ClInclude Include="Source\PrecompiledHeader\Pch.h" />
     <ClInclude Include="Source\Serialization\EigenSerialization.h" />
     <ClInclude Include="Source\Serialization\JsonSerialization.h" />
+    <ClInclude Include="Source\Serialization\Version.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
   <ItemGroup>

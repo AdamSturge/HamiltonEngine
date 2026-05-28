@@ -8,25 +8,39 @@
 namespace HamiltonEngine::Serialization
 {
     using namespace entt;
+
+	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Serialization::JsonEntityWrapper& Wrapper, const std::uint32_t Version)
+	{
+		Record(cereal::make_nvp("Count", Wrapper.Count));
+		Record(cereal::make_nvp("Values", Wrapper.Values));
+	}
+
+	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Serialization::JsonEntityWrapper& Wrapper, const std::uint32_t Version)
+	{
+		Record(Wrapper.Count);
+		Record(Wrapper.Values);
+	}
+
+
 	/**TODO:
-	* 1.Switch to using arrays [count, elem1, elem2, ...]
-	* 2 Update code to use our style for variables, brackets, etc
-	* 3 remove using statement for entt
+	* 1 remove using statement for entt
+	* 2 Can we do better versioning for template wraper code?
+	* 3 Avoid all the copying
 	**/
     
     template<typename Registry>
     class CerealJsonSnapshot 
     {
         static_assert(!std::is_const_v<Registry>, "Non-const registry type required");
-        using traits_type = entt_traits<typename Registry::entity_type>;
+        using TraitsType = entt_traits<typename Registry::entity_type>;
 
     public:
-        using registry_type = Registry;
+        using RegistryType = Registry;
 
-        using entity_type = typename registry_type::entity_type;
+        using EntityType = typename RegistryType::entity_type;
 
-        CerealJsonSnapshot(const registry_type& source) noexcept
-            : reg{ &source } {
+        CerealJsonSnapshot(const RegistryType& Source) noexcept
+            : Reg{ &Source } {
         }
 
         CerealJsonSnapshot(const CerealJsonSnapshot&) = delete;
@@ -40,49 +54,74 @@ namespace HamiltonEngine::Serialization
         CerealJsonSnapshot& operator=(CerealJsonSnapshot&&) noexcept = default;
 
         template<typename Type>
-        const CerealJsonSnapshot& get(cereal::JSONOutputArchive& archive, const char* key, const id_type id = type_hash<Type>::value()) const {
-            if (const auto* storage = reg->template storage<Type>(id); storage) {
-                const typename registry_type::common_type& base = *storage;
+        const CerealJsonSnapshot& Get(cereal::JSONOutputArchive& Archive, const char* Key, const id_type Id = type_hash<Type>::value()) const {
+            if (const auto* Storage = Reg->template storage<Type>(Id); Storage) 
+			{
+                const typename RegistryType::common_type& base = *Storage;
+                //Entity Id
+				if constexpr (std::is_same_v<Type, EntityType>)
+				{
+					JsonEntityWrapper Wrapper;
+					//Wrapper.Count = static_cast<typename TraitsType::EntityType>(Storage->size());
+					Wrapper.Count = Storage->size(); //TODO do the thing above
+					Wrapper.Values.reserve(Wrapper.Count);
+					
+					Archive(cereal::make_nvp("FreeList", static_cast<typename TraitsType::entity_type>(Storage->free_list())));
+					for (auto first = base.rbegin(), last = base.rend(); first != last; ++first)
+					{
+						Wrapper.Values.push_back(*first);
+					}
 
-                std::string CountString = key;
-				CountString.append("Count");
-
-                archive(cereal::make_nvp(CountString.c_str(), static_cast<typename traits_type::entity_type>(storage->size())));
-
-                if constexpr (std::is_same_v<Type, entity_type>) {
-                    archive(cereal::make_nvp("FreeList", static_cast<typename traits_type::entity_type>(storage->free_list())));
-
-                    for (auto first = base.rbegin(), last = base.rend(); first != last; ++first) {
-                        archive(cereal::make_nvp("EntityId", *first));
-                    }
+					Archive(cereal::make_nvp(Key, Wrapper));
                 }
-                else if constexpr (registry_type::template storage_for_type<Type>::storage_policy == deletion_policy::in_place) {
-                    for (auto it = base.rbegin(), last = base.rend(); it != last; ++it) {
-                        if (const auto entt = *it; entt == tombstone) {
-                            archive(cereal::make_nvp("Tombstone",static_cast<entity_type>(null)));
+				// Components
+                else if constexpr (RegistryType::template storage_for_type<Type>::storage_policy == deletion_policy::in_place)
+				{
+                    // THIS BRANCH OF THE CODE IS UNTESTED
+					JsonComponentWrapper<Type> Wrapper;
+					//Wrapper.Count = static_cast<typename TraitsType::EntityType>(Storage->size());
+					Wrapper.Count = Storage->size(); //TODO do the thing above
+					Wrapper.Values.reserve(Wrapper.Count);
+					
+					for (auto it = base.rbegin(), last = base.rend(); it != last; ++it)
+					{
+                        if (const auto entt = *it; entt == tombstone) 
+						{
+                            Archive(cereal::make_nvp("Tombstone",static_cast<EntityType>(null)));
                         }
-                        else {
-                            //This is likely wrong
-							archive(cereal::make_nvp(key,entt));
-                            std::apply([&archive, &key](auto &&...args) { (archive(cereal::make_nvp(key,std::forward<decltype(args)>(args))), ...); }, storage->get_as_tuple(entt));
-                        }
+                        else 
+						{
+							const auto& [Entity, Component] = Storage->get_as_tuple(entt);
+							Wrapper.Values.push_back(Component);
+						}
                     }
+					Archive(cereal::make_nvp(Key, Wrapper));
                 }
-                else {
-                    for (auto elem : storage->reach()) {
-                        std::apply([&archive, &key](auto &&...args) { (archive(cereal::make_nvp(key,std::forward<decltype(args)>(args))), ...); }, elem);
-                    }
+                else 
+				{
+					JsonComponentWrapper<Type> Wrapper;
+					//Wrapper.Count = static_cast<typename TraitsType::EntityType>(Storage->size());
+					Wrapper.Count = Storage->size(); //TODO do the thing above
+					Wrapper.Values.reserve(Wrapper.Count);
+					
+					for (const auto& [Entity, Component] : Storage->reach())
+					{
+						EntityComponentPair Pair{ Entity, Component };
+						Wrapper.Values.push_back(Pair);
+					}
+					Archive(cereal::make_nvp(Key, Wrapper));
                 }
             }
-            else {
-                archive(typename traits_type::entity_type{});
+            else
+			{
+                Archive(typename TraitsType::entity_type{});
             }
 
             return *this;
         }
 
     private:
-        const registry_type* reg;
+        const RegistryType* Reg;
     };
 	
 	bool SerializeEnttRegistryAsJson(const entt::registry& Registry,
@@ -132,10 +171,10 @@ namespace HamiltonEngine::Serialization
 
 			//TODO maybe someday we automatically detect the things that go into this list
             CerealJsonSnapshot{ Registry }
-				.get<entt::entity>(output, "EntityId")
-			.get<Physics::RigidBodyStateComponent>(output, "RigidBodyStateComponent");
-				//.get<Physics::RigidBodyGravityComponent>(output)
-				//.get<Physics::SpringPotentialComponent>(output);
+				.Get<entt::entity>(output, "EntityId")
+				.Get<Physics::RigidBodyStateComponent>(output, "RigidBodyStateComponent")
+				.Get<Physics::RigidBodyGravityComponent>(output, "RigidBodyGravityComponent")
+				.Get<Physics::SpringPotentialComponent>(output, "SpringComponent");
 		}
 
 		Filestream.close();
@@ -175,8 +214,8 @@ namespace HamiltonEngine::Serialization
 			cereal::JSONInputArchive input{ Filestream };
 		
 			entt::snapshot_loader{ Registry }
-				//.get<entt::entity>(input)
-			.get<Physics::RigidBodyStateComponent>(input);
+				.get<entt::entity>(input)
+				.get<Physics::RigidBodyStateComponent>(input);
 				//.get<Physics::RigidBodyGravityComponent>(input)
 				//.get<Physics::SpringPotentialComponent>(input);
 		}

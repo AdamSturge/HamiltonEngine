@@ -11,6 +11,8 @@ namespace HamiltonEngine::Physics
 {
 	struct RigidBodyStateComponent
 	{
+		SERIALIZATION_VERSION(RigidBodyStateComponent, 1)
+		
 		//Needed for serialization
 		RigidBodyStateComponent();
 		
@@ -37,6 +39,4 @@ namespace HamiltonEngine::Physics
 	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version);
 	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version);
 }
-
-CEREAL_CLASS_VERSION(HamiltonEngine::Physics::RigidBodyStateComponent, 1);
 

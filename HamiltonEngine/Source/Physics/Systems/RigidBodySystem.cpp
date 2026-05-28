@@ -43,13 +43,13 @@ namespace HamiltonEngine::Physics
 					});
 
 
-			//entt::entity GravityEntity = Globals::Registry.create();
-			//RigidBodyGravityComponent& GravityComponent = Globals::Registry.emplace<RigidBodyGravityComponent>(GravityEntity,
-			//	RigidBodyGravityComponent{
-			//		entt::const_handle(Globals::Registry,RigidBodyEntity) //Rigid body parent
-			//	});
+			entt::entity GravityEntity = Globals::Registry.create();
+			RigidBodyGravityComponent& GravityComponent = Globals::Registry.emplace<RigidBodyGravityComponent>(GravityEntity,
+				RigidBodyGravityComponent{
+					entt::const_handle(Globals::Registry,RigidBodyEntity) //Rigid body parent
+				});
 
-			//RigidBodyState.PotentialEnergyListHead = entt::const_handle(Globals::Registry, GravityEntity);
+			RigidBodyState.PotentialEnergyListHead = entt::const_handle(Globals::Registry, GravityEntity);
 		}
 
 		{
