@@ -39,11 +39,21 @@ namespace HamiltonEngine::Physics
 	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version)
 	{
 		Record(cereal::make_nvp("Gravity", Component.Gravity));
+		Record(cereal::make_nvp("NextEntity", Component.NextEntity.entity()));
+		Record(cereal::make_nvp("RigidBodyEntity", Component.RigidBodyEntity.entity()));
 	}
 
 	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version)
 	{
-		Record(Component.Gravity);
+		Record(cereal::make_nvp("Gravity", Component.Gravity));
+
+		entt::entity NextEntity{};
+		Record(cereal::make_nvp("NextEntity", NextEntity));
+		Component.NextEntity = entt::const_handle(Globals::Registry, NextEntity);
+
+		entt::entity RigidBodyEntity{};
+		Record(cereal::make_nvp("RigidBodyEntity", RigidBodyEntity));
+		Component.RigidBodyEntity = entt::const_handle(Globals::Registry, RigidBodyEntity);
 	}
 
 	ParticleGravityComponent::ParticleGravityComponent(entt::const_handle Parent)

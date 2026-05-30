@@ -33,6 +33,7 @@ namespace HamiltonEngine::Physics
         Record(cereal::make_nvp("LinearMomentum",Component.LinearMomentum));
         Record(cereal::make_nvp("InertiaTensor",Component.InertiaTensor));
         Record(cereal::make_nvp("AngularMomentum",Component.AngularMomentum));
+        Record(cereal::make_nvp("PotentialEnergyListHead",Component.PotentialEnergyListHead.entity()));
     }
 
     void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version)
@@ -42,5 +43,9 @@ namespace HamiltonEngine::Physics
         Record(Component.LinearMomentum);
         Record(Component.InertiaTensor);
         Record(Component.AngularMomentum);
+
+        entt::entity PotentialEnergyListHead{};
+        Record(cereal::make_nvp("PotentialEnergyListHead", PotentialEnergyListHead));
+        Component.PotentialEnergyListHead = entt::const_handle(Globals::Registry, PotentialEnergyListHead);
     }
 }

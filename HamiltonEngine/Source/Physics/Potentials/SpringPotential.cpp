@@ -52,11 +52,21 @@ namespace HamiltonEngine::Physics
 	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version)
 	{
 		Record(cereal::make_nvp("SpringConstant", Component.K));
+		Record(cereal::make_nvp("NextEntity", Component.NextEntity.entity()));
+		Record(cereal::make_nvp("ParentEntity", Component.ParentEntity.entity()));
 	}
 
 	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version)
 	{
-		Record(Component.K);
+		Record(cereal::make_nvp("SpringConstant", Component.K));
+		
+		entt::entity NextEntity{};
+		Record(cereal::make_nvp("NextEntity", NextEntity));
+		Component.NextEntity = entt::const_handle(Globals::Registry, NextEntity);
+		
+		entt::entity ParentEntity{};
+		Record(cereal::make_nvp("ParentEntity", ParentEntity));
+		Component.ParentEntity = entt::const_handle(Globals::Registry, ParentEntity);
 	}
 
 	SpringPotentialComponent::SpringPotentialComponent()

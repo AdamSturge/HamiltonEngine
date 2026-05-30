@@ -27,6 +27,7 @@
 #include <cereal/types/vector.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/complex.hpp>
+#include <cereal/types/memory.hpp>
 #include <cereal/details/helpers.hpp>
 #include <cereal/archives/json.hpp>
 #include <nlohmann/json.hpp>
