@@ -7,15 +7,6 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Window.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OpenGL\Shader.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OpenGL\Texture.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Libraries\glad\glad.c">
       <Filter>Libraries\glad</Filter>
     </ClCompile>
@@ -61,12 +52,6 @@
     <ClCompile Include="Source\Physics\Systems\RigidBodySystem.cpp">
       <Filter>Source\Physics\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Camera.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OpenGL\Utils.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -88,17 +73,35 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\OpenGL.cpp">
+    <ClCompile Include="Source\RenderingSystem\Camera.cpp">
       <Filter>Source\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Primatives\Cube.cpp">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClCompile Include="Source\RenderingSystem\Primatives\Cube.cpp">
+      <Filter>Source\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Primatives\Sphere.cpp">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClCompile Include="Source\RenderingSystem\Light.cpp">
+      <Filter>Source\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Primatives\Tetra.cpp">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClCompile Include="Source\RenderingSystem\OpenGL.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Shader.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Primatives\Sphere.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Primatives\Tetra.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Texture.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Utils.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Window.cpp">
+      <Filter>Source\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,15 +185,6 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h">
       <Filter>Source\Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\Shader.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\Texture.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\Window.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\glad\glad.h">
       <Filter>Libraries\glad</Filter>
     </ClInclude>
@@ -199,12 +193,6 @@
     </ClInclude>
     <ClInclude Include="Source\Configuration\Globals.h">
       <Filter>Source\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\Camera.h">
-      <Filter>Source\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\EulerA.h">
       <Filter>Source\Physics\Integrators</Filter>
@@ -251,9 +239,6 @@
     <ClInclude Include="Source\OpenGL\SimpleShapes.h">
       <Filter>Source\OpenGL\BasicShapes</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\OpenGL.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\RigidBodyA.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
@@ -269,14 +254,38 @@
     <ClInclude Include="Source\Physics\Potentials\SpringPotential.h">
       <Filter>Source\Physics\Potentials</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\Primatives\Cube.h">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClInclude Include="Source\RenderingSystem\Camera.h">
+      <Filter>Source\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\Primatives\Sphere.h">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClInclude Include="Source\RenderingSystem\Primatives\Cube.h">
+      <Filter>Source\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\Primatives\Tetra.h">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClInclude Include="Source\RenderingSystem\Light.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\OpenGL.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Shader.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\SimpleShapes.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Primatives\Sphere.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Primatives\Tetra.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Texture.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Utils.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Window.h">
+      <Filter>Source\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -39,7 +39,7 @@ namespace HamiltonEngine::RenderingSystem
 			{
 				format = GL_RED;
 			}
-			else if (NRComponents == 2)
+			else if (NRComponents == 3)
 			{
 				format = GL_RGB;
 			}
@@ -47,7 +47,6 @@ namespace HamiltonEngine::RenderingSystem
 			{
 				format = GL_RGBA;
 			} 
-
 
 			glBindTexture(GL_TEXTURE_2D, TexID);
 			glTexImage2D(GL_TEXTURE_2D, 0, format, Width, Height, 0, format, GL_UNSIGNED_BYTE, data);
@@ -68,6 +67,8 @@ namespace HamiltonEngine::RenderingSystem
 		{
 			HAMILTON_LOG(Graphics, Warning, "Unable to texture load file: %s", Path.c_str());
 		}
+
+		HAMILTON_LOG(Graphics, Info, "Loaded Texture: %s", Path.c_str());
 
 		return ent;
 	}

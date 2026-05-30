@@ -127,9 +127,19 @@ int main(int argc, char** argv)
 
 	Eigen::Vector3f LightColor = Eigen::Vector3f(0.5f, 0.5f, 0.5f);
 
-	std::string DiffuseMapTexturePath = "Assets\\Textures\\container2.png";
+	std::string TexturesPath = "Assets\\Textures\\";
 
-	entt::entity ent = HamiltonEngine::RenderingSystem::CreateTexture(DiffuseMapTexturePath);
+	std::string DiffuseMapTexturePath = TexturesPath + "container2.png";
+
+	entt::entity DiffuseMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(DiffuseMapTexturePath);
+
+	std::string SpecularMapTexturePath = TexturesPath + "container2_specular.png";
+
+	entt::entity SpecularMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(SpecularMapTexturePath);
+
+	std::string EmissionMapTexturePath = TexturesPath + "matrix.jpg";
+
+	entt::entity EmissionMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(EmissionMapTexturePath);
 
 
 	while (!glfwWindowShouldClose(window)) {
@@ -149,12 +159,8 @@ int main(int argc, char** argv)
 
 		// rendering
 		glClearColor(WindowBackgroundRed, WindowBackgroundGreen, WindowBackgroundBlue, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 1);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, 2);
 
 		lightingShader.use();
 		
@@ -167,24 +173,29 @@ int main(int argc, char** argv)
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, Projection.data());
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
 
-		// Will Render anything with a TransformComponent and a OpenGLBuffersComponent
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 1);
-		//HamiltonEngine::OpenGL::Render(modelLoc);
-
 		LightColor = Eigen::Vector3f(sin(CurTime/2), sin(CurTime/3), sin(CurTime/4));
+		LightColor = Eigen::Vector3f(1.0f, 1.0f, 1.0f);
 
 		// Create a test cube
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, HamiltonEngine::Globals::Registry.get<HamiltonEngine::RenderingSystem::TextureIDComponent>(ent).ID);
+		glBindTexture(GL_TEXTURE_2D, HamiltonEngine::Globals::Registry.get<HamiltonEngine::RenderingSystem::TextureIDComponent>(DiffuseMapTextureEntity).ID);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, HamiltonEngine::Globals::Registry.get<HamiltonEngine::RenderingSystem::TextureIDComponent>(SpecularMapTextureEntity).ID);
+
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, HamiltonEngine::Globals::Registry.get<HamiltonEngine::RenderingSystem::TextureIDComponent>(EmissionMapTextureEntity).ID);
+
 		lightingShader.setVec3("lightPos", LightObj.Position);
 		lightingShader.setVec3("viewPos", Camera.CameraPosition);
 
 		lightingShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
 		//lightingShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
 		lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
-		lightingShader.setFloat("material.shininess", 32.0f);
+		lightingShader.setFloat("material.shininess", 256.0f);
 		lightingShader.setInt("material.diffuseMap", 0);
+		lightingShader.setInt("material.specularMap", 1);
+		lightingShader.setInt("material.emissionMap", 2);
 
 		//lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
 		//lightingShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
@@ -195,9 +206,12 @@ int main(int argc, char** argv)
 		//lightingShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
 		//lightingShader.setFloat("material.shininess", 32.0f);
 		
-		lightingShader.setVec3("light.ambient", LightColor);
+		lightingShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
 		lightingShader.setVec3("light.diffuse", LightColor);
 		lightingShader.setVec3("light.specular", LightColor);
+
+		
+
 
 		HamiltonEngine::RenderingSystem::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"],
 			TestObj, modelLoc);
@@ -218,7 +232,8 @@ int main(int argc, char** argv)
 		glUniformMatrix4fv(projLoc, 1, GL_FALSE, Projection.data());
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, Model.data());
 
-		LightObj.Position = Eigen::Vector3f(LightOrbitRadius *sin(CurTime), LightOrbitRadius * cos(CurTime), LightObj.Position.z());;
+		LightObj.Position = Eigen::Vector3f(LightOrbitRadius *cos(CurTime), LightOrbitRadius * cos(CurTime/2), LightOrbitRadius * sin(CurTime));;
+		//LightObj.Position = Eigen::Vector3f(2.0f, 2.0f, 2.0f);
 
 		HamiltonEngine::RenderingSystem::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["sphere"],
 			LightObj, modelLoc);

@@ -8,6 +8,16 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+namespace {
+	//std::vector<float> WindowBackgroundColour = HamiltonEngine::ConfigurationVariable<std::vector<float>>("BackgroundColorRGB", { 0.2f, 0.3f, 0.3f });
+	//float WindowBackgroundRed = WindowBackgroundColour[0];
+	//float WindowBackgroundGreen = WindowBackgroundColour[1];
+	//float WindowBackgroundBlue = WindowBackgroundColour[2];
+
+
+
+}
+
 namespace HamiltonEngine::RenderingSystem
 {
 	bool SetupRenderingSystem()
@@ -24,6 +34,7 @@ namespace HamiltonEngine::RenderingSystem
 		}
 
 		GLFWwindow* window = HamiltonEngine::RenderingSystem::createWindow(WindowHeight, WindowWidth, ((std::string)WindowName).c_str());
+		//HamiltonEngine::Globals::MainWindow = window;
 
 		glfwSetCursorPos(window, WindowHeight / 2, WindowWidth / 2);
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -35,6 +46,30 @@ namespace HamiltonEngine::RenderingSystem
 		}
 
 		PopulatePrimativeMap();
+
+		return true;
+
+	}
+
+	void SetupDefaultCamera()
+	{
+		// Setup and use the Camera
+		// This conversion is kind of gross due to the Camera Vectors being stored as Eigen::Vector3f and no direct conversion
+		std::vector<float> CameraStartPositionVec = HamiltonEngine::ConfigurationVariable<std::vector<float>>("CameraStartPosition", { HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_POSITION.x(),
+																																	   HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_POSITION.y(),
+																																	   HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_POSITION.z() });
+		Eigen::Vector3f CameraStartPosition = Eigen::Vector3f(CameraStartPositionVec.data());
+
+		// Setup and use the Camera
+		HamiltonEngine::Globals::ActiveCamera = HamiltonEngine::RenderingSystem::Camera{
+				CameraStartPosition, // Some where in space
+				HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_FRONT, // Camera is looking at this direction
+				HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_UP, // Camera can change, but is +Z
+				Eigen::Vector3f(0, 1.0f, 0.0f), // Right is +Y
+				Eigen::Vector3f(0.0f, 0.0f, 1.0f), // Up is +Z
+				HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_YAW,
+				HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_PITCH,
+				HamiltonEngine::RenderingSystem::DEFAULT_FOV };
 
 	}
 

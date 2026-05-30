@@ -51,6 +51,8 @@ namespace HamiltonEngine::RenderingSystem
 	};
 
 	bool SetupRenderingSystem();
+	void SetupDefaultCamera();
+	void Tick();
 
 	TransformComponent CreateTransformComponent();
 	ShaderComponent CreateShaderComponent();

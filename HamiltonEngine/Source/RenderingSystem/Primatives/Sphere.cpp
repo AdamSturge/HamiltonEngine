@@ -146,6 +146,7 @@ namespace HamiltonEngine::RenderingSystem
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)(VertBufferSize + NormalsBufferSize));
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 
 		return buffs;
 	}
