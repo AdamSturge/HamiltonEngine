@@ -1,7 +1,7 @@
 #include <PrecompiledHeader/Pch.h>
 #include "Cube.h"
 #include "Configuration/Globals.h"
-#include <RenderingSystem/OpenGL.h>
+#include <RenderingSystem/RenderingSystemBase.h>
 #include <RenderingSystem/Utils.h>
 
 namespace HamiltonEngine::RenderingSystem

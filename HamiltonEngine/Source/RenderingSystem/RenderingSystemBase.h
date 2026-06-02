@@ -55,7 +55,6 @@ namespace HamiltonEngine::RenderingSystem
 	void Tick();
 	void LearnOpenGLTutorialObjectSetup();
 
-	TransformComponent CreateTransformComponent();
 	ShaderComponent CreateShaderComponent();
 	OpenGLBuffersComponent CreateOpenGLBuffersComponent(bool CreateEBO);
 

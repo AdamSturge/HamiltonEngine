@@ -1,6 +1,6 @@
 #pragma once
 #include "PrecompiledHeader/Pch.h"
-#include <RenderingSystem/OpenGL.h>
+#include <RenderingSystem/RenderingSystemBase.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
 

@@ -26,6 +26,7 @@ namespace HamiltonEngine::RenderingSystem
 			float pitch;
 			// float roll;
 			float fov;
+
 		};
 
 	Eigen::Matrix4f MakeFrustum(float fovY, float aspectRatio, float front, float back);

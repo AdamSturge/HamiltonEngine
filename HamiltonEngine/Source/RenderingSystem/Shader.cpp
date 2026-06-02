@@ -63,6 +63,10 @@ namespace HamiltonEngine::RenderingSystem
 		glDeleteShader(fragment);
 	}
 
+	Shader::Shader() {
+		ID = -1;
+	}
+
 	void Shader::use()
 	{
 		glUseProgram(ID);

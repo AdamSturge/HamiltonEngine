@@ -82,7 +82,7 @@
     <ClCompile Include="Source\RenderingSystem\Light.cpp">
       <Filter>Source\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Source\RenderingSystem\OpenGL.cpp">
+    <ClCompile Include="Source\RenderingSystem\RenderingSystemBase.cpp">
       <Filter>Source\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Source\RenderingSystem\Shader.cpp">
@@ -236,9 +236,6 @@
     <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
-      <Filter>Source\OpenGL\BasicShapes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\RigidBodyA.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
@@ -263,7 +260,7 @@
     <ClInclude Include="Source\RenderingSystem\Light.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Source\RenderingSystem\OpenGL.h">
+    <ClInclude Include="Source\RenderingSystem\RenderingSystemBase.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Source\RenderingSystem\Shader.h">

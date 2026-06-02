@@ -1,7 +1,7 @@
 #pragma once
 #include <Configuration/ConfigurationVariable.h>
 #include <RenderingSystem/Camera.h>
-#include <RenderingSystem/OpenGL.h>
+#include <RenderingSystem/RenderingSystemBase.h>
 #include <RenderingSystem/Window.h>
 
 

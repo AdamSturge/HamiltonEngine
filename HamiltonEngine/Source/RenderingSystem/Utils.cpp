@@ -1,7 +1,7 @@
 #include <PrecompiledHeader/Pch.h>
 #include "Utils.h"
 #include <Configuration/Globals.h>
-#include "OpenGL.h"
+#include "RenderingSystemBase.h"
 #include "Primatives/Cube.h"
 #include "Primatives/Sphere.h"
 #include "Primatives/Tetra.h"

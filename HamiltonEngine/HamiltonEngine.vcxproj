@@ -163,7 +163,7 @@
     <ClInclude Include="Source\PrecompiledHeader\Pch.h" />
     <ClInclude Include="Source\RenderingSystem\Camera.h" />
     <ClInclude Include="Source\RenderingSystem\Light.h" />
-    <ClInclude Include="Source\RenderingSystem\OpenGL.h" />
+    <ClInclude Include="Source\RenderingSystem\RenderingSystemBase.h" />
     <ClInclude Include="Source\RenderingSystem\Primatives\Cube.h" />
     <ClInclude Include="Source\RenderingSystem\Primatives\Sphere.h" />
     <ClInclude Include="Source\RenderingSystem\Primatives\Tetra.h" />
@@ -206,7 +206,7 @@
     </ClCompile>
     <ClCompile Include="Source\RenderingSystem\Camera.cpp" />
     <ClCompile Include="Source\RenderingSystem\Light.cpp" />
-    <ClCompile Include="Source\RenderingSystem\OpenGL.cpp" />
+    <ClCompile Include="Source\RenderingSystem\RenderingSystemBase.cpp" />
     <ClCompile Include="Source\RenderingSystem\Primatives\Cube.cpp" />
     <ClCompile Include="Source\RenderingSystem\Primatives\Sphere.cpp" />
     <ClCompile Include="Source\RenderingSystem\Primatives\Tetra.cpp" />

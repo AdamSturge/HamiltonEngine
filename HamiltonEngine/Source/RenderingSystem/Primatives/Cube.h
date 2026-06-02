@@ -1,5 +1,5 @@
 #pragma once
-#include <RenderingSystem/OpenGL.h>
+#include <RenderingSystem/RenderingSystemBase.h>
 
 namespace HamiltonEngine::RenderingSystem {
 	const float UNIT_CUBE_VERTS[] =

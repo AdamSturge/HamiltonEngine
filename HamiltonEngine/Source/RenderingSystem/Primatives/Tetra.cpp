@@ -1,6 +1,6 @@
 #include <PrecompiledHeader/Pch.h>
 #include <Configuration/Globals.h>
-#include <RenderingSystem/OpenGL.h>
+#include <RenderingSystem/RenderingSystemBase.h>
 #include <RenderingSystem/Utils.h>
 #include "Tetra.h"
 #include <Eigen/Dense>
