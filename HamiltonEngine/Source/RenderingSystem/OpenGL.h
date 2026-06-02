@@ -53,6 +53,7 @@ namespace HamiltonEngine::RenderingSystem
 	bool SetupRenderingSystem();
 	void SetupDefaultCamera();
 	void Tick();
+	void LearnOpenGLTutorialObjectSetup();
 
 	TransformComponent CreateTransformComponent();
 	ShaderComponent CreateShaderComponent();

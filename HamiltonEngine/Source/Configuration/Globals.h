@@ -15,7 +15,7 @@ namespace HamiltonEngine::Globals
 
 	// Rendering + OpenGL stuff
 	extern GLuint FrameCount;
-	//extern GLFWwindow* MainWindow;
+	extern GLFWwindow* MainWindow;
 	extern std::map < std::string, HamiltonEngine::RenderingSystem::OpenGLBuffersComponent>  PrimativesBuffers;
 
 	//EnTT

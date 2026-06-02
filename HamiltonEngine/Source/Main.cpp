@@ -27,31 +27,10 @@ int main(int argc, char** argv)
 	std::srand(std::time(0));
 	HamiltonEngine::ConfigurationSystem::Initialize("config.json", "user_config.json");
 
-	HamiltonEngine::ConfigurationVariable<int> WindowHeight("WindowHeight", 800);
-	HamiltonEngine::ConfigurationVariable<int> WindowWidth("WindowWidth", 600);
-	HamiltonEngine::ConfigurationVariable<std::string> WindowName("WindowName", "MyWindow");
 
-	HamiltonEngine::Physics::CreateParticleEntities();
-	HamiltonEngine::Physics::CreateRigidBodyEntities();
+	HamiltonEngine::RenderingSystem::SetupRenderingSystem();
 
-	if (!glfwInit()) // Initialize OpenGL
-	{
-		HAMILTON_LOG(Graphics, Critical, "OpenGL failed to initialize. Exiting.")
-		return -1;
-	} 
-
-	GLFWwindow* window = HamiltonEngine::RenderingSystem::createWindow(WindowHeight, WindowWidth, ((std::string)WindowName).c_str());
-
-	glfwSetCursorPos(window, WindowHeight / 2, WindowWidth / 2);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glEnable(GL_DEPTH_TEST);
-
-	if (window == NULL)
-	{
-		return -1;
-	}
-
-	PopulatePrimativeMap();
+	///
 
 	HamiltonEngine::RenderingSystem::Shader lightingShader = HamiltonEngine::RenderingSystem::Shader::Shader("Source\\Shaders\\LightingShader\\vertexShader.vs",
 		"Source\\Shaders\\LightingShader\\fragmentShader.fs");
@@ -90,12 +69,14 @@ int main(int argc, char** argv)
 	float CurTime = 0.0f;
 	float OldTime = 0.0f;
 	float DeltaTime = 0.0f;
+	int CurWinHeight, CurWinLength;
+	glfwGetWindowSize(HamiltonEngine::Globals::MainWindow, &CurWinHeight, &CurWinLength);
 	float NearClip = HamiltonEngine::ConfigurationVariable("NearClipPlane", HamiltonEngine::RenderingSystem::DEFAULT_NEAR_CLIP);
 	float FarClip = HamiltonEngine::ConfigurationVariable("FarClipPlane", HamiltonEngine::RenderingSystem::DEFAULT_FAR_CLIP);
 
 	Eigen::Affine3f Model = Eigen::Affine3f::Identity();
 	Eigen::Matrix4f View;
-	Eigen::Matrix4f Projection = HamiltonEngine::RenderingSystem::MakeFrustum(Camera.fov, (float)WindowHeight / WindowWidth, NearClip, FarClip);
+	Eigen::Matrix4f Projection = HamiltonEngine::RenderingSystem::MakeFrustum(Camera.fov, (float)CurWinHeight / CurWinLength, NearClip, FarClip);
 
 	if (HamiltonEngine::ConfigurationVariable<int>("CreateTestObjects", false))
 	{
@@ -142,7 +123,7 @@ int main(int argc, char** argv)
 	entt::entity EmissionMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(EmissionMapTexturePath);
 
 
-	while (!glfwWindowShouldClose(window)) {
+	while (!glfwWindowShouldClose(HamiltonEngine::Globals::MainWindow)) {
 		++HamiltonEngine::Globals::FrameCount;
 
 		// How long as it been since the last frame?
@@ -151,16 +132,14 @@ int main(int argc, char** argv)
 		DeltaTime = CurTime - OldTime;
 
 		// input
-		HamiltonEngine::RenderingSystem::processInput(window);
-		HamiltonEngine::RenderingSystem::ProcessMovement(window, DeltaTime);
+		HamiltonEngine::RenderingSystem::processInput(HamiltonEngine::Globals::MainWindow);
+		HamiltonEngine::RenderingSystem::ProcessMovement(HamiltonEngine::Globals::MainWindow, DeltaTime);
 
 		HamiltonEngine::Physics::ParticleSystem();
 		HamiltonEngine::Physics::RigidBodySystem();
 
 		// rendering
-		glClearColor(WindowBackgroundRed, WindowBackgroundGreen, WindowBackgroundBlue, 1.0f);
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		HamiltonEngine::RenderingSystem::Tick();
 
 		lightingShader.use();
 		
@@ -243,7 +222,7 @@ int main(int argc, char** argv)
 
 
 		// swap buffers and call events
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(HamiltonEngine::Globals::MainWindow);
 		glfwPollEvents();
 	}
 	

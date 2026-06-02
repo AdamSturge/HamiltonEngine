@@ -9,13 +9,9 @@
 #include <stb_image.h>
 
 namespace {
-	//std::vector<float> WindowBackgroundColour = HamiltonEngine::ConfigurationVariable<std::vector<float>>("BackgroundColorRGB", { 0.2f, 0.3f, 0.3f });
-	//float WindowBackgroundRed = WindowBackgroundColour[0];
-	//float WindowBackgroundGreen = WindowBackgroundColour[1];
-	//float WindowBackgroundBlue = WindowBackgroundColour[2];
-
-
-
+	float WindowBackgroundRed;
+	float WindowBackgroundGreen;
+	float WindowBackgroundBlue;
 }
 
 namespace HamiltonEngine::RenderingSystem
@@ -34,7 +30,7 @@ namespace HamiltonEngine::RenderingSystem
 		}
 
 		GLFWwindow* window = HamiltonEngine::RenderingSystem::createWindow(WindowHeight, WindowWidth, ((std::string)WindowName).c_str());
-		//HamiltonEngine::Globals::MainWindow = window;
+		HamiltonEngine::Globals::MainWindow = window;
 
 		glfwSetCursorPos(window, WindowHeight / 2, WindowWidth / 2);
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -46,6 +42,12 @@ namespace HamiltonEngine::RenderingSystem
 		}
 
 		PopulatePrimativeMap();
+		std::vector<float> WindowBackgroundColour = HamiltonEngine::ConfigurationVariable<std::vector<float>>("BackgroundColorRGB", { 0.2f, 0.3f, 0.3f });
+		WindowBackgroundRed = WindowBackgroundColour[0];
+		WindowBackgroundGreen = WindowBackgroundColour[1];
+		WindowBackgroundBlue = WindowBackgroundColour[2];
+
+		SetupDefaultCamera();
 
 		return true;
 
@@ -71,6 +73,17 @@ namespace HamiltonEngine::RenderingSystem
 				HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_PITCH,
 				HamiltonEngine::RenderingSystem::DEFAULT_FOV };
 
+	}
+
+	void LearnOpenGLTutorialObjectSetup() {
+
+	}
+
+	void Tick()
+	{
+		glClearColor(WindowBackgroundRed, WindowBackgroundGreen, WindowBackgroundBlue, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 
