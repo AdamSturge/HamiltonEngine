@@ -7,7 +7,7 @@
 
 #define HAMILTON_LOG(Category, Level, Message, ...) {\
     using namespace HamiltonEngine::Logging;\
-    LogMessageVairadic(LogCategory::Category, LogLevel::Level, Message, __VA_ARGS__); \
+    LogMessageVairadic(LogCategory::Category, LogLevel::Level, std::source_location::current(), Message, __VA_ARGS__); \
 }
 
 namespace HamiltonEngine::Logging
@@ -37,6 +37,7 @@ namespace HamiltonEngine::Logging
 
     void LogMessageVairadic(LogCategory Category,
         LogLevel LogLevel,
+        const std::source_location& SourceLocation,
         const char* Message, 
         ...);
 }

@@ -1,19 +1,5 @@
 #pragma once
 
-//#define SERIALIZATION_VERSION(TYPE, VERSION) \
-//	static std::uint32_t RegisterVersion() \
-//	{\
-//		::cereal::detail::StaticObject<::cereal::detail::Versions>::getInstance().mapping.emplace(std::type_index(typeid(TYPE)).hash_code(), VERSION); \
-//		return VERSION;\
-//	}\
-//	\
-//	static inline const std::uint32_t Version = RegisterVersion();\
-//	\
-//	static void Unused()\
-//	{\
-//		(void)Version;\
-//	}\
-
 namespace HamiltonEngine::Serialization
 {
 	template<typename Type, std::uint32_t Version>

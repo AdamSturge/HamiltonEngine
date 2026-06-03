@@ -10,6 +10,7 @@
 #include <sstream>
 #include <filesystem>
 #include <algorithm>
+#include <source_location>
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -48,6 +49,6 @@
 //Our code. Add stuff that doesn't change often
 #include "Logging/Logging.h"
 #include "ECS/EntityToUnderlyingType.h"
-#include "Serialization/Version.h"
+#include "Serialization/SerializationHelpers.h"
 #include "Serialization/EigenSerialization.h"
 

@@ -290,6 +290,9 @@
     <ClInclude Include="Source\Serialization\Version.h">
       <Filter>Source\Serialization</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Serialization\SerializationHelpers.h">
+      <Filter>Source\Serialization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Shaders\fragmentShader.fs">

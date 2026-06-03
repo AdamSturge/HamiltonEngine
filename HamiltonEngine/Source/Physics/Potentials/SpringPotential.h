@@ -67,6 +67,5 @@ namespace HamiltonEngine::Physics
 		bool Enabled; //If this end of the spring is enabled
 	};
 
-	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version);
-	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::SpringPotentialComponent& Component, const std::uint32_t Version);
+	SERIALIZATION_DECLARATION_COMPONENT_DEFAULT(HamiltonEngine::Physics::SpringPotentialComponent)
 }

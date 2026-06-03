@@ -26,7 +26,7 @@
                     "Transform": {
                         "Translation": {
                             "X": 0.0,
-                            "Y": 0.0007019114564172924,
+                            "Y": 0.0036576923448592426,
                             "Z": 0.0
                         },
                         "Rotation": {
@@ -39,7 +39,7 @@
                     "Mass": 1.0,
                     "LinearMomentum": {
                         "X": 0.0,
-                        "Y": 0.05198759213089943,
+                        "Y": 0.11985243856906891,
                         "Z": 0.0
                     },
                     "InertiaTensor": {
@@ -63,7 +63,7 @@
                     "Transform": {
                         "Translation": {
                             "X": 0.0,
-                            "Y": 1.999298095703125,
+                            "Y": 1.996342420578003,
                             "Z": 0.0
                         },
                         "Rotation": {
@@ -75,7 +75,7 @@
                     "Mass": 1.0,
                     "LinearMomentum": {
                         "X": 0.0,
-                        "Y": -0.051988303661346439,
+                        "Y": -0.1198560893535614,
                         "Z": 0.0
                     },
                     "InertiaTensor": {
@@ -104,17 +104,17 @@
                 "EntityId": 1,
                 "Component": {
                     "cereal_class_version": 1,
-                    "Gravity": 0.0,
                     "NextEntity": 5,
-                    "RigidBodyEntity": 0
+                    "RigidBodyEntity": 0,
+                    "Gravity": 0.0
                 }
             },
             {
                 "EntityId": 3,
                 "Component": {
-                    "Gravity": 0.0,
                     "NextEntity": 4,
-                    "RigidBodyEntity": 2
+                    "RigidBodyEntity": 2,
+                    "Gravity": 0.0
                 }
             }
         ]
@@ -128,17 +128,33 @@
                 "EntityId": 4,
                 "Component": {
                     "cereal_class_version": 1,
-                    "SpringConstant": 1.0,
                     "NextEntity": 4294967295,
-                    "ParentEntity": 2
+                    "ParentEntity": 2,
+                    "SpringConstant": 1.0,
+                    "RestLength": 0.0,
+                    "AnchorPointBody": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "OtherEntity": 5,
+                    "Enabled": true
                 }
             },
             {
                 "EntityId": 5,
                 "Component": {
-                    "SpringConstant": 1.0,
                     "NextEntity": 4294967295,
-                    "ParentEntity": 0
+                    "ParentEntity": 0,
+                    "SpringConstant": 1.0,
+                    "RestLength": 0.0,
+                    "AnchorPointBody": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "OtherEntity": 4,
+                    "Enabled": true
                 }
             }
         ]

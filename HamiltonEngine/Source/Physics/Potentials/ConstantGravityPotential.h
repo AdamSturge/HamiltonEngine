@@ -44,6 +44,7 @@ namespace HamiltonEngine::Physics
 		RigidBodyGravityComponent();
 		RigidBodyGravityComponent(entt::const_handle Parent);
 		
+		
 		//This is a linked list that connects to entities that are designed to compute 
 		//potential energies acting on a given particle
 		entt::const_handle NextEntity;
@@ -52,6 +53,5 @@ namespace HamiltonEngine::Physics
 		float Gravity;
 	};
 
-	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version);
-	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version);
+	SERIALIZATION_DECLARATION_COMPONENT_DEFAULT(HamiltonEngine::Physics::RigidBodyGravityComponent)
 }

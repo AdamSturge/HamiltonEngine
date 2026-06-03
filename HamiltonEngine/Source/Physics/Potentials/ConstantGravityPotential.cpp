@@ -36,17 +36,16 @@ namespace HamiltonEngine::Physics
 		OutGradLinearPotentialEnergy += Mass * GravitationalAcceleration * Eigen::Vector3f(0.0f, 0.0f, 1.0f);
 	}
 
-	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version)
+	SERIALIZATION_DEFINITION_SAVE_COMPONENT_DEFAULT(HamiltonEngine::Physics::RigidBodyGravityComponent)
 	{
-		Record(cereal::make_nvp("Gravity", Component.Gravity));
 		Record(cereal::make_nvp("NextEntity", Component.NextEntity.entity()));
 		Record(cereal::make_nvp("RigidBodyEntity", Component.RigidBodyEntity.entity()));
+		
+		Record(cereal::make_nvp("Gravity", Component.Gravity));
 	}
 
-	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyGravityComponent& Component, const std::uint32_t Version)
+	SERIALIZATION_DEFINITION_LOAD_COMPONENT_DEFAULT(HamiltonEngine::Physics::RigidBodyGravityComponent)
 	{
-		Record(cereal::make_nvp("Gravity", Component.Gravity));
-
 		entt::entity NextEntity{};
 		Record(cereal::make_nvp("NextEntity", NextEntity));
 		Component.NextEntity = entt::const_handle(Globals::Registry, NextEntity);
@@ -54,6 +53,8 @@ namespace HamiltonEngine::Physics
 		entt::entity RigidBodyEntity{};
 		Record(cereal::make_nvp("RigidBodyEntity", RigidBodyEntity));
 		Component.RigidBodyEntity = entt::const_handle(Globals::Registry, RigidBodyEntity);
+		
+		Record(cereal::make_nvp("Gravity", Component.Gravity));
 	}
 
 	ParticleGravityComponent::ParticleGravityComponent(entt::const_handle Parent)

@@ -173,6 +173,7 @@
     <ClInclude Include="Source\PrecompiledHeader\Pch.h" />
     <ClInclude Include="Source\Serialization\EigenSerialization.h" />
     <ClInclude Include="Source\Serialization\JsonSerialization.h" />
+    <ClInclude Include="Source\Serialization\SerializationHelpers.h" />
     <ClInclude Include="Source\Serialization\Version.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>

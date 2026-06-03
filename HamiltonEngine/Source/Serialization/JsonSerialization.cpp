@@ -7,12 +7,6 @@
 
 namespace HamiltonEngine::Serialization
 {
-
-	/**TODO:
-	* 1 Remove using statement for entt
-	* 2 Default Constructors
-	**/
-
     using namespace entt;
 
 	// Wrapper used for serializing a vector of entities to json
@@ -309,8 +303,6 @@ namespace HamiltonEngine::Serialization
 		}
 		
 		{
-			using namespace entt::literals;
-			
 			cereal::JSONOutputArchive Output{ Filestream };
 
 			//TODO maybe someday we automatically detect the things that go into this list

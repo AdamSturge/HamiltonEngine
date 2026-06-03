@@ -77,6 +77,7 @@ namespace HamiltonEngine::Logging
 {
     void LogMessageVairadic(LogCategory Category, 
         LogLevel LogLevel,
+        const std::source_location& SourceLocation,
         const char* Message,
         ...)
     {
@@ -91,7 +92,8 @@ namespace HamiltonEngine::Logging
         using PodType = std::underlying_type_t<LogCategory>;
         spdlog::logger* Logger = Logs[static_cast<PodType>(Category)].Logger;
 
-        SPDLOG_LOGGER_CALL(Logger, static_cast<spdlog::level::level_enum>(LogLevel), Buff);
+        spdlog::source_loc Loc{ SourceLocation.file_name(), static_cast<int>(SourceLocation.line()), SourceLocation.function_name() };
+        Logger->log(Loc, static_cast<spdlog::level::level_enum>(LogLevel), Buff);
     
     }
 }
