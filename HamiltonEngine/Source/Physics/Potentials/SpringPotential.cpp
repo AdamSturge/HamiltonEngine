@@ -49,39 +49,6 @@ namespace HamiltonEngine::Physics
 		OutGradAngularPotentialEnergy -= BodyPosition.cross(InvRotation * OutGradLinearPotentialEnergy);
 	}
 
-	SERIALIZATION_DEFINITION_SAVE_COMPONENT_DEFAULT(HamiltonEngine::Physics::SpringPotentialComponent)
-	{
-		Record(cereal::make_nvp("NextEntity", Component.NextEntity.entity()));
-		Record(cereal::make_nvp("ParentEntity", Component.ParentEntity.entity()));
-		
-		Record(cereal::make_nvp("SpringConstant", Component.K));
-		Record(cereal::make_nvp("RestLength", Component.L));
-		Record(cereal::make_nvp("AnchorPointBody", Component.AnchorPointBody));
-		Record(cereal::make_nvp("OtherEntity", Component.OtherEntity.entity()));
-		Record(cereal::make_nvp("Enabled", Component.Enabled));
-	}
-
-	SERIALIZATION_DEFINITION_LOAD_COMPONENT_DEFAULT(HamiltonEngine::Physics::SpringPotentialComponent)
-	{
-		entt::entity NextEntity{};
-		Record(cereal::make_nvp("NextEntity", NextEntity));
-		Component.NextEntity = entt::const_handle(Globals::Registry, NextEntity);
-		
-		entt::entity ParentEntity{};
-		Record(cereal::make_nvp("ParentEntity", ParentEntity));
-		Component.ParentEntity = entt::const_handle(Globals::Registry, ParentEntity);
-
-		Record(cereal::make_nvp("SpringConstant", Component.K));
-		Record(cereal::make_nvp("RestLength", Component.L));
-		Record(cereal::make_nvp("AnchorPointBody", Component.AnchorPointBody));
-
-		entt::entity OtherEntity{};
-		Record(cereal::make_nvp("OtherEntity", OtherEntity));
-		Component.OtherEntity = entt::const_handle(Globals::Registry, OtherEntity);
-
-		Record(cereal::make_nvp("Enabled", Component.Enabled));
-	}
-
 	SpringPotentialComponent::SpringPotentialComponent()
 		: K{1.0f}
 		, L{0.0f}
@@ -106,5 +73,38 @@ namespace HamiltonEngine::Physics
 		: SpringPotentialComponent(Parent, SpringConstant, RestLength, BAnchorPoint, true)
 
 	{
+	}
+
+	SERIALIZATION_DEFINITION_SAVE_COMPONENT_DEFAULT(HamiltonEngine::Physics::SpringPotentialComponent)
+	{
+		Record(cereal::make_nvp("NextEntity", Component.NextEntity.entity()));
+		Record(cereal::make_nvp("ParentEntity", Component.ParentEntity.entity()));
+
+		Record(cereal::make_nvp("SpringConstant", Component.K));
+		Record(cereal::make_nvp("RestLength", Component.L));
+		Record(cereal::make_nvp("AnchorPointBody", Component.AnchorPointBody));
+		Record(cereal::make_nvp("OtherEntity", Component.OtherEntity.entity()));
+		Record(cereal::make_nvp("Enabled", Component.Enabled));
+	}
+
+	SERIALIZATION_DEFINITION_LOAD_COMPONENT_DEFAULT(HamiltonEngine::Physics::SpringPotentialComponent)
+	{
+		entt::entity NextEntity{};
+		Record(cereal::make_nvp("NextEntity", NextEntity));
+		Component.NextEntity = entt::const_handle(Globals::Registry, NextEntity);
+
+		entt::entity ParentEntity{};
+		Record(cereal::make_nvp("ParentEntity", ParentEntity));
+		Component.ParentEntity = entt::const_handle(Globals::Registry, ParentEntity);
+
+		Record(cereal::make_nvp("SpringConstant", Component.K));
+		Record(cereal::make_nvp("RestLength", Component.L));
+		Record(cereal::make_nvp("AnchorPointBody", Component.AnchorPointBody));
+
+		entt::entity OtherEntity{};
+		Record(cereal::make_nvp("OtherEntity", OtherEntity));
+		Component.OtherEntity = entt::const_handle(Globals::Registry, OtherEntity);
+
+		Record(cereal::make_nvp("Enabled", Component.Enabled));
 	}
 }
