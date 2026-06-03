@@ -1,6 +1,6 @@
 #include "Version.h"
 
-#define SERIALIZATION_DECLARATION(TYPE, RECORDVAR, TYPEVAR, VERSIONVAR) static_assert(std::is_default_constructible<RigidBodyStateComponent>::value, "Must have default constructor for serialization");\
+#define SERIALIZATION_DECLARATION(TYPE, RECORDVAR, TYPEVAR, VERSIONVAR) static_assert(std::is_default_constructible<TYPE>::value, #TYPE ## " must have default constructor for serialization");\
 void Save(cereal::JSONOutputArchive& RECORDVAR, const TYPE& TYPEVAR, const std::uint32_t VERSIONVAR);\
 void Load(cereal::JSONInputArchive& RECORDVAR, TYPE& TYPEVAR, const std::uint32_t VERSIONVAR);
 
