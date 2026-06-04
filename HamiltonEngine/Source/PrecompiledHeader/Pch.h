@@ -10,6 +10,7 @@
 #include <sstream>
 #include <filesystem>
 #include <algorithm>
+#include <source_location>
 #define _USE_MATH_DEFINES
 #include <math.h>
 
@@ -23,6 +24,11 @@
 #include <cereal/access.hpp>
 #include <cereal/specialize.hpp>
 #include <cereal/types/variant.hpp>
+#include <cereal/types/map.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/string.hpp>
+#include <cereal/types/complex.hpp>
+#include <cereal/types/memory.hpp>
 #include <cereal/details/helpers.hpp>
 #include <cereal/archives/json.hpp>
 #include <nlohmann/json.hpp>
@@ -43,5 +49,6 @@
 //Our code. Add stuff that doesn't change often
 #include "Logging/Logging.h"
 #include "ECS/EntityToUnderlyingType.h"
+#include "Serialization/SerializationHelpers.h"
 #include "Serialization/EigenSerialization.h"
 

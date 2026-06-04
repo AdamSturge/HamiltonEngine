@@ -11,6 +11,8 @@ namespace HamiltonEngine::Physics
 {
 	struct RigidBodyStateComponent
 	{
+		SERIALIZATION_VERSION(RigidBodyStateComponent, 1)
+
 		RigidBodyStateComponent();
 		
 		RigidBodyStateComponent(const Eigen::Affine3f& Trans,
@@ -32,10 +34,7 @@ namespace HamiltonEngine::Physics
 		//Potential Energy
 		entt::const_handle PotentialEnergyListHead;
 	};
-	
-	void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version);
-	void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version);
-}
 
-CEREAL_CLASS_VERSION(HamiltonEngine::Physics::RigidBodyStateComponent, 1);
+	SERIALIZATION_DECLARATION_COMPONENT_DEFAULT(HamiltonEngine::Physics::RigidBodyStateComponent)
+}
 

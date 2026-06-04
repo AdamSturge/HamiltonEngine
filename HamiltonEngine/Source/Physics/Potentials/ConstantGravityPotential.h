@@ -38,7 +38,12 @@ namespace HamiltonEngine::Physics
 
 	struct RigidBodyGravityComponent
 	{
+		SERIALIZATION_VERSION(RigidBodyGravityComponent, 1)
+		
+		//Needed for serialization
+		RigidBodyGravityComponent();
 		RigidBodyGravityComponent(entt::const_handle Parent);
+		
 		
 		//This is a linked list that connects to entities that are designed to compute 
 		//potential energies acting on a given particle
@@ -47,4 +52,6 @@ namespace HamiltonEngine::Physics
 		
 		float Gravity;
 	};
+
+	SERIALIZATION_DECLARATION_COMPONENT_DEFAULT(HamiltonEngine::Physics::RigidBodyGravityComponent)
 }

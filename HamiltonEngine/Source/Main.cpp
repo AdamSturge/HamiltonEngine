@@ -168,7 +168,7 @@ int main(int argc, char** argv)
 		glBindTexture(GL_TEXTURE_2D, 2);
 
 		auto Springs = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::SpringPotentialComponent>();
-		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(1.0f, 1.0f, 1.0f);
+		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(5.0f, 5.0f, 5.0f);
 		int a = 0;
 		for (auto [Entity, SpringComp] : Springs.each())
 		{
@@ -193,6 +193,6 @@ int main(int argc, char** argv)
 
 	//constexpr bool OverwriteLevelFile = true;
 	//HamiltonEngine::Serialization::SerializeEnttRegistryAsJson(HamiltonEngine::Globals::Registry, 
-	//	"TestLevel.json", OverwriteLevelFile);
+	//	StartingLevel, OverwriteLevelFile);
 	return 0;
 }

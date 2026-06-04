@@ -7,6 +7,7 @@ namespace HamiltonEngine::Physics
     RigidBodyStateComponent::RigidBodyStateComponent()
     {
         Transform.setIdentity();
+        Mass = 1.0f;
         LinearMomentum.setZero();
         AngularMomentum.setZero();
         InertiaTensor.setIdentity();
@@ -26,15 +27,26 @@ namespace HamiltonEngine::Physics
     {
     }
 
-    void Save(cereal::JSONOutputArchive& Record, const HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version)
+    SERIALIZATION_DEFINITION_SAVE_COMPONENT_DEFAULT(HamiltonEngine::Physics::RigidBodyStateComponent)
     {
         Record(cereal::make_nvp("Transform", Component.Transform));
         Record(cereal::make_nvp("Mass",Component.Mass));
+        Record(cereal::make_nvp("LinearMomentum",Component.LinearMomentum));
+        Record(cereal::make_nvp("InertiaTensor",Component.InertiaTensor));
+        Record(cereal::make_nvp("AngularMomentum",Component.AngularMomentum));
+        Record(cereal::make_nvp("PotentialEnergyListHead",Component.PotentialEnergyListHead.entity()));
     }
 
-    void Load(cereal::JSONInputArchive& Record, HamiltonEngine::Physics::RigidBodyStateComponent& Component, const std::uint32_t Version)
+    SERIALIZATION_DEFINITION_LOAD_COMPONENT_DEFAULT(HamiltonEngine::Physics::RigidBodyStateComponent)
     {
-        Record(Component.Transform);
-        Record(Component.Mass);
+        Record(cereal::make_nvp("Transform",Component.Transform));
+        Record(cereal::make_nvp("Mass",Component.Mass));
+        Record(cereal::make_nvp("LinearMomentum",Component.LinearMomentum));
+        Record(cereal::make_nvp("InertiaTensor",Component.InertiaTensor));
+        Record(cereal::make_nvp("AngularMomentum",Component.AngularMomentum));
+
+        entt::entity PotentialEnergyListHead{};
+        Record(cereal::make_nvp("PotentialEnergyListHead", PotentialEnergyListHead));
+        Component.PotentialEnergyListHead = entt::const_handle(Globals::Registry, PotentialEnergyListHead);
     }
 }
