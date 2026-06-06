@@ -19,6 +19,7 @@
 //Libraries
 #include <nlohmann/json.hpp>
 #include <entt/entt.hpp>
+#include <entt/core/hashed_string.hpp>
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
 #include <glad/glad.h>

@@ -105,7 +105,7 @@ namespace HamiltonEngine::RenderingSystem
 		LearnOpenGLTutorialObjectSetup();
 
 		
-		//Model = Eigen::Affine3f::Identity();
+		Model = Eigen::Affine3f::Identity();
 		//View;
 
 		int CurWinHeight, CurWinLength;
@@ -137,6 +137,9 @@ namespace HamiltonEngine::RenderingSystem
 				HamiltonEngine::RenderingSystem::DEFAULT_CAMERA_PITCH,
 				HamiltonEngine::RenderingSystem::DEFAULT_FOV };
 
+		//using namespace entt::literals;
+		//HamiltonEngine::Globals::Registry.ctx().emplace_as<HamiltonEngine::RenderingSystem::Camera>("ActiveCamera"_hs, HamiltonEngine::Globals::ActiveCamera);
+
 	}
 
 	void LearnOpenGLTutorialObjectSetup() {
@@ -156,22 +159,23 @@ namespace HamiltonEngine::RenderingSystem
 
 		std::string DiffuseMapTexturePath = TexturesPath + "container2.png";
 
-		entt::entity DiffuseMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(DiffuseMapTexturePath);
+		DiffuseMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(DiffuseMapTexturePath);
 
 		std::string SpecularMapTexturePath = TexturesPath + "container2_specular.png";
 
-		entt::entity SpecularMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(SpecularMapTexturePath);
+		SpecularMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(SpecularMapTexturePath);
 
 		std::string EmissionMapTexturePath = TexturesPath + "matrix.jpg";
 
-		entt::entity EmissionMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(EmissionMapTexturePath);
-
+		EmissionMapTextureEntity = HamiltonEngine::RenderingSystem::CreateTexture(EmissionMapTexturePath);
 	}
 
 	void Tick()
 	{
+		// We do this every frame,
 		HamiltonEngine::RenderingSystem::Camera& cam = HamiltonEngine::Globals::ActiveCamera;
 
+		View = HamiltonEngine::RenderingSystem::LookAt(cam.CameraPosition, cam.CameraPosition + cam.CameraFront, cam.WorldUp);
 
 		glClearColor(WindowBackgroundRed, WindowBackgroundGreen, WindowBackgroundBlue, 1.0f);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -182,7 +186,7 @@ namespace HamiltonEngine::RenderingSystem
 
 		GLint modelLoc = glGetUniformLocation(lightingShader.ID, "model");
 		GLint viewLoc = glGetUniformLocation(lightingShader.ID, "view");
-		View = HamiltonEngine::RenderingSystem::LookAt(cam.CameraPosition, cam.CameraPosition + cam.CameraFront, cam.WorldUp);
+		
 		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, View.data());
 		GLint projLoc = glGetUniformLocation(lightingShader.ID, "projection");
 
@@ -192,7 +196,7 @@ namespace HamiltonEngine::RenderingSystem
 		//LightColor = Eigen::Vector3f(sin(CurTime / 2), sin(CurTime / 3), sin(CurTime / 4));
 		LightColor = Eigen::Vector3f(1.0f, 1.0f, 1.0f);
 
-		// Create a test cube
+		
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, HamiltonEngine::Globals::Registry.get<HamiltonEngine::RenderingSystem::TextureIDComponent>(DiffuseMapTextureEntity).ID);
 
@@ -263,17 +267,6 @@ namespace HamiltonEngine::RenderingSystem
 		glfwPollEvents();
 	}
 
-
-	TransformComponent CreateTransformComponent()
-	{
-		TransformComponent trans;
-		trans.Position = Eigen::Vector3f(0.0f, 0.0f, 0.0f);
-		trans.RotationAngle = 0.0f;
-		trans.RotationAxis = Eigen::Vector3f(0.0f, 0.0f, 0.0f);
-		trans.Scale = Eigen::Vector3f(1.0f, 1.0f, 1.0f);
-
-		return trans;
-	}
 	
 	//ShaderComponent CreateShaderComponent()
 	//{
