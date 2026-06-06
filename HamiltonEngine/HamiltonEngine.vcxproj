@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(ProjectDir)Source;$(ProjectDir)Libraries\entt-main\src;$(ProjectDir)Libraries\eigen-5.0.0;$(ProjectDir)Libraries;$(ProjectDir)Libraries\glfw\include;$(ProjectDir)Libraries\glad;$(ProjectDir)Libraries\KHR;$(ProjectDir)Libraries\json-3.11.3\include;$(ProjectDir)Libraries\spdlog-1.17.0\include;$(ProjectDir)Libraries\stbi;$(ProjectDir)Libraries\glm;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)Source;$(ProjectDir)Libraries\entt-main\src;$(ProjectDir)Libraries\eigen-5.0.0;$(ProjectDir)Libraries;$(ProjectDir)Libraries\glfw\include;$(ProjectDir)Libraries\glad;$(ProjectDir)Libraries\KHR;$(ProjectDir)Libraries\json-3.11.3\include;$(ProjectDir)Libraries\spdlog-1.17.0\include;$(ProjectDir)Libraries\stbi;$(ProjectDir)Libraries\glm;$(ProjectDir)Libraries\cereal-1.3.2\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)Libraries\glfw\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -104,7 +104,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -142,13 +142,8 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h" />
     <ClInclude Include="Source\Configuration\Globals.h" />
     <ClInclude Include="Source\ECS\EntityToUnderlyingType.h" />
+    <ClInclude Include="Source\Eigen\EulerAngles.h" />
     <ClInclude Include="Source\Logging\Logging.h" />
-    <ClInclude Include="Source\OpenGL\Camera.h" />
-    <ClInclude Include="Source\OpenGL\OpenGL.h" />
-    <ClInclude Include="Source\OpenGL\Shader.h" />
-    <ClInclude Include="Source\OpenGL\SimpleShapes.h" />
-    <ClInclude Include="Source\OpenGL\Texture.h" />
-    <ClInclude Include="Source\OpenGL\Window.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerA.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerB.h" />
     <ClInclude Include="Source\Physics\Integrators\EulerFlowComposition.h" />
@@ -167,6 +162,21 @@
     <ClInclude Include="Source\Physics\Systems\ParticleSystem.h" />
     <ClInclude Include="Source\Physics\Systems\RigidBodySystem.h" />
     <ClInclude Include="Source\PrecompiledHeader\Pch.h" />
+    <ClInclude Include="Source\RenderingSystem\Camera.h" />
+    <ClInclude Include="Source\RenderingSystem\Light.h" />
+    <ClInclude Include="Source\RenderingSystem\RenderingSystemBase.h" />
+    <ClInclude Include="Source\RenderingSystem\Primatives\Cube.h" />
+    <ClInclude Include="Source\RenderingSystem\Primatives\Sphere.h" />
+    <ClInclude Include="Source\RenderingSystem\Primatives\Tetra.h" />
+    <ClInclude Include="Source\RenderingSystem\Shader.h" />
+    <ClInclude Include="Source\RenderingSystem\SimpleShapes.h" />
+    <ClInclude Include="Source\RenderingSystem\Texture.h" />
+    <ClInclude Include="Source\RenderingSystem\Utils.h" />
+    <ClInclude Include="Source\RenderingSystem\Window.h" />
+    <ClInclude Include="Source\Serialization\EigenSerialization.h" />
+    <ClInclude Include="Source\Serialization\JsonSerialization.h" />
+    <ClInclude Include="Source\Serialization\SerializationHelpers.h" />
+    <ClInclude Include="Source\Serialization\Version.h" />
     <ClInclude Include="Source\Singleton\Singleton.h" />
   </ItemGroup>
   <ItemGroup>
@@ -177,13 +187,9 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp" />
     <ClCompile Include="Source\Configuration\ConfigurationVariableBase.cpp" />
     <ClCompile Include="Source\Configuration\Globals.cpp" />
+    <ClCompile Include="Source\Eigen\EulerAngles.cpp" />
     <ClCompile Include="Source\Logging\Logging.cpp" />
     <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\OpenGL\Camera.cpp" />
-    <ClCompile Include="Source\OpenGL\Shader.cpp" />
-    <ClCompile Include="Source\OpenGL\Texture.cpp" />
-    <ClCompile Include="Source\OpenGL\Utils.cpp" />
-    <ClCompile Include="Source\OpenGL\Window.cpp" />
     <ClCompile Include="Source\Physics\Integrators\EulerA.cpp" />
     <ClCompile Include="Source\Physics\Integrators\EulerB.cpp" />
     <ClCompile Include="Source\Physics\Integrators\EulerSplitting.cpp" />
@@ -204,13 +210,31 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </PrecompiledHeaderFile>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\Shaders\fragmentShader.fs" />
-    <None Include="Source\Shaders\vertexShader.vs" />
+    <ClCompile Include="Source\RenderingSystem\Camera.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Light.cpp" />
+    <ClCompile Include="Source\RenderingSystem\RenderingSystemBase.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Primatives\Cube.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Primatives\Sphere.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Primatives\Tetra.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Shader.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Texture.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Utils.cpp" />
+    <ClCompile Include="Source\RenderingSystem\Window.cpp" />
+    <ClCompile Include="Source\Serialization\EigenSerialization.cpp" />
+    <ClCompile Include="Source\Serialization\JsonSerialization.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Libraries\eigen-5.0.0\natvis\eigen.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Shaders\BasicShader\fragmentShader.fs" />
+    <None Include="Source\Shaders\BasicShader\vertexShader.vs" />
+    <None Include="Source\Shaders\LightingShader\fragmentShader.fs" />
+    <None Include="Source\Shaders\LightingShader\vertexShader.vs" />
+    <None Include="Source\Shaders\LightShader\fragmentShader.fs" />
+    <None Include="Source\Shaders\LightShader\vertexShader.vs" />
+    <None Include="Source\Shaders\TextureOnlyShader\fragmentShader.fs" />
+    <None Include="Source\Shaders\TextureOnlyShader\vertexShader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

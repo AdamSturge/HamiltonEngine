@@ -1,0 +1,162 @@
+{
+    "FreeList": 8,
+    "EntityId": {
+        "cereal_class_version": 1,
+        "Count": 8,
+        "Values": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+        ]
+    },
+    "RigidBodyStateComponent": {
+        "cereal_class_version": 1,
+        "Count": 2,
+        "Components": [
+            {
+                "cereal_class_version": 1,
+                "EntityId": 0,
+                "Component": {
+                    "cereal_class_version": 1,
+                    "Transform": {
+                        "Translation": {
+                            "X": 0.0,
+                            "Y": 0.0036576923448592426,
+                            "Z": 0.0
+                        },
+                        "Rotation": {
+                            "cereal_class_version": 1,
+                            "Pitch": 0.0,
+                            "Yaw": 0.0,
+                            "Roll": 0.0
+                        }
+                    },
+                    "Mass": 1.0,
+                    "LinearMomentum": {
+                        "X": 0.0,
+                        "Y": 0.11985243856906891,
+                        "Z": 0.0
+                    },
+                    "InertiaTensor": {
+                        "Diagonal": {
+                            "X": 1.0,
+                            "Y": 1.0,
+                            "Z": 1.0
+                        }
+                    },
+                    "AngularMomentum": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "PotentialEnergyListHead": 1
+                }
+            },
+            {
+                "EntityId": 2,
+                "Component": {
+                    "Transform": {
+                        "Translation": {
+                            "X": 0.0,
+                            "Y": 1.996342420578003,
+                            "Z": 0.0
+                        },
+                        "Rotation": {
+                            "Pitch": 0.0,
+                            "Yaw": 0.0,
+                            "Roll": 0.0
+                        }
+                    },
+                    "Mass": 1.0,
+                    "LinearMomentum": {
+                        "X": 0.0,
+                        "Y": -0.1198560893535614,
+                        "Z": 0.0
+                    },
+                    "InertiaTensor": {
+                        "Diagonal": {
+                            "X": 1.0,
+                            "Y": 1.0,
+                            "Z": 1.0
+                        }
+                    },
+                    "AngularMomentum": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "PotentialEnergyListHead": 3
+                }
+            }
+        ]
+    },
+    "RigidBodyGravityComponent": {
+        "cereal_class_version": 1,
+        "Count": 2,
+        "Components": [
+            {
+                "cereal_class_version": 1,
+                "EntityId": 1,
+                "Component": {
+                    "cereal_class_version": 1,
+                    "NextEntity": 5,
+                    "RigidBodyEntity": 0,
+                    "Gravity": 0.0
+                }
+            },
+            {
+                "EntityId": 3,
+                "Component": {
+                    "NextEntity": 4,
+                    "RigidBodyEntity": 2,
+                    "Gravity": 0.0
+                }
+            }
+        ]
+    },
+    "SpringComponent": {
+        "cereal_class_version": 1,
+        "Count": 2,
+        "Components": [
+            {
+                "cereal_class_version": 1,
+                "EntityId": 4,
+                "Component": {
+                    "cereal_class_version": 1,
+                    "NextEntity": 4294967295,
+                    "ParentEntity": 2,
+                    "SpringConstant": 1.0,
+                    "RestLength": 0.0,
+                    "AnchorPointBody": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "OtherEntity": 5,
+                    "Enabled": true
+                }
+            },
+            {
+                "EntityId": 5,
+                "Component": {
+                    "NextEntity": 4294967295,
+                    "ParentEntity": 0,
+                    "SpringConstant": 1.0,
+                    "RestLength": 0.0,
+                    "AnchorPointBody": {
+                        "X": 0.0,
+                        "Y": 0.0,
+                        "Z": 0.0
+                    },
+                    "OtherEntity": 4,
+                    "Enabled": true
+                }
+            }
+        ]
+    }
+}

@@ -1,5 +1,4 @@
 #include "PrecompiledHeader/Pch.h"
-
 #include "Globals.h"
 
 
@@ -9,13 +8,15 @@ namespace HamiltonEngine::Globals
 	ConfigurationVariable<bool> PhysicsSimEnabled = ConfigurationVariable<bool>("PhysicsSimEnabled", true);
 	ConfigurationVariable<float> Epsilon = ConfigurationVariable<float>("Epsilon", 1e-4f);
 
+	extern ConfigurationVariable<std::string> StartingLevel("StartingLevel", "Levels/TestLevel.json");
 
-	// Rendering + OpenGL stuff
+	// Rendering + RenderingSystem stuff
 	GLuint FrameCount = 0;
-
+	std::map<std::string, HamiltonEngine::RenderingSystem::OpenGLBuffersComponent>  PrimativesBuffers = std::map<std::string,HamiltonEngine::RenderingSystem::OpenGLBuffersComponent>();
+	GLFWwindow* MainWindow;
 	//EnTT
 	entt::registry Registry = entt::registry();
 
 	// Control States
-	HamiltonEngine::OpenGL::Camera ActiveCamera;
+	HamiltonEngine::RenderingSystem::Camera ActiveCamera;
 }

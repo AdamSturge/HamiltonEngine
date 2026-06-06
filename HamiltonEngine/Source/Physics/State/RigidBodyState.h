@@ -9,8 +9,12 @@ namespace Eigen
 
 namespace HamiltonEngine::Physics
 {
-	struct RigidBodyStateComponent 
+	struct RigidBodyStateComponent
 	{
+		SERIALIZATION_VERSION(RigidBodyStateComponent, 1)
+
+		RigidBodyStateComponent();
+		
 		RigidBodyStateComponent(const Eigen::Affine3f& Trans,
 			float M,
 			const Eigen::Vector3f& LinearMomentum,
@@ -30,4 +34,7 @@ namespace HamiltonEngine::Physics
 		//Potential Energy
 		entt::const_handle PotentialEnergyListHead;
 	};
+
+	SERIALIZATION_DECLARATION_COMPONENT_DEFAULT(HamiltonEngine::Physics::RigidBodyStateComponent)
 }
+

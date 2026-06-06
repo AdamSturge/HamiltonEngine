@@ -1,6 +1,8 @@
 #pragma once
 #include <Configuration/ConfigurationVariable.h>
-#include <OpenGL/Camera.h>
+#include <RenderingSystem/Camera.h>
+#include <RenderingSystem/RenderingSystemBase.h>
+#include <RenderingSystem/Window.h>
 
 
 namespace HamiltonEngine::Globals
@@ -11,12 +13,16 @@ namespace HamiltonEngine::Globals
 	// small number. Useful for comparison to near 0
 	extern ConfigurationVariable<float> Epsilon;
 
+	extern ConfigurationVariable<std::string> StartingLevel;
+
 	// Rendering + OpenGL stuff
 	extern GLuint FrameCount;
+	extern GLFWwindow* MainWindow;
+	extern std::map < std::string, HamiltonEngine::RenderingSystem::OpenGLBuffersComponent>  PrimativesBuffers;
 
 	//EnTT
 	extern entt::registry Registry;
 
 	// Control States
-	extern HamiltonEngine::OpenGL::Camera ActiveCamera;
+	extern HamiltonEngine::RenderingSystem::Camera ActiveCamera;
 }

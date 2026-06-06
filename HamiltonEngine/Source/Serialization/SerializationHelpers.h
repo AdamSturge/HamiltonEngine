@@ -1,0 +1,12 @@
+#include "Version.h"
+
+#define SERIALIZATION_DECLARATION(TYPE, RECORDVAR, TYPEVAR, VERSIONVAR) static_assert(std::is_default_constructible<TYPE>::value, #TYPE ## " must have default constructor for serialization");\
+void Save(cereal::JSONOutputArchive& RECORDVAR, const TYPE& TYPEVAR, const std::uint32_t VERSIONVAR);\
+void Load(cereal::JSONInputArchive& RECORDVAR, TYPE& TYPEVAR, const std::uint32_t VERSIONVAR);
+
+#define SERIALIZATION_DEFINITION_SAVE(TYPE, RECORDVAR, TYPEVAR, VERSIONVAR) void Save(cereal::JSONOutputArchive& RECORDVAR, const TYPE& TYPEVAR, const std::uint32_t VERSIONVAR)
+#define SERIALIZATION_DEFINITION_LOAD(TYPE, RECORDVAR, TYPEVAR, VERSIONVAR) void Load(cereal::JSONInputArchive& RECORDVAR, TYPE& TYPEVAR, const std::uint32_t VERSIONVAR)
+
+#define SERIALIZATION_DECLARATION_COMPONENT_DEFAULT(TYPE) SERIALIZATION_DECLARATION(TYPE, Record, Component, Version)
+#define SERIALIZATION_DEFINITION_SAVE_COMPONENT_DEFAULT(TYPE) SERIALIZATION_DEFINITION_SAVE(TYPE, Record, Component, Version)
+#define SERIALIZATION_DEFINITION_LOAD_COMPONENT_DEFAULT(TYPE) SERIALIZATION_DEFINITION_LOAD(TYPE, Record, Component, Version)
