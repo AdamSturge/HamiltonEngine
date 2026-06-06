@@ -274,6 +274,7 @@
     </ClInclude>
     <ClInclude Include="Source\OpenGL\Primatives\Cube.h">
       <Filter>Source\OpenGL\Primatives</Filter>
+	</ClInclude>
     <ClInclude Include="Source\RenderingSystem\Camera.h">
       <Filter>Source\OpenGL</Filter>
     </ClInclude>

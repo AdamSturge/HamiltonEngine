@@ -7,6 +7,12 @@
 #include "Shader.h"
 #include "Camera.h"
 
+#include "Physics/Systems/ParticleSystem.h"
+#include "Physics/Systems/RigidBodySystem.h"
+#include "Physics/State/RigidBodyState.h"
+#include "Physics/Potentials/SpringPotential.h"
+
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
@@ -25,6 +31,7 @@ namespace {
 	HamiltonEngine::RenderingSystem::Camera& Camera = HamiltonEngine::Globals::ActiveCamera;
 	HamiltonEngine::RenderingSystem::Shader lightingShader;
 	HamiltonEngine::RenderingSystem::Shader lightShader;
+	HamiltonEngine::RenderingSystem::Shader basicShader;
 
 	HamiltonEngine::RenderingSystem::TransformComponent TestObj {
 		Eigen::Vector3f(0.0f, 0.0f, 0.0f),
@@ -153,6 +160,9 @@ namespace HamiltonEngine::RenderingSystem
 		lightShader = HamiltonEngine::RenderingSystem::Shader::Shader("source\\shaders\\LightShader\\vertexshader.vs",
 			"source\\shaders\\LightShader\\fragmentshader.fs");
 
+		basicShader = HamiltonEngine::RenderingSystem::Shader::Shader("source\\shaders\\BasicShader\\vertexShader.vs",
+			"source\\shaders\\BasicShader\\fragmentshader.fs");
+
 		
 
 		std::string TexturesPath = "Assets\\Textures\\";
@@ -178,7 +188,7 @@ namespace HamiltonEngine::RenderingSystem
 		View = HamiltonEngine::RenderingSystem::LookAt(cam.CameraPosition, cam.CameraPosition + cam.CameraFront, cam.WorldUp);
 
 		glClearColor(WindowBackgroundRed, WindowBackgroundGreen, WindowBackgroundBlue, 1.0f);
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -260,6 +270,39 @@ namespace HamiltonEngine::RenderingSystem
 
 
 		Render(modelLoc);
+
+		// Physics Stuff
+		//basicShader.use();
+		glBindVertexArray(HamiltonEngine::Globals::PrimativesBuffers["cube"].VAO);
+		auto RigidBodyView = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::RigidBodyStateComponent>();
+
+		for (auto [Entity, StateC] : RigidBodyView.each())
+		{
+
+			HamiltonEngine::RenderingSystem::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"], StateC.Transform, modelLoc);
+			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, StateC.Transform.data());
+
+			glDrawArrays(GL_TRIANGLES, 0, 6 * 6);
+
+		}
+
+		// Use a different texture for the sping ends
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, 2);
+
+		auto Springs = HamiltonEngine::Globals::Registry.view<HamiltonEngine::Physics::SpringPotentialComponent>();
+		Eigen::Vector3f SpringModelScale = Eigen::Vector3f(5.0f, 5.0f, 5.0f);
+		int a = 0;
+		for (auto [Entity, SpringComp] : Springs.each())
+		{
+			auto Parent = HamiltonEngine::Globals::Registry.get<HamiltonEngine::Physics::RigidBodyStateComponent>(SpringComp.ParentEntity);
+
+			Eigen::Affine3f SpringWorldTransform = Parent.Transform.translate(SpringComp.AnchorPointBody)
+				.scale(SpringModelScale);
+
+			HamiltonEngine::RenderingSystem::RenderBuffer(HamiltonEngine::Globals::PrimativesBuffers["cube"], SpringWorldTransform, modelLoc);
+		}
+
 
 
 		// swap buffers and call events

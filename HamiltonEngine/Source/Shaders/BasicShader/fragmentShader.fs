@@ -2,7 +2,7 @@
 out vec4 FragColor;
 
 in vec3 ourColor;
-in vec2 TexCoord;
+in vec2 TexCoords;
 
 // texture samplers - take the texture UNIT/channel as an int when passing in data
 uniform sampler2D texture1;
@@ -14,6 +14,6 @@ void main()
 	// linearly interpolate between both textures (80% container, 20% awesomeface)
 	//FragColor = mix(texture(texture1, TexCoord), texture(texture2, vec2(TexCoord.x * -1.0, TexCoord.y)), mixRatio * texture(texture2, TexCoord).a);
 
-	FragColor = texture(texture1, TexCoord);
+	FragColor = texture(texture1, TexCoords);
 	//FragColor = vec4(1.0, 0.75, 0.0, 1.0);
 }
