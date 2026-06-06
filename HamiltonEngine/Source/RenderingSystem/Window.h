@@ -1,7 +1,7 @@
 #pragma once
 #include <PrecompiledHeader/Pch.h>
 
-namespace HamiltonEngine::OpenGL 
+namespace HamiltonEngine::RenderingSystem 
 {
 	// TODO: Probably make some sort of window manager class, or will we ever only have 1 window?
 	GLFWwindow* createWindow(int width, int height, const char* title);

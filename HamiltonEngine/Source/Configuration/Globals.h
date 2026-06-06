@@ -1,7 +1,8 @@
 #pragma once
 #include <Configuration/ConfigurationVariable.h>
-#include <OpenGL/Camera.h>
-#include <OpenGL/OpenGL.h>
+#include <RenderingSystem/Camera.h>
+#include <RenderingSystem/RenderingSystemBase.h>
+#include <RenderingSystem/Window.h>
 
 
 namespace HamiltonEngine::Globals
@@ -16,11 +17,12 @@ namespace HamiltonEngine::Globals
 
 	// Rendering + OpenGL stuff
 	extern GLuint FrameCount;
-	extern std::map < std::string, HamiltonEngine::OpenGL::OpenGLBuffersComponent>  PrimativesBuffers;
+	extern GLFWwindow* MainWindow;
+	extern std::map < std::string, HamiltonEngine::RenderingSystem::OpenGLBuffersComponent>  PrimativesBuffers;
 
 	//EnTT
 	extern entt::registry Registry;
 
 	// Control States
-	extern HamiltonEngine::OpenGL::Camera ActiveCamera;
+	extern HamiltonEngine::RenderingSystem::Camera ActiveCamera;
 }

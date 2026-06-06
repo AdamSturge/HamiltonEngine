@@ -1,11 +1,11 @@
 #include <PrecompiledHeader/Pch.h>
 #include <Configuration/Globals.h>
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/Utils.h>
+#include <RenderingSystem/RenderingSystemBase.h>
+#include <RenderingSystem/Utils.h>
 #include "Sphere.h"
 #include <Eigen/Dense>
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
 
 	OpenGLBuffersComponent CreateSphereBuffers(float Radius, int StackCount, int SectorCount)
@@ -23,7 +23,7 @@ namespace HamiltonEngine::OpenGL
 		std::vector<GLfloat> InterleavedTextCoords;
 
 		float X, Y, Z, XY;
-		float NX, NY, NZ, LengthInv = 1.0f;
+		float NX, NY, NZ, LengthInv = 1.0f / Radius;
 		float S, T;
 
 		float SectorStep = 2 * PI / SectorCount;
@@ -107,32 +107,32 @@ namespace HamiltonEngine::OpenGL
 			InterleavedVerts.push_back(Verts[i + 1]);		// 1 4
 			InterleavedVerts.push_back(Verts[i + 2]);		// 2 5
 
-			//InterleavedVerts.push_back(Normals[i]);		 
-			//InterleavedVerts.push_back(Normals[i + 1]);
-			//InterleavedVerts.push_back(Normals[i + 2]);
+			InterleavedVerts.push_back(Normals[i]);		 
+			InterleavedVerts.push_back(Normals[i + 1]);
+			InterleavedVerts.push_back(Normals[i + 2]);
 
-			InterleavedTextCoords.push_back(TextCoords[j]);
-			InterleavedTextCoords.push_back(TextCoords[j + 1]);
+			InterleavedVerts.push_back(TextCoords[j]);
+			InterleavedVerts.push_back(TextCoords[j + 1]);
 		}
 
 		glBindVertexArray(buffs.VAO);
 		unsigned int VertBufferSize = Verts.size() * sizeof(GLfloat);
-		unsigned int NormalBufferSize = Normals.size() * sizeof(GLfloat);
+		unsigned int NormalsBufferSize = Normals.size() * sizeof(GLfloat);
 		unsigned int TextCoordBufferSize = TextCoords.size() * sizeof(GLfloat);
 		unsigned int IndiciesBufferSize = indices.size() * sizeof(unsigned int);
 		unsigned int InterleavedVerticiesSize = InterleavedVerts.size() * sizeof(GLfloat);
 		unsigned int InterleavedTextCoordsSize = InterleavedTextCoords.size() * sizeof(GLfloat);
 
-		unsigned int TotalBufferSize = VertBufferSize + TextCoordBufferSize; // TODO: Add Normals once I do lightning
+		unsigned int TotalBufferSize = VertBufferSize + NormalsBufferSize + TextCoordBufferSize; // TODO: Add Normals once I do lightning
 
 		glBindVertexArray(buffs.VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, buffs.VBO);
 
-		glBufferData(GL_ARRAY_BUFFER, InterleavedVerticiesSize + InterleavedTextCoordsSize, NULL, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, TotalBufferSize, NULL, GL_STATIC_DRAW);
 
-		glBufferSubData(GL_ARRAY_BUFFER, 0, InterleavedVerticiesSize, InterleavedVerts.data());
-		// Normals will go in here
-		glBufferSubData(GL_ARRAY_BUFFER, InterleavedVerticiesSize, InterleavedTextCoordsSize, InterleavedTextCoords.data());
+		glBufferSubData(GL_ARRAY_BUFFER, 0, VertBufferSize, Verts.data());
+		glBufferSubData(GL_ARRAY_BUFFER, VertBufferSize, NormalsBufferSize, Normals.data());
+		glBufferSubData(GL_ARRAY_BUFFER, VertBufferSize + NormalsBufferSize, TextCoordBufferSize, TextCoords.data());
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, buffs.EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, IndiciesBufferSize, indices.data(), GL_STATIC_DRAW);
@@ -142,9 +142,11 @@ namespace HamiltonEngine::OpenGL
 		buffs.count = InterleavedVerts.size();
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)0);
-		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)VertBufferSize);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (void*)(VertBufferSize));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (void*)(VertBufferSize + NormalsBufferSize));
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
 
 		return buffs;
 	}

@@ -2,7 +2,7 @@
 
 #include "Shader.h"
 
-namespace HamiltonEngine::OpenGL
+namespace HamiltonEngine::RenderingSystem
 {
 	Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	{
@@ -63,6 +63,10 @@ namespace HamiltonEngine::OpenGL
 		glDeleteShader(fragment);
 	}
 
+	Shader::Shader() {
+		ID = -1;
+	}
+
 	void Shader::use()
 	{
 		glUseProgram(ID);
@@ -81,6 +85,16 @@ namespace HamiltonEngine::OpenGL
 	void Shader::setFloat(const std::string& name, float value) const
 	{
 		glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+	}
+
+	void Shader::setVec3(const std::string& name, float x, float y, float z) const
+	{
+		glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
+	}
+
+	void Shader::setVec3(const std::string& name, Eigen::Vector3f vec)
+	{
+		glUniform3f(glGetUniformLocation(ID, name.c_str()), vec.x(), vec.y(), vec.z());
 	}
 
 	void Shader::checkCompileErrors(unsigned int shader, std::string type)

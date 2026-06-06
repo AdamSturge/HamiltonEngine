@@ -7,15 +7,6 @@
     <ClCompile Include="Source\Configuration\ConfigurationVariable.cpp">
       <Filter>Source\Configuration</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Window.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OpenGL\Shader.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OpenGL\Texture.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Libraries\glad\glad.c">
       <Filter>Libraries\glad</Filter>
     </ClCompile>
@@ -61,12 +52,6 @@
     <ClCompile Include="Source\Physics\Systems\RigidBodySystem.cpp">
       <Filter>Source\Physics\Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Camera.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\OpenGL\Utils.cpp">
-      <Filter>Source\OpenGL</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -94,17 +79,35 @@
     <ClCompile Include="Source\Eigen\EulerAngles.cpp">
       <Filter>Source\Eigen</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\OpenGL.cpp">
+    <ClCompile Include="Source\RenderingSystem\Camera.cpp">
       <Filter>Source\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Primatives\Cube.cpp">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClCompile Include="Source\RenderingSystem\Primatives\Cube.cpp">
+      <Filter>Source\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Primatives\Sphere.cpp">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClCompile Include="Source\RenderingSystem\Light.cpp">
+      <Filter>Source\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="Source\OpenGL\Primatives\Tetra.cpp">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClCompile Include="Source\RenderingSystem\RenderingSystemBase.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Shader.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Primatives\Sphere.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Primatives\Tetra.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Texture.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Utils.cpp">
+      <Filter>Source\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RenderingSystem\Window.cpp">
+      <Filter>Source\OpenGL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +168,18 @@
     <Filter Include="Source\OpenGL\Primatives">
       <UniqueIdentifier>{d380e7e8-1c5d-46f2-a68f-4f8a04b65991}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Shaders\BasicShader">
+      <UniqueIdentifier>{667fd759-0f45-4e42-a206-b6dc11635d11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shaders\LightShader">
+      <UniqueIdentifier>{6b94e430-28cb-4758-9930-b384f2e961f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shaders\TextureOnlyShader">
+      <UniqueIdentifier>{91b585d2-cb3b-4465-8ab3-8ba39486887f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Shaders\LightingShader">
+      <UniqueIdentifier>{850a259e-3c69-49d4-98cf-031ba7fda9b4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Configuration\ConfigurationSystem.h">
@@ -182,15 +197,6 @@
     <ClInclude Include="Source\Configuration\ConfigurationVariableBase.h">
       <Filter>Source\Configuration</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\Shader.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\Texture.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\Window.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Libraries\glad\glad.h">
       <Filter>Libraries\glad</Filter>
     </ClInclude>
@@ -199,12 +205,6 @@
     </ClInclude>
     <ClInclude Include="Source\Configuration\Globals.h">
       <Filter>Source\Configuration</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\Camera.h">
-      <Filter>Source\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\EulerA.h">
       <Filter>Source\Physics\Integrators</Filter>
@@ -248,12 +248,6 @@
     <ClInclude Include="Source\Physics\Integrators\RigidBodyRattleSystem.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\SimpleShapes.h">
-      <Filter>Source\OpenGL\BasicShapes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\OpenGL\OpenGL.h">
-      <Filter>Source\OpenGL</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Physics\Integrators\RigidBodyA.h">
       <Filter>Source\Physics\Integrators</Filter>
     </ClInclude>
@@ -280,12 +274,39 @@
     </ClInclude>
     <ClInclude Include="Source\OpenGL\Primatives\Cube.h">
       <Filter>Source\OpenGL\Primatives</Filter>
+	</ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Camera.h">
+      <Filter>Source\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\Primatives\Sphere.h">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClInclude Include="Source\RenderingSystem\Primatives\Cube.h">
+      <Filter>Source\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="Source\OpenGL\Primatives\Tetra.h">
-      <Filter>Source\OpenGL\Primatives</Filter>
+    <ClInclude Include="Source\RenderingSystem\Light.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\RenderingSystemBase.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Shader.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\SimpleShapes.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Primatives\Sphere.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Primatives\Tetra.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Texture.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Utils.h">
+      <Filter>Source\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RenderingSystem\Window.h">
+      <Filter>Source\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="Source\Serialization\Version.h">
       <Filter>Source\Serialization</Filter>
@@ -295,16 +316,34 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Shaders\fragmentShader.fs">
-      <Filter>Source\Shaders</Filter>
-    </None>
-    <None Include="Source\Shaders\vertexShader.vs">
-      <Filter>Source\Shaders</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Natvis Include="Libraries\eigen-5.0.0\natvis\eigen.natvis">
       <Filter>Libraries\Eigen</Filter>
     </Natvis>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\Shaders\BasicShader\fragmentShader.fs">
+      <Filter>Source\Shaders\BasicShader</Filter>
+    </None>
+    <None Include="Source\Shaders\BasicShader\vertexShader.vs">
+      <Filter>Source\Shaders\BasicShader</Filter>
+    </None>
+    <None Include="Source\Shaders\LightShader\fragmentShader.fs">
+      <Filter>Source\Shaders\LightShader</Filter>
+    </None>
+    <None Include="Source\Shaders\LightShader\vertexShader.vs">
+      <Filter>Source\Shaders\LightShader</Filter>
+    </None>
+    <None Include="Source\Shaders\TextureOnlyShader\fragmentShader.fs">
+      <Filter>Source\Shaders\TextureOnlyShader</Filter>
+    </None>
+    <None Include="Source\Shaders\TextureOnlyShader\vertexShader.vs">
+      <Filter>Source\Shaders\TextureOnlyShader</Filter>
+    </None>
+    <None Include="Source\Shaders\LightingShader\fragmentShader.fs">
+      <Filter>Source\Shaders\LightingShader</Filter>
+    </None>
+    <None Include="Source\Shaders\LightingShader\vertexShader.vs">
+      <Filter>Source\Shaders\LightingShader</Filter>
+    </None>
   </ItemGroup>
 </Project>
