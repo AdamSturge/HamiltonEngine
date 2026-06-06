@@ -6,7 +6,7 @@
 namespace HamiltonEngine::Physics
 {	
 	//Split the Hamiltonian H = T + V to produce higher order methods
-	//PotentialWeights are the weights for the potnential energy split. H = a0V + a1*V (w0 + w1 = 1)
+	//PotentialWeights are the weights for the potnential energy split. H = a0V + a1*V (a0 + a1 = 1)
 	//KineticWeights are the weights for the kinentic energy split  H = b0T + b1T (b0 + b1 = 1)
 	//PotentialTickRateWeights are the weights for the potnential energy dT substepping Phi_{V,dt} = Phi_{V,c1*dt} o Phi_{V,c0*dt} (c0 + c1 = 1)
 	//KineticTickRateWeights are the weights for the kinetic energy dT substepping Phi_{V,dt} = Phi_{T,d1*dt} o Phi_{T,d0*dt} (d0 + d1 = 1)
