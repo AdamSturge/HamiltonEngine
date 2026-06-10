@@ -232,6 +232,10 @@
       </Expand>
   </Type>
 
+	<Intrinsic Name="HamiltonCos" SourceId="a665fa54-6e7d-480e-a80b-1fc1202e9646" LanguageId="3a12d0b7-c26c-11d0-b442-00a0244a1dd2" Id="1000" ReturnType="float">
+		<Parameter Name="Theta" Type="float" />
+	</Intrinsic>
+
 	<!-- Do row major as well? -->
 	<Type Name="Eigen::Transform&lt;float,3,2,0&gt;">
 		<Expand>
@@ -251,16 +255,22 @@
 				<Variable Name="ScaleZ" InitialValue="m_matrix.m_storage.m_data.array[2] * m_matrix.m_storage.m_data.array[2] 
 						  + m_matrix.m_storage.m_data.array[6] * m_matrix.m_storage.m_data.array[6]
 						  + m_matrix.m_storage.m_data.array[10] * m_matrix.m_storage.m_data.array[10]"/>
+				
+                <!-- TODO How to display as an array -->
+				<Item Name="[ScaleX]">ScaleX</Item>
+				<Item Name="[ScaleY]">ScaleY</Item>
+				<Item Name="[ScaleZ]">ScaleZ</Item>
 
+				<Item Name="[Test]">HamiltonCos(12.0)</Item>
 				
 				<!-- Axis of rotation Variables. No need to remove scale since scale is only on diagonal elements-->
-				<Variable Name="AxisX" InitialValue="m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9]"/>
+				<!--<Variable Name="AxisX" InitialValue="m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9]"/>
 				<Variable Name="AxisY" InitialValue="m_matrix.m_storage.m_data.array[8] - m_matrix.m_storage.m_data.array[2]"/>
-				<Variable Name="AxisZ" InitialValue="m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4]"/>
+				<Variable Name="AxisZ" InitialValue="m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4]"/>-->
 				
 				<!--Axis of rotation norm via fast inverse sqrt-->
 				<!-- TODO rewrite this using Exec to avoid copy/pasting of initial value expressions-->
-				<Variable Name="NormSq" InitialValue="(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9])*(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9]) 
+				<!--<Variable Name="NormSq" InitialValue="(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9])*(m_matrix.m_storage.m_data.array[6] - m_matrix.m_storage.m_data.array[9]) 
 						  + (m_matrix.m_storage.m_data.array[8] - m_matrix.m_storage.m_data.array[2])*(m_matrix.m_storage.m_data.array[8] - m_matrix.m_storage.m_data.array[2])
 						  + (m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4])*(m_matrix.m_storage.m_data.array[1] - m_matrix.m_storage.m_data.array[4])"/>
 				<Variable Name="x2" InitialValue="NormSq/2"/>
@@ -295,7 +305,7 @@
 					<Item Name="[Rotation Axis Z]">0.0</Item>
 					
 					<Item Name="[Rotation Sin(Angle)]">0.0</Item>
-				</If>
+				</If>-->
 			</CustomListItems>
 		</Expand>
 	</Type>
