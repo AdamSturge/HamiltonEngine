@@ -17,6 +17,9 @@
 *.userosscache
 *.sln.docstates
 
+#keys used for signing
+*.snk
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 user_config.json

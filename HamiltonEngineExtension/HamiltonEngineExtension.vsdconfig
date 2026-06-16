@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Extension xmlns="http://microsoft.com">
+  <TypeVisualizerComponent 
+      Guid="{9D68B4E7-C2F9-4499-BD96-325201D74635}"
+      ImplementationClass="HamiltonEngineExtension.HamiltonCos"
+      WorkerProcessSupported="true">
+    
+    <IntrinsicFunctionEvaluator 
+        SourceId="{4B61F869-1A10-44BA-93F1-6B629255803C}" 
+        LanguageId="{3A12D0B7-C26E-11D0-B442-00A0C9055D8E}" />
+  </TypeVisualizerComponent>
+</Extension>

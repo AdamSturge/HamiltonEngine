@@ -1,14 +1,15 @@
 ﻿using System;
+using System.CodeDom.Compiler;
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Microsoft.VisualStudio.Shell;
-using Task = System.Threading.Tasks.Task;
-
 using Microsoft.VisualStudio.Debugger;
 using Microsoft.VisualStudio.Debugger.ComponentInterfaces;
-using Microsoft.VisualStudio.Debugger.Evaluation.IL;
 using Microsoft.VisualStudio.Debugger.Evaluation;
-using System.Collections.ObjectModel;
+using Microsoft.VisualStudio.Debugger.Evaluation.IL;
+using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.VisualStudio.Shell;
+using Task = System.Threading.Tasks.Task;
 
 namespace HamiltonEngineExtension
 {
@@ -57,36 +58,47 @@ namespace HamiltonEngineExtension
         #endregion
     }
 
+    
     public class HamiltonCos : IDkmIntrinsicFunctionEvaluator140
     {
-        public DkmILEvaluationResult[] Execute(DkmILExecuteIntrinsic executeIntrinsic, DkmILContext iLContext, 
+       public DkmILEvaluationResult[] Execute(DkmILExecuteIntrinsic executeIntrinsic, DkmILContext iLContext, 
             DkmCompiledILInspectionQuery inspectionQuery, DkmILEvaluationResult[] arguments, 
             ReadOnlyCollection<DkmCompiledInspectionQuery> subroutines, 
             out DkmILFailureReason failureReason)
         {
-            DkmILEvaluationResult[] Results = new DkmILEvaluationResult[1];
+            // 1. Get information about the calling context
+            uint functionId = executeIntrinsic.Id; 
+            Guid sourceId = executeIntrinsic.SourceId; 
 
-            if (arguments.Length != 1)
+            DkmILEvaluationResult[] Results = new DkmILEvaluationResult[1];
+            if (functionId == 0)
             {
-                failureReason = DkmILFailureReason.UnknownFuncEvalError;
+                if (arguments.Length != 1)
+                {
+                    failureReason = DkmILFailureReason.StringTooLong;
+                }
+                else
+                {
+                    byte[] InBytes = new byte[4];
+                    arguments[0].ResultBytes.CopyTo(InBytes, 0);
+                    float Theta = System.BitConverter.ToSingle(InBytes, 0);
+
+                    Theta += 1.0f;
+
+                    byte[] OutBytes = System.BitConverter.GetBytes(Theta);
+                    ReadOnlyCollection<byte> OutBytesReadOnly = new ReadOnlyCollection<byte>(OutBytes);
+
+                    failureReason = DkmILFailureReason.None;
+                    Results[0] = DkmILEvaluationResult.Create(sourceId, OutBytesReadOnly);
+                }
             }
             else 
             {
-                byte[] InBytes = new byte[4];
-                arguments[0].ResultBytes.CopyTo(InBytes, 0);
-                float Theta = System.BitConverter.ToSingle(InBytes, 0);
-
-                Theta += 1.0f;
-
-                byte[] OutBytes = System.BitConverter.GetBytes(Theta);
-                ReadOnlyCollection<byte> OutBytesReadOnly = new ReadOnlyCollection<byte>(OutBytes);
-                
-                failureReason = DkmILFailureReason.None;
-                Results[0] = DkmILEvaluationResult.Create(Guid.Parse("a665fa54-6e7d-480e-a80b-1fc1202e9646"), OutBytesReadOnly);
+                failureReason = DkmILFailureReason.DivideByZero;
             }
-
 
             return Results;
         }
+
     }
 }

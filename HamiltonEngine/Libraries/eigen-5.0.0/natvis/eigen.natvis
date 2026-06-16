@@ -232,12 +232,16 @@
       </Expand>
   </Type>
 
-	<Intrinsic Name="HamiltonCos" SourceId="a665fa54-6e7d-480e-a80b-1fc1202e9646" LanguageId="3a12d0b7-c26c-11d0-b442-00a0244a1dd2" Id="1000" ReturnType="float">
-		<Parameter Name="Theta" Type="float" />
-	</Intrinsic>
-
 	<!-- Do row major as well? -->
 	<Type Name="Eigen::Transform&lt;float,3,2,0&gt;">
+		<Intrinsic Name="HamiltonCos"
+		   SourceId="{4B61F869-1A10-44BA-93F1-6B629255803C}"
+		   LanguageId="{3A12D0B7-C26E-11D0-B442-00A0C9055D8E}"
+		   Id="0"
+		   ReturnType="float">
+		<Parameter Name="Theta" Type="float" />
+		</Intrinsic>
+
 		<Expand>
 			<Synthetic Name="[Translation]" Condition="!(Flags%2)">
 				<DisplayString>({m_matrix.m_storage.m_data.array[12]}, {m_matrix.m_storage.m_data.array[13]}, {m_matrix.m_storage.m_data.array[14]})</DisplayString>
